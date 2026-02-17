@@ -1,0 +1,242 @@
+﻿@page "/SignUp"
+@layout EmptyLayout
+<MudThemeProvider />
+@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+@using System.Globalization
+@using MudBlazor
+
+<!-- Centered Clean Wrapper -->
+<div class="login-wrapper animate-fade">
+
+    <MudPaper Elevation="8" Class="login-card" Style="max-width:1100px; margin-top: -80px">
+
+        <!-- Header: Login / Title / Contact -->
+        <MudGrid Class="mb-6 text-center">
+
+            <MudItem xs="4" Class="text-start">
+                <MudLink Href="SignIn" Class="fw-bold text-decoration-underline">
+                    Login
+                </MudLink>
+            </MudItem>
+
+            <MudItem xs="4">
+                <MudText Typo="Typo.h5" Class="fw-bold">
+                    Create New Account
+                </MudText>
+            </MudItem>
+
+            <MudItem xs="4" Class="text-end">
+                <MudLink Href="Contact" Class="fw-bold text-decoration-underline">
+                    Contact Us
+                </MudLink>
+            </MudItem>
+
+        </MudGrid>
+
+        <MudGrid Class="justify-center">
+
+            <!-- Timeline Left -->
+            <MudItem xs="1" Class="d-none d-md-block">
+                <MudTimeline TimelineOrientation="TimelineOrientation.Vertical" Class="float-start" Style="margin-left:-10px">
+                    <MudTimelineItem Variant="Variant.Filled" Size="TimeLineUserSize" Color="@(StepUserInfo? Color.Primary: Color.Tertiary)">
+                        <ItemDot><MudIcon Icon="@Icons.Material.Rounded.FactCheck" /></ItemDot>
+                    </MudTimelineItem>
+                    <MudTimelineItem Variant="Variant.Filled" Size="TimeLineBusinessSize" Color="@(StepBusinessInfo? Color.Primary: Color.Tertiary)">
+                        <ItemDot><MudIcon Icon="@Icons.Material.Rounded.AddBusiness" /></ItemDot>
+                    </MudTimelineItem>
+                </MudTimeline>
+            </MudItem>
+
+            <!-- Tabs + Forms -->
+            <MudItem xs="12" md="11">
+
+                <MudTabs Outlined="true" Rounded="true" Color="Color.Primary"
+                         Centered="true" Elevation="2" PanelClass="p-4"
+                         @bind-ActivePanelIndex="TabIndex">
+
+                    <!-- USER TAB -->
+                    <MudTabPanel Text="1 | User Info" Disabled="true">
+                        <MudForm @ref="formUser" @bind-IsValid="@successUser" @bind-Errors="@errors">
+
+                            <MudText Typo="Typo.h5" Class="fw-bold text-muted text-center mb-1">
+                                Your Profile
+                            </MudText>
+                            <MudText Typo="Typo.caption" Class="text-muted text-center mb-4 d-block">
+                                Enter login details for your account.
+                            </MudText>
+
+                            <MudGrid Spacing="3">
+
+                                <MudItem xs="12" sm="6">
+                                    <MudTextField T="string" @bind-Value="oMstUser.Name" Label="Name"
+                                                  Variant="Variant.Outlined" Required="true" AutoFocus="true"
+                                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields"
+                                                  RequiredError="Name required" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="6">
+                                    <MudTextField T="string" @bind-Value="oMstUser.Email" Label="Email"
+                                                  Variant="Variant.Outlined" Required="true" OnBlur="CheckEmail"
+                                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Email"
+                                                  Validation="@(new EmailAddressAttribute() {ErrorMessage = "Invalid Email"})" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="6">
+                                    <MudTextField T="string" @bind-Value="oMstUser.Password" Label="Password"
+                                                  Variant="Variant.Outlined" InputType="@PasswordInput"
+                                                  Adornment="Adornment.End" OnAdornmentClick="ShowPassword"
+                                                  AdornmentIcon="@PasswordInputIcon" @ref="pwField1"
+                                                  Validation="@(new Func<string, IEnumerable<string>>(PasswordStrength))"
+                                                  Required="true" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="6">
+                                    <MudTextField T="string" Label="Confirm Password"
+                                                  Variant="Variant.Outlined" InputType="@PasswordInput"
+                                                  Adornment="Adornment.End" OnAdornmentClick="ShowPassword"
+                                                  AdornmentIcon="@PasswordInputIcon"
+                                                  Validation="@(new Func<string, string>(PasswordMatch))"
+                                                  Required="true" />
+                                </MudItem>
+
+                            </MudGrid>
+
+                            <MudButton FullWidth="true"
+                                       Variant="Variant.Filled"
+                                       Color="Color.Primary"
+                                       Class="mt-4 login-btn"
+                                       Disabled="@(!successUser || loading)"
+                                       OnClick="()=>Next(0)">
+                                @if (loading)
+                                {
+                                    <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                                    <span class="ms-2">Processing...</span>
+                                }
+                                else
+                                {
+                                    <MudText>Next</MudText>
+                                }
+                            </MudButton>
+
+                        </MudForm>
+                    </MudTabPanel>
+
+                    <!-- BUSINESS TAB -->
+                    <MudTabPanel Text="2 | Business Info" Disabled="true">
+                        <MudForm @ref="formBusiness" @bind-IsValid="@successBusiness" @bind-Errors="@errors">
+
+                            <MudText Typo="Typo.h5" Class="fw-bold text-muted text-center mb-1">
+                                Business Profile
+                            </MudText>
+                            <MudText Typo="Typo.caption" Class="text-muted text-center mb-4 d-block">
+                                Enter required business information.
+                            </MudText>
+
+                            <MudGrid Spacing="3">
+
+                                <MudItem xs="12" sm="6">
+                                    <MudTextField T="string" @bind-Value="oMstBusiness.BusinessName"
+                                                  Label="Business Name" Variant="Variant.Outlined"
+                                                  Required="true"
+                                                  Adornment="Adornment.Start"
+                                                  AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="6">
+                                    <MudTextField T="string" @bind-Value="oMstBusiness.BusinessContact"
+                                                  Label="Contact" Variant="Variant.Outlined"
+                                                  Required="true"
+                                                  MaxLength="11"
+                                                  Validation="@cnValidator.Validation"
+                                                  Adornment="Adornment.Start"
+                                                  AdornmentIcon="@Icons.Material.Filled.Phone" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="6">
+                                    <MudNumericField Min="1" Label="Starting Price"
+                                                     Variant="Variant.Outlined"
+                                                     Format="N2" Culture="@CulturePKR"
+                                                     @bind-Value="oMstBusiness.BusinessStartingPrice"
+                                                     Adornment="Adornment.Start" AdornmentText="Rs"
+                                                     Required="true" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="6">
+                                    <MudAutocomplete T="MstCity" Label="Select City"
+                                                     Variant="Variant.Outlined" Clearable="true"
+                                                     @bind-Value="oMstCity"
+                                                     SearchFunc="@SearchCity"
+                                                     ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
+                                                     onclose="@GetAreaByCity()"
+                                                     Required="true"
+                                                     Adornment="Adornment.Start"
+                                                     AdornmentIcon="@Icons.Material.Filled.LocationCity" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="6">
+                                    <MudAutocomplete T="MstArea" Label="Select Area"
+                                                     Variant="Variant.Outlined" Clearable="true"
+                                                     @bind-Value="oMstArea"
+                                                     SearchFunc="@SearchArea"
+                                                     ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
+                                                     Required="true"
+                                                     Adornment="Adornment.Start"
+                                                     AdornmentIcon="@Icons.Material.Filled.AreaChart" />
+                                </MudItem>
+
+                                <MudItem xs="12">
+                                    <MudTextField T="string" Lines="3"
+                                                  Label="Business Address" Variant="Variant.Outlined"
+                                                  @bind-Value="oMstBusiness.BusinessAddress"
+                                                  Adornment="Adornment.Start"
+                                                  AdornmentIcon="@Icons.Material.Filled.AddLocation"
+                                                  Required="true" />
+                                </MudItem>
+
+                            </MudGrid>
+
+                            <MudButton FullWidth="true"
+                                       Variant="Variant.Filled"
+                                       Color="Color.Primary"
+                                       Class="mt-4 login-btn"
+                                       Disabled="@loading"
+                                       OnClick="Save">
+
+                                @if (loading)
+                                {
+                                    <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                                    <span class="ms-2">Processing...</span>
+                                }
+                                else
+                                {
+                                    <MudText>Signup</MudText>
+                                }
+
+                            </MudButton>
+
+                            <MudButton
+                                       Class="mt-2 text-secondary fw-bold"
+                                       StartIcon="@Icons.Material.Filled.KeyboardArrowLeft"
+                                       OnClick="() => Back(0)">
+                                Back
+                            </MudButton>
+
+                        </MudForm>
+                    </MudTabPanel>
+
+                </MudTabs>
+
+            </MudItem>
+
+        </MudGrid>
+
+        <!-- Footer -->
+        <div class="text-center mt-5">
+            <MudText Typo="Typo.caption" Class="text-muted">
+                © @DateTime.Now.Year Feast Planner — Secure Registration
+            </MudText>
+        </div>
+
+    </MudPaper>
+</div>

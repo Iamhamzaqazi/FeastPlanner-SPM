@@ -1,0 +1,14 @@
+﻿<PageTitle>Access Denied</PageTitle>
+<MudContainer Class="mt-4 px-8" MaxWidth="MaxWidth.False">
+    <MudItem xs="12" sm="12" md="12" lg="12">
+        <MudText Class="fw-bold" Typo="Typo.h5">
+            Access Denied
+            @*<MudIconButton Icon="@Icons.Material.Filled.Refresh" Title="Refresh" @onclick="() => Refresh()" Size="Size.Medium" Color="Color.Info" />*@
+        </MudText>
+        <MudText Class="fw-bold text-muted" Typo="Typo.caption">
+            You don't have right to view the contents of this page, contact administrator.
+            <a href="/Dashboard" target="_blank">Go to Dashboard</a>
+        </MudText>
+        <MudDivider />
+    </MudItem>
+</MudContainer>

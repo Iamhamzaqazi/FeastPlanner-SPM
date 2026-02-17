@@ -1,0 +1,70 @@
+/* Wrapper animation */
+.nav-wrapper {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Fade animation */
+.animate-fade {
+    opacity: 0;
+    animation: fadeIn 0.6s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Main menu styling */
+.fp-navmenu {
+    padding: 6px;
+    background: #1E1E2F;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+}
+
+/* Search field style */
+.fp-search {
+    margin-bottom: 14px;
+    border-radius: 10px !important;
+    background: #2A2A3E !important;
+}
+
+    .fp-search input {
+        color: white !important;
+    }
+
+/* Nav links */
+.fp-navlink {
+    border-radius: 8px !important;
+    margin-bottom: 4px;
+    color: #EEEEEE !important;
+    font-weight: 500;
+    padding: 4px 8px;
+    transition: background 0.25s ease, transform .2s;
+}
+
+    .fp-navlink:hover {
+        background: rgba(255, 193, 7, 0.18); /* Gold hover */
+        color: #FFC107 !important;
+        transform: translateX(3px);
+    }
+
+/* Nav groups */
+.fp-navgroup {
+    border-radius: 10px;
+    margin-bottom: 5px;
+    transition: all .25s;
+}
+
+    .fp-navgroup:hover {
+        background: rgba(255, 193, 7, 0.10);
+    }

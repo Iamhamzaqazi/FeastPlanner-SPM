@@ -1,0 +1,199 @@
+﻿@page "/Income"
+@using System.ComponentModel.DataAnnotations
+@using System.Globalization;
+@using MudBlazor
+
+<PageTitle>Income</PageTitle>
+<AuthorizeView Roles="Income">
+    <Authorized>
+
+        <div class="dashboard-wrapper">
+
+            <MudContainer MaxWidth="MaxWidth.False" Class="p-2">
+
+                <!-- HEADER -->
+                <MudItem xs="12" Class="mb-3">
+                    <div class="dashboard-header fade-in">
+                        <MudText Typo="Typo.h5" Class="fw-bold">
+                            <span class="text-primary">Income</span>
+                        </MudText>
+                        <MudIconButton Icon="@Icons.Material.Filled.Refresh"
+                                       Title="Refresh"
+                                       Size="Size.Medium"
+                                       Color="Color.Primary"
+                                       @onclick="Refresh" />
+                    </div>
+                    @* <MudText Typo="Typo.caption" Class="text-muted mt-1">
+                        You can add income details as per your <b>Desired</b>
+                    </MudText> *@
+                    <MudDivider Class="my-2" />
+                    <MudLink Class="text-muted me-1" Underline="Underline.None">Income / </MudLink>
+                    <MudLink Href="/Income" Class="text-muted fw-bold" Underline="Underline.None">Add Income</MudLink>
+                    <MudDivider Class="my-2" />
+                </MudItem>
+
+                <!-- INCOME FORM -->
+                <MudItem xs="12" Class="mb-3">
+                    <MudForm @ref="formUser" @bind-IsValid="@successUser" @bind-Errors="@errors">
+                        <MudPaper Elevation="8" Class="dashboard-card animate-card p-4">
+                            <MudGrid GutterSize="3">
+
+                                <MudItem xs="12" sm="6" md="4">
+                                    <MudTextField T="string" @bind-Value="oModel.Description"
+                                                  AutoFocus="true"
+                                                  MaxLength="150" 
+                                                  Immediate="true" Clearable="true"
+                                                  Label="Description" Variant="Variant.Outlined"
+                                                  InputType="InputType.Text"
+                                                  Required="true" RequiredError="Description required"
+                                                  Adornment="Adornment.Start"
+                                                  AdornmentIcon="@Icons.Material.Filled.TextFields"
+                                                  FullWidth="true" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="6" md="4">
+                                    <MudNumericField Min="1" @bind-Value="oModel.Amount"
+                                                     Format="N0"
+                                                     Immediate="true" Clearable="true"
+                                                     Label="Amount" Variant="Variant.Outlined"
+                                                     Required="true" RequiredError="Amount required"
+                                                     Adornment="Adornment.Start"
+                                                     AdornmentText="Rs"
+                                                     FullWidth="true" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="6" md="4">
+                                    <MudDatePicker @bind-Date="oModel.Date"
+                                                   PickerVariant="PickerVariant.Inline"
+                                                   DateFormat="MM/dd/yyyy"                                                   
+                                                   Label="Income Date"
+                                                   Variant="Variant.Outlined"
+                                                   Required="true"
+                                                   RequiredError="Date required"
+                                                   Adornment="Adornment.Start"
+                                                   AdornmentIcon="@Icons.Material.Filled.CalendarMonth"/>
+                                </MudItem>
+
+                                <MudItem xs="12" sm="9" md="9">
+                                    <MudTextField T="string" @bind-Value="oModel.Comments"
+                                                  Lines="4" MaxLength="250" Immediate="true"
+                                                  Clearable="true" Label="Comment" Variant="Variant.Outlined"
+                                                  InputType="InputType.Text"
+                                                  Adornment="Adornment.Start"
+                                                  AdornmentIcon="@Icons.Material.Filled.Comment"
+                                                  FullWidth="true" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="3" md="3" Class="d-flex align-items-center">
+                                    <MudCheckBox @bind-Value="@oModel.IsActive"
+                                                 Label="Active"
+                                                 CheckedIcon="@Icons.Material.Filled.CheckCircle"
+                                                 UncheckedIcon="@Icons.Material.Filled.Cancel"
+                                                 Color="Color.Primary" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="3" md="3">
+                                    <MudButton FullWidth="true"
+                                               Class="login-btn mt-3"
+                                               Variant="Variant.Filled"
+                                               Color="Color.Primary"
+                                               Disabled="@(loading)"
+                                               StartIcon="@Icons.Material.Sharp.Save"
+                                               OnClick="Save">
+                                        @if (loading)
+                                        {
+                                            <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                                            <span class="ms-2">Processing...</span>
+                                        }
+                                        else
+                                        {
+                                            <MudText>Save</MudText>
+                                        }
+                                    </MudButton>
+                                </MudItem>
+
+                            </MudGrid>
+                        </MudPaper>
+                    </MudForm>
+                </MudItem>
+
+                <!-- INCOME TABLE -->
+                <MudItem xs="12" Class="mt-3">
+                    <MudPaper Elevation="8" Class="dashboard-card animate-card p-4">
+                        <MudTable Items="@oList"
+                                  Dense="true"
+                                  Hover="true"
+                                  Bordered="true"
+                                  Striped="true"
+                                  RowsPerPage="5"
+                                  Elevation="0"
+                                  Loading="@loading"
+                                  LoadingProgressColor="Color.Primary"
+                                  Filter="new Func<TrnsBusinessIncome, bool>(FilterFunc)">
+                            <ToolBarContent>
+                                <MudText Typo="Typo.h6">Income</MudText>
+                                <MudSpacer />
+                                <MudTextField T="string" @bind-Value="searchString1"
+                                              Placeholder="Search"
+                                              Variant="Variant.Outlined"
+                                              Clearable="true"
+                                              Immediate="true"
+                                              Adornment="Adornment.Start"
+                                              AdornmentIcon="@Icons.Material.Filled.Search"
+                                              FullWidth="false" />
+                            </ToolBarContent>
+                            <HeaderContent>
+                                <MudTh Class="fw-bold">Description</MudTh>
+                                <MudTh Class="fw-bold">Amount</MudTh>
+                                <MudTh Class="fw-bold">Date</MudTh>
+                                <MudTh Class="fw-bold">Comments</MudTh>
+                                <MudTh Class="fw-bold">Added By</MudTh>
+                                <MudTh Class="fw-bold">Active</MudTh>
+                                <MudTh Class="fw-bold">Action</MudTh>
+                            </HeaderContent>
+                            <NoRecordsContent>
+                                <MudText>No record found...</MudText>
+                            </NoRecordsContent>
+                            <RowTemplate Context="d1">
+                                <MudTd>
+                                    <MudHighlighter Text="@d1.Description" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudHighlighter Text="@d1.Amount.ToString("C2", CultureInfo.CreateSpecificCulture("ur-PK"))" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudHighlighter Text="@Convert.ToDateTime(d1.Date).ToString("MM/dd/yyyy")" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudHighlighter Text="@d1.Comments" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudHighlighter Text="@d1.AddedBy" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudHighlighter Text="@d1.IsActive.ToString()" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudIconButton Color="Color.Primary"
+                                                   Variant="Variant.Outlined"
+                                                   Icon="@Icons.Material.Filled.Edit"
+                                                   OnClick="@(() => EditRecord(d1.Id))"
+                                                   Title="Edit" />
+                                </MudTd>
+                            </RowTemplate>
+                            <PagerContent>
+                                <MudTablePager />
+                            </PagerContent>
+                        </MudTable>
+                    </MudPaper>
+                </MudItem>
+
+            </MudContainer>
+
+        </div>
+
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedPage />
+    </NotAuthorized>
+</AuthorizeView>

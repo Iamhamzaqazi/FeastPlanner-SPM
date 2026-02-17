@@ -1,0 +1,339 @@
+﻿@page "/Associates"
+@using System.ComponentModel.DataAnnotations
+@using System.Globalization;
+@using MudBlazor
+
+<PageTitle>Associates</PageTitle>
+<AuthorizeView Roles="Associates">
+    <Authorized>
+
+        <div class="dashboard-wrapper">
+
+            <MudContainer MaxWidth="MaxWidth.False" Class="p-2">
+
+                <!-- HEADER -->
+                <MudItem xs="12" Class="mb-3">
+                    <div class="dashboard-header fade-in">
+                        <MudText Typo="Typo.h5" Class="fw-bold">
+                            <span class="text-primary">Associates</span>
+                        </MudText>
+                        <MudIconButton Icon="@Icons.Material.Filled.Refresh"
+                                       Title="Refresh"
+                                       Size="Size.Medium"
+                                       Color="Color.Primary"
+                                       @onclick="Refresh" />
+                    </div>
+                    <MudDivider Class="my-2" />
+                    <MudLink Class="text-muted me-1" Underline="Underline.None">Master Data / </MudLink>
+                    <MudLink Href="/Associates" Class="text-muted fw-bold" Underline="Underline.None">Associates</MudLink>
+                    <MudDivider Class="my-2" />
+                </MudItem>
+
+                <MudItem xs="12" Class="mt-4">
+                    <MudTabs Rounded="true" Color="Color.Primary" PanelClass="pa-0" Centered="true">
+
+                        <!-- General Details TAB -->
+                        <MudTabPanel Text="General Details">
+                            <MudForm @ref="formUser" @bind-IsValid="@successUser" @bind-Errors="@errors">
+                                <MudPaper Elevation="8" Class="dashboard-card animate-card p-4 mt-4">
+                                    <MudGrid GutterSize="3">
+                                        <MudItem xs="12" sm="6" md="4" Class="text-start">
+                                            <MudFileUpload T="IBrowserFile" OnFilesChanged="OnInputFileChanged" MaximumFileCount="1" Accept=".jpg,.jpeg,.png">
+                                                <ButtonTemplate Context="d1">
+                                                    <MudAvatar Image="@oModel.Logo" Style="width:140px;height:120px;" Class="rounded-lg" Elevation="8" />
+                                                    <MudIconButton HtmlTag="label" Color="Color.Info" Icon="@Icons.Material.Filled.PhotoCamera" Title="Choose Logo" for="@d1" Class="ms-2" />
+                                                    <MudIconButton HtmlTag="label" Color="Color.Error" Icon="@Icons.Material.Filled.Cancel" Title="Remove Logo" for="@d1" Class="ms-2" />
+                                                </ButtonTemplate>
+                                            </MudFileUpload>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="6" md="4">
+                                            <MudSelect @bind-Value="@oModel.CategoryType" Clearable="false" Disabled="@IsEdit" Required="true" RequiredError="Category required" Variant="Variant.Outlined"
+                                                       Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Label="Select Category">
+                                                @foreach (var defaultValue in oCfgDefaultValueList.Where(x => x.Type == "Category"))
+                                                {
+                                                    <MudSelectItem Value="@defaultValue.Name">@defaultValue.Name</MudSelectItem>
+                                                }
+                                            </MudSelect>
+                                        </MudItem>
+
+                                        <MudItem xs="12" sm="6" md="4">
+                                            <MudTextField T="string" @bind-Value="oModel.BusinessName"
+                                                          Label="Business Name" Variant="Variant.Outlined"
+                                                          Required="true"
+                                                          Adornment="Adornment.Start"
+                                                          AdornmentIcon="@Icons.Material.Filled.TextFields" />
+                                        </MudItem>
+
+                                        <MudItem xs="12" sm="6" md="4">
+                                            <MudTextField T="string" @bind-Value="oModel.BusinessContact"
+                                                          Label="Contact" Variant="Variant.Outlined"
+                                                          Required="true"
+                                                          MaxLength="11"
+                                                          Validation="@cnValidator.Validation"
+                                                          Adornment="Adornment.Start"
+                                                          AdornmentIcon="@Icons.Material.Filled.Phone" />
+                                        </MudItem>
+
+                                        <MudItem xs="12" sm="6" md="4">
+                                            <MudNumericField Min="1" Label="Starting Price"
+                                                             Variant="Variant.Outlined"
+                                                             Format="N2" Culture="@CulturePKR"
+                                                             @bind-Value="oModel.BusinessStartingPrice"
+                                                             Adornment="Adornment.Start" AdornmentText="Rs"
+                                                             Required="true" />
+                                        </MudItem>
+
+                                        @if (oModel.CategoryType == "Banquets")
+                                        {
+                                            <MudItem xs="12" sm="6" md="4">
+                                                <MudNumericField Min="1" Label="Min Gathering"
+                                                                 Variant="Variant.Outlined"
+                                                                 Format="N2" Culture="@CulturePKR"
+                                                                 @bind-Value="oModel.MinGathering"
+                                                                 Adornment="Adornment.Start" AdornmentText="#"
+                                                                 Required="true" />
+                                            </MudItem>
+                                            <MudItem xs="12" sm="6" md="4">
+                                                <MudNumericField Min="1" Label="Max Gathering"
+                                                                 Variant="Variant.Outlined"
+                                                                 Format="N2" Culture="@CulturePKR"
+                                                                 @bind-Value="oModel.MaxGathering"
+                                                                 Adornment="Adornment.Start" AdornmentText="#"
+                                                                 Required="true" />
+                                            </MudItem>
+                                        }
+                                        @if (oModel.CategoryType == "Caterers")
+                                        {
+                                            <MudItem xs="12" sm="6" md="4">
+                                                <MudSelect @bind-Value="@oModel.ServiceType" Clearable="false" Required="true" RequiredError="Service type required" Variant="Variant.Outlined"
+                                                           Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Label="Select Service Type">
+                                                    @foreach (var defaultValue in oCfgDefaultValueList.Where(x => x.Type == "ServiceType"))
+                                                    {
+                                                        <MudSelectItem Value="@defaultValue.Name">@defaultValue.Name</MudSelectItem>
+                                                    }
+                                                </MudSelect>
+                                            </MudItem>
+                                            <MudItem xs="12" sm="6" md="4">
+                                                <MudSelect @bind-Value="@oModel.KitchenType" Clearable="false" Required="true" RequiredError="Kitchen type required" Variant="Variant.Outlined"
+                                                           Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Label="Select Kitchen Type">
+                                                    @foreach (var defaultValue in oCfgDefaultValueList.Where(x => x.Type == "KitchenType"))
+                                                    {
+                                                        <MudSelectItem Value="@defaultValue.Name">@defaultValue.Name</MudSelectItem>
+                                                    }
+                                                </MudSelect>
+                                            </MudItem>
+                                        }
+
+                                        <MudItem xs="12" sm="6" md="4">
+                                            <MudAutocomplete T="MstCity" Label="Select City"
+                                                             Variant="Variant.Outlined" Clearable="true"
+                                                             @bind-Value="oMstCity"
+                                                             SearchFunc="@SearchCity"
+                                                             ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
+                                                             onclose="@GetAreaByCity()"
+                                                             Required="true"
+                                                             Adornment="Adornment.Start"
+                                                             AdornmentIcon="@Icons.Material.Filled.LocationCity" />
+                                        </MudItem>
+
+                                        <MudItem xs="12" sm="6" md="4">
+                                            <MudAutocomplete T="MstArea" Label="Select Area"
+                                                             Variant="Variant.Outlined" Clearable="true"
+                                                             @bind-Value="oMstArea"
+                                                             SearchFunc="@SearchArea"
+                                                             ToStringFunc="@(e=> e==null?null : $"{e.Name}")"
+                                                             Required="true"
+                                                             Adornment="Adornment.Start"
+                                                             AdornmentIcon="@Icons.Material.Filled.AreaChart" />
+                                        </MudItem>
+
+                                        <MudItem xs="12">
+                                            <MudTextField T="string" Lines="3"
+                                                          Label="Business Address" Variant="Variant.Outlined"
+                                                          @bind-Value="oModel.BusinessAddress"
+                                                          Adornment="Adornment.Start"
+                                                          AdornmentIcon="@Icons.Material.Filled.AddLocation"
+                                                          Required="true" />
+                                        </MudItem>
+
+                                        <MudItem xs="12" sm="3" md="3" Class="d-flex align-items-center">
+                                            <MudCheckBox @bind-Value="@oModel.IsActive"
+                                                         Label="Active"
+                                                         CheckedIcon="@Icons.Material.Filled.CheckCircle"
+                                                         UncheckedIcon="@Icons.Material.Filled.Cancel"
+                                                         Color="Color.Primary" />
+                                        </MudItem>
+                                    </MudGrid>
+                                </MudPaper>
+                            </MudForm>
+                        </MudTabPanel>
+                        <!-- Availability TAB -->
+                        <MudTabPanel Text="Availability">
+                            <MudPaper Elevation="8" Class="dashboard-card animate-card p-4 mt-4">
+                                <MudGrid GutterSize="3">
+                                    <MudItem xs="12">
+                                        <MudTable Items="@oListAvailability"
+                                                  Dense="true"
+                                                  Hover="true"
+                                                  Bordered="true"
+                                                  Striped="true"
+                                                  RowsPerPage="10"
+                                                  Elevation="0"
+                                                  Loading="@loading"
+                                                  GroupBy="@_groupDefinition"
+                                                  LoadingProgressColor="Color.Primary">
+                                            <ColGroup>
+                                                <col style="width: 60px;" />
+                                                <col />
+                                                <col />
+                                            </ColGroup>
+                                            <HeaderContent>
+                                                <MudTh Class="fw-bold">Available Day</MudTh>
+                                                <MudTh Class="fw-bold">Time Slot</MudTh>
+                                                <MudTh Class="fw-bold">Remakrs</MudTh>
+                                            </HeaderContent>
+                                            <GroupHeaderTemplate Context="d1">
+                                                <MudTh Class="fw-bold" colspan="2">@($"{d1.GroupName}: {d1.Key}")</MudTh>
+                                            </GroupHeaderTemplate>
+                                            <RowTemplate Context="d1">
+                                                <MudTd>
+                                                    <MudHighlighter Text="@d1.AvailableDays" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                                </MudTd>
+                                                <MudTd>
+                                                    <MudHighlighter Text="@d1.TimeSlots" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                                </MudTd>
+                                                <MudTd>
+                                                    <MudTextField T="string" @bind-Value="d1.Remarks" Variant="Variant.Outlined" Required="true" />
+                                                </MudTd>
+                                            </RowTemplate>
+                                        </MudTable>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudPaper>
+                        </MudTabPanel>
+                        @if (oModel.CategoryType == "Photographer")
+                        {
+                            <MudTabPanel Text="Packages">
+                                <MudPaper Elevation="8" Class="dashboard-card animate-card p-4 mt-4">
+                                    <MudGrid GutterSize="3">
+                                        <MudItem xs="12" sm="3" md="3" Class="d-flex align-items-center">
+                                            <MudIconButton Color="Color.Info" Icon="@Icons.Material.Filled.Add" Title="Add Detail" onclick="@AddPackageRow" />
+                                        </MudItem>
+                                        <MudItem xs="12">
+                                            <MudTable Items="@oListPackages"
+                                                      Dense="true"
+                                                      Hover="true"
+                                                      Bordered="true"
+                                                      Striped="true"
+                                                      RowsPerPage="10"
+                                                      Elevation="0"
+                                                      Loading="@loading"
+                                                      LoadingProgressColor="Color.Primary">
+                                                <HeaderContent>
+                                                    <MudTh Class="fw-bold">Package Name</MudTh>
+                                                    <MudTh Class="fw-bold">Photos Included</MudTh>
+                                                    <MudTh Class="fw-bold">Rate</MudTh>
+                                                    @* <MudTh Class="fw-bold">Facilities</MudTh> *@
+                                                    <MudTh Class="fw-bold">Remarks</MudTh>
+                                                </HeaderContent>
+                                                <RowTemplate Context="d1">
+                                                    <MudTd>
+                                                        <MudTextField T="string" @bind-Value="d1.ItemName" Variant="Variant.Outlined" Required="true" />
+                                                    </MudTd>
+                                                    <MudTd>
+                                                        <MudNumericField Min="1" @bind-Value="d1.ItemsCount" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
+                                                    </MudTd>
+                                                    <MudTd>
+                                                        <MudNumericField Min="1" @bind-Value="d1.ItemPrice" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
+                                                    </MudTd>
+                                                    @* <MudTd>
+                                                        <MudNumericField Min="1" @bind-Value="d1.MinHead" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
+                                                    </MudTd> *@
+                                                    <MudTd>
+                                                        <MudTextField T="string" @bind-Value="d1.Remarks" Variant="Variant.Outlined" Required="true" />
+                                                    </MudTd>
+                                                </RowTemplate>
+                                            </MudTable>
+                                        </MudItem>
+                                    </MudGrid>
+                                </MudPaper>
+                            </MudTabPanel>
+                        }
+                        @if (oModel.CategoryType == "Caterers")
+                        {
+                            <MudTabPanel Text="Packages">
+                                <MudPaper Elevation="8" Class="dashboard-card animate-card p-4 mt-4">
+                                    <MudGrid GutterSize="3">
+                                        <MudItem xs="12" sm="3" md="3" Class="d-flex align-items-center">
+                                            <MudIconButton Color="Color.Info" Icon="@Icons.Material.Filled.Add" Title="Add Detail" onclick="@AddPackageRow" />
+                                        </MudItem>
+                                        <MudItem xs="12">
+                                            <MudTable Items="@oListPackages"
+                                                      Dense="true"
+                                                      Hover="true"
+                                                      Bordered="true"
+                                                      Striped="true"
+                                                      RowsPerPage="10"
+                                                      Elevation="0"
+                                                      Loading="@loading"
+                                                      LoadingProgressColor="Color.Primary">
+                                                <HeaderContent>
+                                                    <MudTh Class="fw-bold">Item Name</MudTh>
+                                                    <MudTh Class="fw-bold">Items Count</MudTh>
+                                                    <MudTh Class="fw-bold">Rate Per Head</MudTh>
+                                                    <MudTh Class="fw-bold">Min Head</MudTh>
+                                                    <MudTh Class="fw-bold">Remarks</MudTh>
+                                                </HeaderContent>
+                                                <RowTemplate Context="d1">
+                                                    <MudTd>
+                                                        <MudTextField T="string" @bind-Value="d1.ItemName" Variant="Variant.Outlined" Required="true" />
+                                                    </MudTd>
+                                                    <MudTd>
+                                                        <MudNumericField Min="1" @bind-Value="d1.ItemsCount" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
+                                                    </MudTd>
+                                                    <MudTd>
+                                                        <MudNumericField Min="1" @bind-Value="d1.ItemPrice" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
+                                                    </MudTd>
+                                                    <MudTd>
+                                                        <MudNumericField Min="1" @bind-Value="d1.MinHead" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
+                                                    </MudTd>
+                                                    <MudTd>
+                                                        <MudTextField T="string" @bind-Value="d1.Remarks" Variant="Variant.Outlined" Required="true" />
+                                                    </MudTd>
+                                                </RowTemplate>
+                                            </MudTable>
+                                        </MudItem>
+                                    </MudGrid>
+                                </MudPaper>
+                            </MudTabPanel>
+                        }
+                    </MudTabs>
+                    <MudItem xs="12" sm="3" md="3">
+                        <MudButton FullWidth="true"
+                                   Class="login-btn mt-3"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   Disabled="@(loading)"
+                                   StartIcon="@Icons.Material.Sharp.Save"
+                                   OnClick="Save">
+                            @if (loading)
+                            {
+                                <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                                <span class="ms-2">Processing...</span>
+                            }
+                            else
+                            {
+                                <MudText>Save</MudText>
+                            }
+                        </MudButton>
+                    </MudItem>
+                </MudItem>
+            </MudContainer>
+
+        </div>
+
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedPage />
+    </NotAuthorized>
+</AuthorizeView>

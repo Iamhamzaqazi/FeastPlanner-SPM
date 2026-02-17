@@ -1,0 +1,104 @@
+﻿@page "/"
+@page "/SignIn"
+@layout EmptyLayout
+@using System.ComponentModel.DataAnnotations
+@using MudBlazor
+
+<MudThemeProvider />
+
+<div class="login-wrapper animate-fade">
+    <MudPaper Elevation="8" Class="login-card">
+
+        <MudGrid Class="text-center">
+
+            <!-- Logo / Branding -->
+            <MudItem xs="12" Class="mb-2">
+                <MudText Typo="Typo.h5" Class="fw-bold">
+                    Welcome to <span class="text-primary">Feast Planner</span>
+                </MudText>
+                <MudText Typo="Typo.body2" Class="text-muted">
+                    @* Your celebration starts with a simple sign-in *@
+                    Plan unforgettable events with ease
+                </MudText>
+            </MudItem>
+
+            <!-- Form -->
+            <MudItem xs="12" Class="mt-3">
+                <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+
+                    <!-- Email -->
+                    <MudTextField T="string"
+                                  @bind-Value="oModel.Email"
+                                  Label="Email"
+                                  Variant="Variant.Outlined"
+                                  Adornment="Adornment.Start"
+                                  AdornmentIcon="@Icons.Material.Filled.Email"
+                                  Required="true"
+                                  RequiredError="Email is required!"
+                                  Immediate="true"
+                                  FullWidth="true" />
+
+                    <!-- Password -->
+                    <MudTextField T="string"
+                                  @bind-Value="oModel.Password"
+                                  Label="Password"
+                                  Variant="Variant.Outlined"
+                                  InputType="@PasswordInput"
+                                  Adornment="Adornment.End"
+                                  OnAdornmentClick="ShowPassword"
+                                  AdornmentIcon="@PasswordInputIcon"
+                                  Required="true"
+                                  RequiredError="Password is required!"
+                                  FullWidth="true"
+                                  Class="mt-2" />
+
+                    <!-- Options Row -->
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <MudCheckBox @bind-Checked="LoggedIn" Label="Keep me logged in" />
+                        <MudLink Href="ResetPassword" Class="text-primary">Forgot Password?</MudLink>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <MudButton FullWidth="true"
+                               Variant="Variant.Filled"
+                               Color="Color.Primary"
+                               Class="mt-4 login-btn"
+                               Disabled="@loading"
+                               OnClick="Login">
+                        @if (loading)
+                        {
+                            <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                            <span class="ms-2">Signing in...</span>
+                        }
+                        else
+                        {
+                            <MudText>Sign In</MudText>
+                        }
+                    </MudButton>
+
+                    <!-- Divider -->
+                    <div class="text-center mt-3 mb-2">
+                        <MudText Typo="Typo.caption" Class="text-muted">Or</MudText>
+                    </div>
+
+                    <!-- Sign Up Link -->
+                    <MudText Typo="Typo.body2">
+                        Don’t have an account?
+                        <MudLink Href="SignUp" Class="fw-bold text-primary">Register Now</MudLink>
+                    </MudText>
+
+                </MudForm>
+            </MudItem>
+
+            <!-- Footer -->
+            <MudItem xs="12" Class="text-center mt-4 text-muted">
+                <MudText Typo="Typo.caption">
+                    © @DateTime.Now.Year Feast Planner — Making Events Beautiful
+                    <br />
+                    <MudLink Href="#" Class="text-decoration-underline">Terms of Service</MudLink>
+                </MudText>
+            </MudItem>
+        </MudGrid>
+
+    </MudPaper>
+</div>

@@ -1,0 +1,163 @@
+﻿@page "/TwoStep/{UserID}"
+@layout EmptyLayout
+@using MudBlazor
+<MudThemeProvider Theme="_theme" />
+
+<div class="two-step-verification-container">
+    <div class="verification-card">
+        <!-- Header Section -->
+        <div class="verification-header text-center">
+            <div class="security-icon mb-4">
+                <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Size="Size.Large" Class="security-avatar">
+                    <MudIcon Icon="@Icons.Material.Filled.VerifiedUser" Size="Size.Large" />
+                </MudAvatar>
+            </div>
+            <MudText Typo="Typo.h6" Class="fw-bold text-primary mb-2">Two-Step Verification</MudText>
+            <MudText Typo="Typo.body1" Class="text-muted">
+                Extra security for your account
+            </MudText>
+        </div>
+
+        <!-- Illustration -->
+        <div class="illustration-section text-center">
+            <MudImage Fluid="true" Src="../images/TwoFASmartphone.svg" Alt="Two Factor Authentication"
+                      Style="width: 200px; height: 120px;" Class="security-illustration" />
+        </div>
+
+        <!-- Verification Content -->
+        <div class="verification-content">
+            @if (Type == "SMS")
+            {
+                <div class="method-info text-center mb-3">
+                    <MudAvatar Color="Color.Info" Variant="Variant.Filled" Size="Size.Small" Class="mb-2">
+                        <MudIcon Icon="@Icons.Material.Filled.Sms" />
+                    </MudAvatar>
+                    <MudText Typo="Typo.body1" Class="text-muted mb-2">
+                        Enter the verification code sent to
+                    </MudText>
+                    <MudChip Color="Color.Info" Variant="Variant.Filled" Class="contact-chip">
+                        <MudIcon Icon="@Icons.Material.Filled.Phone" Size="Size.Small" Class="me-1" />
+                        @ModifiedContact
+                    </MudChip>
+                </div>
+            }
+            else if (Type == "Email")
+            {
+                <div class="method-info text-center mb-3">
+                    <MudAvatar Color="Color.Warning" Variant="Variant.Filled" Size="Size.Small" Class="mb-2">
+                        <MudIcon Icon="@Icons.Material.Filled.Email" />
+                    </MudAvatar>
+                    <MudText Typo="Typo.body1" Class="text-muted mb-2">
+                        Enter the verification code sent to
+                    </MudText>
+                    <MudChip Color="Color.Warning" Variant="Variant.Filled" Class="contact-chip">
+                        <MudIcon Icon="@Icons.Material.Filled.Mail" Size="Size.Small" Class="me-1" />
+                        @ModifiedEmail
+                    </MudChip>
+                </div>
+            }
+            else if (Type == "Google")
+            {
+                <div class="method-info text-center mb-3">
+                    <MudAvatar Color="Color.Success" Variant="Variant.Filled" Size="Size.Small" Class="mb-2">
+                        <MudIcon Icon="@Icons.Custom.Brands.Google" />
+                    </MudAvatar>
+                    <MudText Typo="Typo.body1" Class="text-muted mb-2">
+                        Enter the verification code from your
+                    </MudText>
+                    <MudChip Color="Color.Success" Variant="Variant.Filled" Class="contact-chip">
+                        <MudIcon Icon="@Icons.Material.Filled.Security" Size="Size.Small" Class="me-1" />
+                        Google Authenticator App
+                    </MudChip>
+                </div>
+            }
+
+            <!-- Code Input -->
+            <div class="code-input-section">
+                @if (Type == "Email" || Type == "SMS")
+                {
+                    <MudTextField T="string"
+                                  @bind-Value="@Code"
+                                  MaxLength="4"
+                                  Label="Verification Code"
+                                  Variant="Variant.Outlined"
+                                  InputType="InputType.Text"
+                                  Required="true"
+                                  RequiredError="Verification code is required"
+                                  Adornment="Adornment.Start"
+                                  AdornmentIcon="@Icons.Material.Filled.ConfirmationNumber"
+                                  AdornmentColor="Color.Primary"
+                                  FullWidth="true"
+                                  Class="verification-input" />
+                }
+                else if (Type == "Google")
+                {
+                    <MudTextField T="string"
+                                  @bind-Value="@Code"
+                                  Mask="@(new PatternMask("000 000"))"
+                                  Label="6-digit Code"
+                                  Variant="Variant.Outlined"
+                                  InputType="InputType.Text"
+                                  Required="true"
+                                  RequiredError="6-digit code is required"
+                                  Adornment="Adornment.Start"
+                                  AdornmentIcon="@Icons.Material.Filled.QrCode"
+                                  AdornmentColor="Color.Primary"
+                                  FullWidth="true"
+                                  Class="verification-input" />
+                }
+
+                <MudButton FullWidth="true"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Disabled="@loading"
+                           OnClick="@VerifyCode"
+                           StartIcon="@Icons.Material.Filled.Verified"
+                           Size="Size.Large"
+                           Class="verify-button mt-4">
+                    @if (loading)
+                    {
+                        <MudProgressCircular Size="Size.Small" Indeterminate="true" Color="Color.Inherit" />
+                        <span class="ms-2">Verifying...</span>
+                    }
+                    else
+                    {
+                        <span>Verify Code</span>
+                    }
+                </MudButton>
+            </div>
+
+            <!-- Resend Code -->
+            <div class="resend-section text-center mt-4">
+                @if (Type == "SMS" || Type == "Email")
+                {
+                    <MudText Typo="Typo.body2" Class="text-muted">
+                        Didn't receive the code?
+                        <MudLink OnClick="@(() => SentCode())" Class="resend-link">
+                            Resend Code
+                        </MudLink>
+                    </MudText>
+                }
+                else if (Type == "Google")
+                {
+                    <MudText Typo="Typo.body2" Class="text-muted">
+                        Code not working?
+                        <MudLink Class="resend-link" OnClick="@(() => { /* Add retry logic */ })">
+                            Try again in a moment
+                        </MudLink>
+                    </MudText>
+                }
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="verification-footer text-center mt-5 pt-4">
+            <MudText Typo="Typo.caption" Class="text-muted">
+                © @DateTime.Now.Year Feast Planner. All rights reserved.
+            </MudText>
+            <MudText Typo="Typo.caption" Class="text-muted">
+                <MudLink Href="#" Class="footer-link">Terms of Service</MudLink> •
+            </MudText>
+        </div>
+    </div>
+</div>

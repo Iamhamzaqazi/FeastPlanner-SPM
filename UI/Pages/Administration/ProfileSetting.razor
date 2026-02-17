@@ -1,0 +1,305 @@
+﻿@page "/ProfileSetting"
+@using System.ComponentModel.DataAnnotations
+@using System.Globalization
+@using MudBlazor
+
+<PageTitle>Profile Setting</PageTitle>
+
+<AuthorizeView Roles="Profile Setting">
+    <Authorized>
+        <div class="dashboard-wrapper">
+            <MudContainer MaxWidth="MaxWidth.False" Class="p-2">
+
+                <!-- HEADER -->
+                <MudItem xs="12" Class="mb-3">
+                    <div class="dashboard-header fade-in">
+                        <MudText Typo="Typo.h5" Class="fw-bold">
+                            <span class="text-primary">Profile Setting</span>
+                        </MudText>
+                        <MudIconButton Icon="@Icons.Material.Filled.Refresh"
+                                       Title="Refresh"
+                                       Size="Size.Medium"
+                                       Color="Color.Primary"
+                                       @onclick="Refresh" />
+                    </div>
+                    <MudText Typo="Typo.caption" Class="text-muted mt-1">
+                        You can update your profile details. Changes will reflect across all users.
+                    </MudText>
+                    <MudDivider Class="my-2" />
+                    <MudLink Class="text-muted me-1" Underline="Underline.None">Administration / </MudLink>
+                    <MudLink Href="/ProfileSetting" Class="text-muted fw-bold" Underline="Underline.None">Profile Setting</MudLink>
+                    <MudDivider Class="my-2" />
+                </MudItem>
+
+                <!-- PROFILE HEADER -->
+                <MudItem xs="12">
+                    <MudPaper Elevation="8" Class="dashboard-card animate-card p-4">
+                        <MudGrid GutterSize="3">
+                            <MudItem xs="12" sm="2">
+                                <MudImage Src="@oModel.Logo" Alt="Logo" Class="rounded-lg" Style="width:170px;height:120px;" Fluid="true" />
+                            </MudItem>
+                            <MudItem xs="12" sm="10">
+                                <MudGrid GutterSize="3">
+                                    <MudItem xs="12">
+                                        <MudText Typo="Typo.h6" Class="fw-bold">@oModel.BusinessName</MudText>
+                                    </MudItem>
+                                    <MudItem xs="12" Class="mt-n2">
+                                        <MudChip Size="Size.Small" Icon="@Icons.Material.Filled.LocationCity" Color="Color.Inherit">@oModel.City</MudChip>
+                                        <MudChip Size="Size.Small" Icon="@Icons.Material.Filled.PhoneAndroid" Color="Color.Inherit">@oModel.BusinessContact</MudChip>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="8" Class="mt-2">
+                                        <MudChip Size="Size.Medium" Icon="@Icons.Material.Filled.ChangeCircle" Color="Color.Inherit">Change 10%</MudChip>
+                                        <MudChip Size="Size.Medium" Icon="@Icons.Material.Filled.TrendingUp" Color="Color.Inherit">Success Rate - 60%</MudChip>
+                                        <MudChip Size="Size.Medium" Icon="@Icons.Material.Filled.Check" Color="Color.Inherit">Events - 12</MudChip>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="4" Class="mt-2">
+                                        <MudText Typo="Typo.subtitle1" Class="fw-bold">Profile Completion</MudText>
+                                        <MudProgressLinear Value="@Math.Round(ProfileCompletionPercentage)" Color="Color.Info" Size="Size.Large">
+                                            <MudText Typo="Typo.subtitle2" Color="Color.Inherit"><b>@Math.Round(ProfileCompletionPercentage)%</b></MudText>
+                                        </MudProgressLinear>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudItem>
+                        </MudGrid>
+                    </MudPaper>
+                </MudItem>
+
+                <!-- TABS -->
+                <MudItem xs="12" Class="mt-4">
+                    <MudTabs Rounded="true" Color="Color.Primary" PanelClass="pa-0" Centered="true">
+
+                        <!-- OVERVIEW TAB -->
+                        <MudTabPanel Text="Overview">
+                            <MudPaper Elevation="8" Class="dashboard-card animate-card p-4 mt-4">
+                                <MudGrid GutterSize="3">
+                                    <MudItem xs="12">
+                                        <MudText Typo="Typo.h6" Class="fw-bold text-muted">Profile Overview</MudText>
+                                    </MudItem>
+                                    <MudDivider Class="my-2" />
+                                    <MudItem xs="3"><MudText Typo="Typo.subtitle1" Class="fw-bold text-muted">Business Name</MudText></MudItem>
+                                    <MudItem xs="9"><MudText Typo="Typo.subtitle1" Class="fw-bold">@oModel.BusinessName</MudText></MudItem>
+
+                                    <MudItem xs="3"><MudText Typo="Typo.subtitle1" Class="fw-bold text-muted">Starting Price</MudText></MudItem>
+                                    <MudItem xs="9"><MudText Typo="Typo.subtitle1" Class="fw-bold">@oModel.BusinessStartingPrice.GetValueOrDefault().ToString("C2", CultureInfo.CreateSpecificCulture("ur-PK"))</MudText></MudItem>
+
+                                    <MudItem xs="3"><MudText Typo="Typo.subtitle1" Class="fw-bold text-muted">Business Contact</MudText></MudItem>
+                                    <MudItem xs="9"><MudText Typo="Typo.subtitle1" Class="fw-bold">@oModel.BusinessContact</MudText></MudItem>
+
+                                    <MudItem xs="3"><MudText Typo="Typo.subtitle1" Class="fw-bold text-muted">City</MudText></MudItem>
+                                    <MudItem xs="9"><MudText Typo="Typo.subtitle1" Class="fw-bold">@oModel.City</MudText></MudItem>
+
+                                    <MudItem xs="3"><MudText Typo="Typo.subtitle1" Class="fw-bold text-muted">Area</MudText></MudItem>
+                                    <MudItem xs="9"><MudText Typo="Typo.subtitle1" Class="fw-bold">@oModel.Area</MudText></MudItem>
+
+                                    <MudItem xs="3"><MudText Typo="Typo.subtitle1" Class="fw-bold text-muted">Address</MudText></MudItem>
+                                    <MudItem xs="9"><MudText Typo="Typo.subtitle1" Class="fw-bold">@oModel.BusinessAddress</MudText></MudItem>
+                                </MudGrid>
+                            </MudPaper>
+                        </MudTabPanel>
+
+                        <MudTabPanel Text="Settings">
+                            <!-- PROFILE EDIT -->
+                            <MudForm @ref="formBusiness" @bind-IsValid="@successBusiness" @bind-Errors="@errors">
+                                <MudPaper Elevation="8" Class="dashboard-card animate-card p-4 mt-4">
+                                    <MudGrid GutterSize="3">
+                                        <MudItem xs="12">
+                                            <MudText Typo="Typo.h6" Class="fw-bold text-muted">Profile Edit</MudText>
+                                        </MudItem>
+                                        <MudDivider Class="my-2" />
+
+                                        <!-- Logo -->
+                                        <MudItem xs="12" sm="3" md="3">
+                                            <MudText Typo="Typo.subtitle1" Class="fw-bold text-muted">Logo</MudText>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="9" md="9" Class="text-start">
+                                            <MudFileUpload T="IBrowserFile" OnFilesChanged="OnInputFileChanged" MaximumFileCount="1" Accept=".jpg,.jpeg,.png">
+                                                <ButtonTemplate Context="d1">
+                                                    <MudAvatar Image="@oModel.Logo" Style="width:140px;height:120px;" Class="rounded-lg" Elevation="8" />
+                                                    <MudIconButton HtmlTag="label" Color="Color.Info" Icon="@Icons.Material.Filled.PhotoCamera" Title="Choose Logo" for="@d1" Class="ms-2" />
+                                                    <MudIconButton HtmlTag="label" Color="Color.Error" Icon="@Icons.Material.Filled.Cancel" Title="Remove Logo" for="@d1" Class="ms-2" />
+                                                </ButtonTemplate>
+                                            </MudFileUpload>
+                                        </MudItem>
+
+                                        <!-- Business Name -->
+                                        <MudItem xs="12" sm="3" md="3">
+                                            <MudText Typo="Typo.subtitle1" Class="fw-bold text-muted pt-3">Business Name</MudText>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="9" md="9">
+                                            <MudTextField T="string" @bind-Value="oModel.BusinessName"
+                                                          Variant="Variant.Outlined" Required="true" RequiredError="Business name required"
+                                                          Immediate="true" Clearable="true" MaxLength="150"
+                                                          Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields"
+                                                          FullWidth="true" />
+                                        </MudItem>
+
+                                        <!-- Starting Price -->
+                                        <MudItem xs="12" sm="3" md="3">
+                                            <MudText Typo="Typo.subtitle1" Class="fw-bold text-muted pt-3">Starting Price</MudText>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="9" md="9">
+                                            <MudNumericField @bind-Value="oModel.BusinessStartingPrice"
+                                                             Variant="Variant.Outlined" Required="true" RequiredError="Starting price required"
+                                                             Adornment="Adornment.Start" AdornmentText="Rs" Clearable="true" Immediate="true"
+                                                             Min="1" Culture="@CulturePKR" FullWidth="true" />
+                                        </MudItem>
+
+                                        <!-- Contact -->
+                                        <MudItem xs="12" sm="3" md="3">
+                                            <MudText Typo="Typo.subtitle1" Class="fw-bold text-muted pt-3">Business Contact</MudText>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="9" md="9">
+                                            <MudTextField T="string" @bind-Value="oModel.BusinessContact"
+                                                          Variant="Variant.Outlined" Required="true" RequiredError="Contact required"
+                                                          Immediate="true" Clearable="true" MaxLength="11" InputType="InputType.Telephone"
+                                                          Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Phone"
+                                                          FullWidth="true" Validation="@cnValidator.Validation" />
+                                        </MudItem>
+
+                                        <!-- City -->
+                                        <MudItem xs="12" sm="3" md="3">
+                                            <MudText Typo="Typo.subtitle1" Class="fw-bold text-muted pt-3">City</MudText>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="9" md="9">
+                                            <MudAutocomplete T="MstCity" @bind-Value="oMstCity" Required="true"
+                                                             RequiredError="City required" Clearable="true"
+                                                             SearchFunc="@SearchCity" ToStringFunc="@(e => e == null ? null : e.Name)"
+                                                             Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.LocationCity"
+                                                             ShowProgressIndicator="true" ProgressIndicatorColor="Color.Warning" Variant="Variant.Outlined" />
+                                        </MudItem>
+
+                                        <!-- Area -->
+                                        <MudItem xs="12" sm="3" md="3">
+                                            <MudText Typo="Typo.subtitle1" Class="fw-bold text-muted pt-3">Area</MudText>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="9" md="9">
+                                            <MudAutocomplete T="MstArea" @bind-Value="oMstArea" Required="true"
+                                                             RequiredError="Area required" Clearable="true"
+                                                             SearchFunc="@SearchArea" ToStringFunc="@(e => e == null ? null : e.Name)"
+                                                             Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AreaChart"
+                                                             ShowProgressIndicator="true" ProgressIndicatorColor="Color.Warning" Variant="Variant.Outlined" />
+                                        </MudItem>
+
+                                        <!-- Address -->
+                                        <MudItem xs="12" sm="3" md="3">
+                                            <MudText Typo="Typo.subtitle1" Class="fw-bold text-muted pt-4">Address</MudText>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="9" md="9">
+                                            <MudTextField T="string" @bind-Value="oModel.BusinessAddress" Variant="Variant.Outlined"
+                                                          Required="true" RequiredError="Address required" Clearable="true" Lines="4"
+                                                          MaxLength="250" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AddLocation" FullWidth="true" />
+                                        </MudItem>
+
+                                        <!-- Save Button -->
+                                        <MudItem xs="12" class="text-end mt-3">
+                                            <MudButton FullWidth="true" Class="login-btn mt-3" Variant="Variant.Filled"
+                                                       Color="Color.Primary" Disabled="@(loading)" OnClick="Save" StartIcon="@Icons.Material.Sharp.Save">
+                                                @if (loading)
+                                                {
+                                                    <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                                                    <span class="ms-2">Processing...</span>
+                                                }
+                                                else
+                                                {
+                                                    <MudText>Save</MudText>
+                                                }
+                                            </MudButton>
+                                        </MudItem>
+                                    </MudGrid>
+                                </MudPaper>
+                            </MudForm>
+                        </MudTabPanel>
+
+                        <!-- LOGS TAB -->
+                        <MudTabPanel Text="Logs">
+                            <MudPaper Elevation="8" Class="dashboard-card animate-card p-4 mt-4">
+                                <MudGrid GutterSize="3">
+                                    <MudItem xs="12">
+                                        <MudText Typo="Typo.h6" Class="fw-bold text-muted">Activity Logs</MudText>
+                                    </MudItem>
+                                    <MudDivider Class="my-2" />
+                                    <MudItem xs="12">
+                                        <MudTable Items="@oListBusinessLogs" Dense="true" Bordered="true" RowsPerPage="5" Elevation="0">
+                                            <RowTemplate Context="log">
+                                                <MudTd>
+                                                    <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">
+                                                        <b>@log.Title</b><br />
+                                                        <span class="text-muted">@log.Description</span><br />
+                                                        <span class="text-muted">By: @log.AddedBy</span><br />
+                                                        <span class="text-muted">Date: @Convert.ToDateTime(log.AddedDt).ToString("MM/dd/yyyy")</span>
+                                                    </MudAlert>
+                                                </MudTd>
+                                            </RowTemplate>
+                                            <PagerContent>
+                                                <MudTablePager />
+                                            </PagerContent>
+                                        </MudTable>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudPaper>
+                        </MudTabPanel>
+
+                        <!-- CONNECTED ACCOUNTS TAB -->
+                        <MudTabPanel Text="Connected Accounts">
+                            <MudPaper Elevation="8" Class="dashboard-card animate-card p-4 mt-4">
+                                <MudGrid GutterSize="3">
+                                    <MudItem xs="12">
+                                        <MudText Typo="Typo.h6" Class="fw-bold text-muted">Social Accounts</MudText>
+                                    </MudItem>
+                                    <MudDivider Class="my-2" />
+
+                                    <!-- Facebook -->
+                                    <MudItem xs="12" sm="6" Class="mt-2 d-flex align-items-center">
+                                        <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Class="me-2">
+                                            <MudIcon Icon="@Icons.Custom.Brands.Facebook" Size="Size.Medium" />
+                                        </MudAvatar>
+                                        <MudText Typo="Typo.subtitle1" Class="fw-bold text-muted me-2">Facebook</MudText>
+                                        <MudChip Color="@(loading? Color.Success: Color.Error)"
+                                                 Icon="@(loading ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Cancel)"
+                                                 Variant="Variant.Filled">
+                                            @(loading ? "Connected" : "Disconnected")
+                                        </MudChip>
+                                    </MudItem>
+
+                                    <!-- Instagram -->
+                                    <MudItem xs="12" sm="6" Class="mt-2 d-flex align-items-center">
+                                        <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Class="me-2">
+                                            <MudIcon  Icon="@Icons.Custom.Brands.Instagram" Size="Size.Medium" />
+                                        </MudAvatar>
+                                        <MudText Typo="Typo.subtitle1" Class="fw-bold text-muted me-2">Instagram</MudText>
+                                        <MudChip Color="@(loading? Color.Success: Color.Error)"
+                                                 Icon="@(loading ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Cancel)"
+                                                 Variant="Variant.Filled">
+                                            @(loading ? "Connected" : "Disconnected")
+                                        </MudChip>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudPaper>
+                        </MudTabPanel>
+
+
+
+                        <!-- DEACTIVATE PROFILE TAB -->
+                        <MudTabPanel Text="Deactivate Profile">
+                            <MudPaper Elevation="8" Class="dashboard-card animate-card p-4 mt-4 text-center">
+                                <MudText Typo="Typo.h6" Class="fw-bold text-muted">Deactivate Profile</MudText>
+                                <MudDivider Class="my-2" />
+                                <MudText Typo="Typo.subtitle1" Class="text-muted mb-3">
+                                    Deactivating your profile will temporarily hide your account and all your content. You can reactivate anytime by logging in again.
+                                </MudText>
+                                <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="() => OpenDeactivateDialog(maxWidth)" StartIcon="@Icons.Material.Filled.DeleteForever">
+                                    Deactivate Profile
+                                </MudButton>
+                            </MudPaper>
+                        </MudTabPanel>
+
+                    </MudTabs>
+                </MudItem>
+
+            </MudContainer>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedPage />
+    </NotAuthorized>
+</AuthorizeView>

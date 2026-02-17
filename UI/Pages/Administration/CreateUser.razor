@@ -1,0 +1,175 @@
+﻿@page "/CreateUser"
+@using System.ComponentModel.DataAnnotations
+@using MudBlazor
+
+<PageTitle>Create User</PageTitle>
+<AuthorizeView Roles="Create User">
+    <Authorized>
+
+        <div class="dashboard-wrapper">
+
+            <MudContainer MaxWidth="MaxWidth.False" Class="p-2">
+
+                <!-- HEADER -->
+                <MudItem xs="12" Class="mb-3">
+                    <div class="dashboard-header fade-in">
+                        <MudText Typo="Typo.h5" Class="fw-bold">
+                            <span class="text-primary">Create User</span>
+                        </MudText>
+                        <MudIconButton Icon="@Icons.Material.Filled.Refresh"
+                                       Title="Refresh"
+                                       Size="Size.Medium"
+                                       Color="Color.Primary"
+                                       @onclick="Refresh" />
+                    </div>
+                    @* <MudText Typo="Typo.caption" Class="text-muted mt-1">
+                        You can create new users as per your <b>Membership Plan</b>
+                    </MudText> *@
+                    <MudDivider Class="my-2" />
+                    <MudLink Class="text-muted me-1" Underline="Underline.None">Administration / </MudLink>
+                    <MudLink Href="/CreateUser" Class="text-muted fw-bold" Underline="Underline.None">Create User</MudLink>
+                    <MudDivider Class="my-2" />
+                </MudItem>
+
+                <!-- USER FORM -->
+                <MudItem xs="12">
+                    <MudForm @ref="formUser" @bind-IsValid="@successUser" @bind-Errors="@errors">
+                        <MudPaper Elevation="8" Class="dashboard-card animate-card p-4">
+
+                            <MudGrid GutterSize="3">
+
+                                <MudItem xs="12">
+                                    <MudText Typo="Typo.caption" Class="text-muted fw-bold mb-2">
+                                        User Information
+                                    </MudText>
+                                </MudItem>
+
+                                <MudItem xs="12" sm="6" md="4">
+                                    <MudTextField T="string" @bind-Value="oModel.Name" Disabled="@IsEdit" AutoFocus="true"
+                                                  MaxLength="150" Immediate="true"
+                                                  Clearable="true" Label="Name" Variant="Variant.Outlined"
+                                                  InputType="InputType.Text" Required="true" RequiredError="Name required"
+                                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields"
+                                                  FullWidth="true" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="6" md="4">
+                                    <MudTextField T="string" @bind-Value="oModel.Email" Disabled="@IsEdit"
+                                                  MaxLength="150" Immediate="true"
+                                                  Clearable="true" Label="Email" Variant="Variant.Outlined"
+                                                  InputType="InputType.Email" Adornment="Adornment.Start"
+                                                  AdornmentIcon="@Icons.Material.Filled.Email"
+                                                  Required="true"
+                                                  Validation="@(new EmailAddressAttribute { ErrorMessage = "Invalid email" })"
+                                                  FullWidth="true" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="6" md="4">
+                                    <MudTextField T="string" @bind-Value="oModel.Contact" Disabled="@IsEdit"
+                                                  MaxLength="11" Immediate="true"
+                                                  Clearable="true" Label="Contact" Variant="Variant.Outlined"
+                                                  InputType="InputType.Telephone" Validation="@cnValidator.Validation"
+                                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Phone"
+                                                  FullWidth="true" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="6" md="5">
+                                    <MudTextField T="string" @bind-Value="oModel.Password" Disabled="@IsEdit" @ref="pwField1"
+                                                  MaxLength="150" Immediate="true"
+                                                  Clearable="true" Label="Password" Variant="Variant.Outlined"
+                                                  InputType="@PasswordInput" Adornment="Adornment.Start"
+                                                  AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowPassword"
+                                                  Validation="@(new Func<string, IEnumerable<string>>(PasswordStrength))"
+                                                  Required="true" RequiredError="Password is required!" FullWidth="true" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="6" md="5">
+                                    <MudTextField T="string" Disabled="@IsEdit"
+                                                  MaxLength="150"
+                                                  Immediate="true" Clearable="true" Label="Confirm Password"
+                                                  Variant="Variant.Outlined" InputType="@PasswordInput" Required="true"
+                                                  RequiredError="Password required" Adornment="Adornment.Start"
+                                                  AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="ShowPassword"
+                                                  Validation="@(new Func<string, string>(PasswordMatch))"
+                                                  FullWidth="true" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="6" md="2">
+                                    <MudCheckBox @bind-Value="@oModel.IsActive" Label="Active" CheckedIcon="@Icons.Material.Filled.CheckCircle"
+                                                 UncheckedIcon="@Icons.Material.Filled.Cancel" Color="Color.Primary" FullWidth="true" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="3" md="3">
+                                    <MudButton FullWidth="true" Class="login-btn mt-3" Variant="Variant.Filled"
+                                               Color="Color.Primary" Disabled="@(loading)" OnClick="Save" StartIcon="@Icons.Material.Sharp.Save">
+                                        @if (loading)
+                                        {
+                                            <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                                            <span class="ms-2">Processing...</span>
+                                        }
+                                        else
+                                        {
+                                            <MudText>Save</MudText>
+                                        }
+                                    </MudButton>
+                                </MudItem>
+
+                            </MudGrid>
+                        </MudPaper>
+                    </MudForm>
+                </MudItem>
+
+                <!-- USERS TABLE -->
+                <MudItem xs="12" class="mt-4">
+                    <MudPaper Elevation="8" Class="dashboard-card animate-card delay-1 p-4">
+                        <MudTable Items="@oList" Dense="true" Hover="true" Bordered="true" Striped="true" RowsPerPage="5" Elevation="0"
+                                  Filter="new Func<MstUser, bool>(FilterFunc)" Loading="@loading" LoadingProgressColor="Color.Primary">
+                            <ToolBarContent>
+                                <MudText Typo="Typo.h6">Users</MudText>
+                                <MudSpacer />
+                                <MudTextField T="string" @bind-Value="searchString1" Placeholder="Search"
+                                              Variant="Variant.Outlined" Clearable="true" Immediate="true"
+                                              Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+                                              FullWidth="false" />
+                            </ToolBarContent>
+                            <HeaderContent>
+                                <MudTh Class="fw-bold">Name</MudTh>
+                                <MudTh Class="fw-bold">Email</MudTh>
+                                <MudTh Class="fw-bold">Contact</MudTh>
+                                <MudTh Class="fw-bold">Password</MudTh>
+                                <MudTh Class="fw-bold">Added By</MudTh>
+                                <MudTh Class="fw-bold">Active</MudTh>
+                                <MudTh Class="fw-bold">Action</MudTh>
+
+
+                            </HeaderContent>
+                            <NoRecordsContent>
+                                <MudText>No record found...</MudText>
+                            </NoRecordsContent>
+                            <RowTemplate Context="d1">
+                                <MudTd><MudHighlighter Text="@d1.Name" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                                <MudTd><MudHighlighter Text="@d1.Email" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                                <MudTd><MudHighlighter Text="@d1.Contact" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                                <MudTd><MudHighlighter Text="●●●●●●●●" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                                <MudTd><MudHighlighter Text="@d1.AddedBy" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                                <MudTd><MudHighlighter Text="@d1.IsActive.ToString()" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                                <MudTd>
+                                    <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditRecord(d1.Id))" Title="Edit" />
+                                </MudTd>
+                            </RowTemplate>
+                            <PagerContent>
+                                <MudTablePager />
+                            </PagerContent>
+                        </MudTable>
+                    </MudPaper>
+                </MudItem>
+
+            </MudContainer>
+
+        </div>
+
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedPage />
+    </NotAuthorized>
+</AuthorizeView>

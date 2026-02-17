@@ -1,0 +1,469 @@
+﻿@page "/AccountSetting"
+@using System.ComponentModel.DataAnnotations
+@using MudBlazor
+
+<PageTitle>Account Setting</PageTitle>
+<AuthorizeView>
+    <Authorized>
+        <div class="dashboard-wrapper">
+            <MudContainer MaxWidth="MaxWidth.False" Class="p-2">
+
+                <!-- HEADER -->
+                <MudItem xs="12" Class="mb-3">
+                    <div class="dashboard-header fade-in">
+                        <MudText Typo="Typo.h5" Class="fw-bold">
+                            <span class="text-primary">Account Setting</span>
+                        </MudText>
+                        <MudIconButton Icon="@Icons.Material.Filled.Refresh"
+                                       Title="Refresh"
+                                       Size="Size.Medium"
+                                       Color="Color.Primary"
+                                       @onclick="Refresh" />
+                    </div>
+                    <MudText Typo="Typo.caption" Class="text-muted mt-1">
+                        Manage your account settings, security preferences, and notification settings.
+                    </MudText>
+                    <MudDivider Class="my-2" />
+                    <MudLink Class="text-muted me-1" Underline="Underline.None">Administration / </MudLink>
+                    <MudLink Href="/AccountSetting" Class="text-muted fw-bold" Underline="Underline.None">Account Setting</MudLink>
+                    <MudDivider Class="my-2" />
+                </MudItem>
+
+                <!-- PROFILE HEADER -->
+                <MudItem xs="12">
+                    <MudPaper Elevation="8" Class="dashboard-card animate-card p-4">
+                        <MudGrid GutterSize="3">
+                            <MudItem xs="12" sm="2">
+                                <MudAvatar Size="Size.Large" Color="Color.Primary" Class="rounded-lg" Style="width:120px;height:120px;">@LoggedInUser.FirstOrDefault()</MudAvatar>
+                            </MudItem>
+                            <MudItem xs="12" sm="10">
+                                <MudGrid GutterSize="3">
+                                    <MudItem xs="12">
+                                        <MudText Typo="Typo.h6" Class="fw-bold">@LoggedInUser</MudText>
+                                    </MudItem>
+                                    <MudItem xs="12" Class="mt-n2">
+                                        <MudChip Size="Size.Small" Icon="@Icons.Material.Filled.Email" Color="Color.Inherit">@LoggedInUserEmail</MudChip>
+                                        <MudChip Size="Size.Small" Icon="@Icons.Material.Filled.PhoneAndroid" Color="Color.Inherit">@LoggedInUserContact</MudChip>
+                                        <MudChip Size="Size.Small" Icon="@Icons.Material.Filled.Person" Color="Color.Inherit">@(oModel.IsSuper ? "Admin" : "User")</MudChip>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="8" Class="mt-2">
+                                        <MudChip Size="Size.Medium" Icon="@(oModel.IsEmailVerify? Icons.Material.Filled.Verified : Icons.Material.Filled.Error)" Color="@(oModel.IsEmailVerify? Color.Success: Color.Warning)">
+                                            Email @(oModel.IsEmailVerify ? "Verified" : "Not Verified")
+                                        </MudChip>
+                                        <MudChip Size="Size.Medium" Icon="@(oModel.IsContactVerify? Icons.Material.Filled.Verified : Icons.Material.Filled.Error)" Color="@(oModel.IsContactVerify? Color.Success: Color.Warning)">
+                                            Contact @(oModel.IsContactVerify ? "Verified" : "Not Verified")
+                                        </MudChip>
+                                        <MudChip Size="Size.Medium" Icon="@(oModel.IsOtpenable? Icons.Material.Filled.Security : Icons.Material.Filled.NoEncryption)" Color="@(oModel.IsOtpenable? Color.Success: Color.Warning)">
+                                            2FA @(oModel.IsOtpenable ? "Enabled" : "Disabled")
+                                        </MudChip>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="4" Class="mt-2">
+                                        <MudText Typo="Typo.subtitle1" Class="fw-bold">Account Completion</MudText>
+                                        <MudProgressLinear Value="@Math.Round(AccountCompletionPercentage)" Color="Color.Info" Size="Size.Large">
+                                            <MudText Typo="Typo.subtitle2" Color="Color.Inherit"><b>@Math.Round(AccountCompletionPercentage)%</b></MudText>
+                                        </MudProgressLinear>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudItem>
+                        </MudGrid>
+                    </MudPaper>
+                </MudItem>
+
+                @if (!Edit)
+                {
+                    <!-- ACCOUNT OVERVIEW -->
+                    <MudItem xs="12" Class="mt-4">
+                        <MudPaper Elevation="8" Class="dashboard-card animate-card delay-1 p-4">
+                            <MudGrid GutterSize="3">
+                                <MudItem xs="12" sm="10">
+                                    <MudText Typo="Typo.h6" Class="fw-bold text-muted">Account Overview</MudText>
+                                </MudItem>
+                                <MudItem xs="12" sm="2" Class="text-end">
+                                    <MudButton Variant="Variant.Filled"
+                                               Color="Color.Primary"
+                                               Disabled="@(loading)"
+                                               OnClick="@EditProfile"
+                                               StartIcon="@Icons.Material.Sharp.Edit"
+                                               FullWidth="true">
+                                        @if (loading)
+                                        {
+                                            <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                                            <span class="ms-2">Processing...</span>
+                                        }
+                                        else
+                                        {
+                                            <MudText>Edit</MudText>
+                                        }
+                                    </MudButton>
+                                </MudItem>
+                                <MudDivider Class="my-2" />
+
+                                <MudItem xs="12" sm="3"><MudText Typo="Typo.subtitle1" Class="fw-bold text-muted">Associated with</MudText></MudItem>
+                                <MudItem xs="12" sm="9"><MudText Typo="Typo.subtitle1" Class="fw-bold">@BusinessName</MudText></MudItem>
+
+                                <MudItem xs="12" sm="3"><MudText Typo="Typo.subtitle1" Class="fw-bold text-muted">User Name</MudText></MudItem>
+                                <MudItem xs="12" sm="9"><MudText Typo="Typo.subtitle1" Class="fw-bold">@oModel.Name</MudText></MudItem>
+
+                                <MudItem xs="12" sm="3"><MudText Typo="Typo.subtitle1" Class="fw-bold text-muted">Contact</MudText></MudItem>
+                                <MudItem xs="12" sm="9">
+                                    <div class="d-flex align-items-center">
+                                        <MudText Typo="Typo.subtitle1" Class="fw-bold me-2">@oModel.Contact</MudText>
+                                        <MudChip Size="Size.Small"
+                                                 Icon="@(oModel.IsContactVerify ? Icons.Material.Filled.Verified : Icons.Material.Filled.Error)"
+                                                 Color="@(oModel.IsContactVerify ? Color.Success : Color.Error)">
+                                            @(oModel.IsContactVerify ? "Verified" : "Not Verified")
+                                        </MudChip>
+                                    </div>
+                                </MudItem>
+
+                                <MudItem xs="12" sm="3"><MudText Typo="Typo.subtitle1" Class="fw-bold text-muted">Email</MudText></MudItem>
+                                <MudItem xs="12" sm="9">
+                                    <div class="d-flex align-items-center">
+                                        <MudText Typo="Typo.subtitle1" Class="fw-bold me-2">@oModel.Email</MudText>
+                                        <MudChip Size="Size.Small"
+                                                 Icon="@(oModel.IsEmailVerify ? Icons.Material.Filled.Verified : Icons.Material.Filled.Error)"
+                                                 Color="@(oModel.IsEmailVerify ? Color.Success : Color.Error)">
+                                            @(oModel.IsEmailVerify ? "Verified" : "Not Verified")
+                                        </MudChip>
+                                    </div>
+                                </MudItem>
+
+                                <MudItem xs="12" sm="3"><MudText Typo="Typo.subtitle1" Class="fw-bold text-muted">Two FA</MudText></MudItem>
+                                <MudItem xs="12" sm="9">
+                                    <div class="d-flex align-items-center">
+                                        <MudText Typo="Typo.subtitle1" Class="fw-bold me-2">Extra Security Layer</MudText>
+                                        <MudChip Size="Size.Small"
+                                                 Icon="@(oModel.IsOtpenable ? Icons.Material.Filled.ToggleOn : Icons.Material.Filled.ToggleOff)"
+                                                 Color="@(oModel.IsOtpenable ? Color.Success : Color.Error)">
+                                            @(oModel.IsOtpenable ? "Enabled" : "Not Enabled")
+                                        </MudChip>
+                                    </div>
+                                </MudItem>
+
+                                <MudItem xs="12" sm="3"><MudText Typo="Typo.subtitle1" Class="fw-bold text-muted">Last account update</MudText></MudItem>
+                                <MudItem xs="12" sm="9"><MudText Typo="Typo.subtitle1" Class="fw-bold">@oModel.UpdatedDt</MudText></MudItem>
+                            </MudGrid>
+                        </MudPaper>
+                    </MudItem>
+                }
+                else
+                {
+                    <!-- ACCOUNT EDIT FORM -->
+                    <MudItem xs="12" Class="mt-4">
+                        <MudForm @ref="formUser" @bind-IsValid="@successUser" @bind-Errors="@errors">
+                            <MudPaper Elevation="8" Class="dashboard-card animate-card p-4">
+                                <MudGrid GutterSize="3">
+                                    <MudItem xs="12">
+                                        <MudText Typo="Typo.h6" Class="fw-bold text-muted">Account Edit</MudText>
+                                        <MudText Typo="Typo.caption" Class="text-muted">
+                                            Changing of Email and Contact will require you to <b>Sign in again!</b>
+                                        </MudText>
+                                    </MudItem>
+                                    <MudDivider Class="my-2" />
+
+                                    <MudItem xs="12" sm="6" md="4">
+                                        <MudTextField T="string" @bind-Value="oModel.Name" AutoFocus="true"
+                                                      MaxLength="150" Immediate="true"
+                                                      Clearable="true" Label="Name" Variant="Variant.Outlined"
+                                                      InputType="InputType.Text" Required="true" RequiredError="Name required"
+                                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.TextFields"
+                                                      FullWidth="true" />
+                                    </MudItem>
+
+                                    <MudItem xs="12" sm="6" md="4">
+                                        <MudTextField T="string" @bind-Value="oModel.Email"
+                                                      MaxLength="150" Immediate="true"
+                                                      Clearable="true" Label="Email" Variant="Variant.Outlined"
+                                                      InputType="InputType.Email" Adornment="Adornment.Start"
+                                                      AdornmentIcon="@Icons.Material.Filled.Email"
+                                                      Required="true"
+                                                      Validation="@(new EmailAddressAttribute { ErrorMessage = "Invalid email" })"
+                                                      FullWidth="true" OnBlur="CheckEmail" />
+                                    </MudItem>
+
+                                    <MudItem xs="12" sm="6" md="4">
+                                        <MudTextField T="string" @bind-Value="oModel.Contact"
+                                                      MaxLength="11" Immediate="true"
+                                                      Clearable="true" Label="Contact" Variant="Variant.Outlined"
+                                                      InputType="InputType.Telephone" Validation="@cnValidator.Validation"
+                                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Phone"
+                                                      FullWidth="true" OnBlur="CheckContact" />
+                                    </MudItem>
+
+                                    <MudItem xs="12" sm="6" md="6">
+                                        <MudButton FullWidth="true" Class="login-btn mt-3" Variant="Variant.Filled"
+                                                   Color="Color.Primary" Disabled="@(loading)" OnClick="Save" StartIcon="@Icons.Material.Sharp.Save">
+                                            @if (loading)
+                                            {
+                                                <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                                                <span class="ms-2">Processing...</span>
+                                            }
+                                            else
+                                            {
+                                                <MudText>Save</MudText>
+                                            }
+                                        </MudButton>
+                                    </MudItem>
+
+                                    <MudItem xs="12" sm="6" md="6">
+                                        <MudButton FullWidth="true" Class="mt-3" Variant="Variant.Outlined"
+                                                   Color="Color.Error" Disabled="@(loading)" OnClick="@CancelEdit" StartIcon="@Icons.Material.Sharp.Cancel">
+                                            @if (loading)
+                                            {
+                                                <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                                                <span class="ms-2">Processing...</span>
+                                            }
+                                            else
+                                            {
+                                                <MudText>Cancel</MudText>
+                                            }
+                                        </MudButton>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudPaper>
+                        </MudForm>
+                    </MudItem>
+
+                    <!-- VERIFICATION SECTIONS -->
+                    <MudItem xs="12" Class="mt-4">
+                        <MudGrid GutterSize="3">
+                            <!-- EMAIL VERIFICATION -->
+                            <MudItem xs="12" md="6">
+                                <MudPaper Elevation="8" Class="dashboard-card animate-card delay-1 p-4">
+                                    <MudText Typo="Typo.h6" Class="fw-bold text-muted mb-3">Email Verification</MudText>
+                                    @if (!oModel.IsEmailVerify)
+                                    {
+                                        <MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Class="mb-3">
+                                            <MudText Class="fw-bold">We need your attention!</MudText>
+                                            <MudText Typo="Typo.caption" Class="text-muted">
+                                                Your email is not verified. To use account without any interruption, please verify email.
+                                            </MudText>
+                                        </MudAlert>
+                                        <MudButton FullWidth="true" Variant="Variant.Filled"
+                                                   Color="Color.Primary" Disabled="@(loading)"
+                                                   OnClick="() => OpenVerifyEmailDialog(maxWidth)"
+                                                   StartIcon="@Icons.Material.Sharp.DomainVerification">
+                                            Verify Email
+                                        </MudButton>
+                                    }
+                                    else
+                                    {
+                                        <MudAlert Severity="Severity.Success" Variant="Variant.Outlined" Class="mb-3">
+                                            <MudText Class="fw-bold">Verified!</MudText>
+                                            <MudText Typo="Typo.caption" Class="text-muted">
+                                                Your email is verified.
+                                            </MudText>
+                                        </MudAlert>
+                                    }
+                                </MudPaper>
+                            </MudItem>
+
+                            <!-- CONTACT VERIFICATION -->
+                            <MudItem xs="12" md="6">
+                                <MudPaper Elevation="8" Class="dashboard-card animate-card delay-1 p-4">
+                                    <MudText Typo="Typo.h6" Class="fw-bold text-muted mb-3">Contact Verification</MudText>
+                                    @if (!oModel.IsContactVerify)
+                                    {
+                                        <MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Class="mb-3">
+                                            <MudText Class="fw-bold">We need your attention!</MudText>
+                                            <MudText Typo="Typo.caption" Class="text-muted">
+                                                Your contact is not verified. To use account without any interruption, please verify contact.
+                                            </MudText>
+                                        </MudAlert>
+                                        <MudButton FullWidth="true" Variant="Variant.Filled"
+                                                   Color="Color.Primary" Disabled="@(loading)"
+                                                   OnClick="() => OpenVerifyContactDialog(maxWidth)"
+                                                   StartIcon="@Icons.Material.Sharp.DomainVerification">
+                                            Verify Contact
+                                        </MudButton>
+                                    }
+                                    else
+                                    {
+                                        <MudAlert Severity="Severity.Success" Variant="Variant.Outlined" Class="mb-3">
+                                            <MudText Class="fw-bold">Verified!</MudText>
+                                            <MudText Typo="Typo.caption" Class="text-muted">
+                                                Your contact is verified.
+                                            </MudText>
+                                        </MudAlert>
+                                    }
+                                </MudPaper>
+                            </MudItem>
+
+                            <!-- 2FA SECURITY -->
+                            <MudItem xs="12" md="6">
+                                <MudPaper Elevation="8" Class="dashboard-card animate-card delay-2 p-4">
+                                    <MudText Typo="Typo.h6" Class="fw-bold text-muted mb-3">Secure Your Account</MudText>
+                                    @if (!oModel.IsOtpenable)
+                                    {
+                                        <MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Class="mb-3">
+                                            <MudText Class="fw-bold">We need your attention!</MudText>
+                                            <MudText Typo="Typo.caption" Class="text-muted">
+                                                2FA is not activated. To avoid unintended account access, please enable 2FA.
+                                            </MudText>
+                                        </MudAlert>
+                                        <MudButton FullWidth="true" Variant="Variant.Filled"
+                                                   Color="Color.Primary" Disabled="@(loading)"
+                                                   OnClick="() => Open2FADialog(maxWidth)"
+                                                   StartIcon="@Icons.Material.Sharp.PhoneAndroid">
+                                            Enable 2FA
+                                        </MudButton>
+                                    }
+                                    else
+                                    {
+                                        <MudAlert Severity="Severity.Success" Variant="Variant.Outlined" Class="mb-3">
+                                            <MudText Class="fw-bold">2FA Enabled</MudText>
+                                            <MudText Typo="Typo.caption" Class="text-muted">
+                                                Your account is protected with extra security layer.
+                                            </MudText>
+                                        </MudAlert>
+                                        <MudButton FullWidth="true" Variant="Variant.Filled"
+                                                   Color="Color.Error" Disabled="@(loading)"
+                                                   OnClick="() => Open2FADialogDisable(maxWidth)"
+                                                   StartIcon="@Icons.Material.Sharp.ToggleOff">
+                                            Disable 2FA
+                                        </MudButton>
+                                    }
+                                </MudPaper>
+                            </MudItem>
+
+                            <!-- DEACTIVATE ACCOUNT -->
+                            <MudItem xs="12" md="6">
+                                <MudPaper Elevation="8" Class="dashboard-card animate-card delay-2 p-4">
+                                    <MudText Typo="Typo.h6" Class="fw-bold text-muted mb-3">Deactivate Account</MudText>
+                                    <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined" Class="mb-3">
+                                        <MudText Class="fw-bold">You Are Deactivating Your Account</MudText>
+                                        <MudText Typo="Typo.caption" Class="text-muted">
+                                            For extra security, this requires you to retype account password.
+                                        </MudText>
+                                    </MudAlert>
+                                    <MudButton FullWidth="true" Variant="Variant.Filled"
+                                               Color="Color.Error" Disabled="@(loading)"
+                                               OnClick="() => OpenDeactivateDialog(maxWidth)"
+                                               StartIcon="@Icons.Material.Sharp.DisabledVisible">
+                                        Deactivate Account
+                                    </MudButton>
+                                </MudPaper>
+                            </MudItem>
+                        </MudGrid>
+                    </MudItem>
+
+                    <!-- NOTIFICATION PREFERENCES -->
+                    <MudItem xs="12" Class="mt-4">
+                        <MudPaper Elevation="8" Class="dashboard-card animate-card delay-3 p-4">
+                            <MudGrid GutterSize="3">
+                                <MudItem xs="12">
+                                    <MudText Typo="Typo.h6" Class="fw-bold text-muted">Email and Notifications Preferences</MudText>
+                                    <MudText Typo="Typo.caption" Class="text-muted">
+                                        Toggle switch as per your desire to get notifications and alerts. <b>Keep an Eye on What's going on...</b>
+                                    </MudText>
+                                </MudItem>
+                                <MudDivider Class="my-2" />
+
+                                <MudItem xs="12">
+                                    <MudTable Items="@oVMUserEmailNotificationPreferencesList" Dense="true" Hover="true" Bordered="true" Striped="true"
+                                              RowsPerPage="20" Elevation="0" Loading="@loading" LoadingProgressColor="Color.Primary" @ref="TableRef">
+                                        <ToolBarContent>
+                                            <MudText Typo="Typo.h6">Notification Settings</MudText>
+                                            <MudSpacer />
+                                        </ToolBarContent>
+                                        <NoRecordsContent>
+                                            <MudText>No record found...</MudText>
+                                        </NoRecordsContent>
+                                        <HeaderContent>
+                                            <MudTh Class="fw-bold">Notification Type</MudTh>
+                                            <MudTh Class="fw-bold">Email</MudTh>
+                                            <MudTh Class="fw-bold">SMS</MudTh>
+                                            <MudTh Class="fw-bold">Alert</MudTh>
+                                        </HeaderContent>
+                                        <RowTemplate Context="d1">
+                                            @if (d1.Name == "Booking Request" || d1.Name == "Booking Decision")
+                                            {
+                                                <AuthorizeView Roles="Request" Context="AV1">
+                                                    <MudTd>
+                                                        <MudText Class="fw-bold text-primary">@d1.Name</MudText>
+                                                        <MudText Typo="Typo.caption" Class="text-muted">@d1.Description</MudText>
+                                                    </MudTd>
+                                                    <MudTd>
+                                                        <MudSwitch @bind-Value="@d1.IsEmail" Color="Color.Primary"
+                                                                   ThumbIcon="@(d1.IsEmail? Icons.Material.Filled.Check : Icons.Material.Filled.Clear)" />
+                                                    </MudTd>
+                                                    <MudTd>
+                                                        <MudSwitch @bind-Value="@d1.IsSms" Color="Color.Primary"
+                                                                   ThumbIcon="@(d1.IsSms? Icons.Material.Filled.Check : Icons.Material.Filled.Clear)" />
+                                                    </MudTd>
+                                                    <MudTd>
+                                                        <MudSwitch @bind-Value="@d1.IsAlert" Color="Color.Primary"
+                                                                   ThumbIcon="@(d1.IsAlert? Icons.Material.Filled.Check : Icons.Material.Filled.Clear)" />
+                                                    </MudTd>
+                                                </AuthorizeView>
+                                            }
+                                            else if (d1.Name == "Booking Invoice")
+                                            {
+                                                <AuthorizeView Roles="Booking" Context="AV2">
+                                                    <MudTd>
+                                                        <MudText Class="fw-bold text-primary">@d1.Name</MudText>
+                                                        <MudText Typo="Typo.caption" Class="text-muted">@d1.Description</MudText>
+                                                    </MudTd>
+                                                    <MudTd>
+                                                        <MudSwitch @bind-Value="@d1.IsEmail" Color="Color.Primary"
+                                                                   ThumbIcon="@(d1.IsEmail? Icons.Material.Filled.Check : Icons.Material.Filled.Clear)" />
+                                                    </MudTd>
+                                                    <MudTd>
+                                                        <MudSwitch @bind-Value="@d1.IsSms" Color="Color.Primary"
+                                                                   ThumbIcon="@(d1.IsSms? Icons.Material.Filled.Check : Icons.Material.Filled.Clear)" />
+                                                    </MudTd>
+                                                    <MudTd>
+                                                        <MudSwitch @bind-Value="@d1.IsAlert" Color="Color.Primary"
+                                                                   ThumbIcon="@(d1.IsAlert? Icons.Material.Filled.Check : Icons.Material.Filled.Clear)" />
+                                                    </MudTd>
+                                                </AuthorizeView>
+                                            }
+                                            else
+                                            {
+                                                <MudTd>
+                                                    <MudText Class="fw-bold text-primary">@d1.Name</MudText>
+                                                    <MudText Typo="Typo.caption" Class="text-muted">@d1.Description</MudText>
+                                                </MudTd>
+                                                <MudTd>
+                                                    <MudSwitch @bind-Value="@d1.IsEmail" Color="Color.Primary"
+                                                               ThumbIcon="@(d1.IsEmail? Icons.Material.Filled.Check : Icons.Material.Filled.Clear)" />
+                                                </MudTd>
+                                                <MudTd>
+                                                    <MudSwitch @bind-Value="@d1.IsSms" Color="Color.Primary"
+                                                               ThumbIcon="@(d1.IsSms? Icons.Material.Filled.Check : Icons.Material.Filled.Clear)" />
+                                                </MudTd>
+                                                <MudTd>
+                                                    <MudSwitch @bind-Value="@d1.IsAlert" Color="Color.Primary"
+                                                               ThumbIcon="@(d1.IsAlert? Icons.Material.Filled.Check : Icons.Material.Filled.Clear)" />
+                                                </MudTd>
+                                            }
+                                        </RowTemplate>
+                                    </MudTable>
+                                </MudItem>
+
+                                <MudItem xs="12" Class="mt-3">
+                                    <MudButton FullWidth="true" Class="login-btn" Variant="Variant.Filled"
+                                               Color="Color.Primary" Disabled="@(loading)" OnClick="SaveEmailNotificationPreferences"
+                                               StartIcon="@Icons.Material.Sharp.Save">
+                                        @if (loading)
+                                        {
+                                            <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                                            <span class="ms-2">Processing...</span>
+                                        }
+                                        else
+                                        {
+                                            <MudText>Save Preferences</MudText>
+                                        }
+                                    </MudButton>
+                                </MudItem>
+                            </MudGrid>
+                        </MudPaper>
+                    </MudItem>
+                }
+            </MudContainer>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedPage />
+    </NotAuthorized>
+</AuthorizeView>

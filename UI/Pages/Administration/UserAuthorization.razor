@@ -1,0 +1,132 @@
+﻿@page "/UserAuthorization"
+@using MudBlazor
+
+<PageTitle>User Authorization</PageTitle>
+<AuthorizeView Roles="User Authorization">
+    <Authorized>
+
+        <div class="dashboard-wrapper">
+
+            <MudContainer MaxWidth="MaxWidth.False" Class="p-2">
+
+                <!-- HEADER -->
+                <MudItem xs="12" Class="mb-3">
+                    <div class="dashboard-header fade-in">
+                        <MudText Typo="Typo.h5" Class="fw-bold">
+                            <span class="text-primary">User Authorization</span>
+                        </MudText>
+                        <MudIconButton Icon="@Icons.Material.Filled.Refresh"
+                                       Title="Refresh"
+                                       Size="Size.Medium"
+                                       Color="Color.Primary"
+                                       @onclick="Refresh" />
+                    </div>
+                    @* <MudText Typo="Typo.caption" Class="text-muted mt-1">
+                        You can authorize each user to access <b>Form.</b>
+                    </MudText> *@
+                    <MudDivider Class="my-2" />
+                    <MudLink Class="text-muted me-1" Underline="Underline.None">Administration / </MudLink>
+                    <MudLink Href="/UserAuthorization" Class="text-muted fw-bold" Underline="Underline.None">User Authorization</MudLink>
+                    <MudDivider Class="my-2" />
+                </MudItem>
+
+                <!-- USER SELECTION & SAVE -->
+                <MudItem xs="12" Class="mb-3">
+                    <MudPaper Elevation="8" Class="dashboard-card animate-card p-4">
+                        <MudGrid GutterSize="3">
+
+                            <MudItem xs="12" sm="6" md="4">
+                                <MudAutocomplete T="MstUser"
+                                                 Label="Select User"
+                                                 Required="true"
+                                                 RequiredError="User required"
+                                                 Clearable="true"
+                                                 FullWidth="true"
+                                                 Variant="Variant.Outlined"
+                                                 TextChanged="GetAllUserAuthorizeMenu"
+                                                 ToStringFunc="@(e => e == null ? null : $"{e.Name}")"
+                                                 @bind-Value="oMstUser"
+                                                 ShowProgressIndicator="true"
+                                                 ProgressIndicatorColor="Color.Primary"
+                                                 SearchFunc="@SearchUser"
+                                                 Adornment="Adornment.Start"
+                                                 AdornmentIcon="@Icons.Material.Filled.Person"
+                                                 AdornmentColor="Color.Primary" />
+                            </MudItem>
+
+                            <MudItem xs="12" sm="6" md="2">
+                                <MudButton FullWidth="true"
+                                           Class="login-btn mt-3"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Primary"
+                                           Disabled="@(loading)"
+                                           StartIcon="@Icons.Material.Sharp.Save"
+                                           OnClick="Save">
+                                    @if (loading)
+                                    {
+                                        <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                                        <span class="ms-2">Processing...</span>
+                                    }
+                                    else
+                                    {
+                                        <MudText>Save</MudText>
+                                    }
+                                </MudButton>
+                            </MudItem>
+
+                        </MudGrid>
+                    </MudPaper>
+                </MudItem>
+
+                <!-- USER RIGHTS TABLE -->
+                <MudItem xs="12">
+                    <MudPaper Elevation="8" Class="dashboard-card animate-card p-4">
+                        <MudTable Items="@oVMUserAuthorizationList"
+                                  Dense="true"
+                                  Hover="true"
+                                  Bordered="true"
+                                  Striped="true"
+                                  RowsPerPage="100"
+                                  Elevation="0"
+                                  Loading="@loading"
+                                  LoadingProgressColor="Color.Primary"
+                                  GroupBy="@_groupDefinition"
+                                  @ref="TableRef">
+                            <ColGroup>
+                                <col style="width: 60px;" />
+                                <col />
+                            </ColGroup>
+                            <HeaderContent>
+                                <MudTh>Select</MudTh>
+                                <MudTh>Form Name</MudTh>
+                            </HeaderContent>
+                            <GroupHeaderTemplate Context="d1">
+                                <MudTh Class="fw-bold" colspan="2">@($"{d1.GroupName}: {d1.Key}")</MudTh>
+                            </GroupHeaderTemplate>
+                            <RowTemplate Context="d1">
+                                <MudTd>
+                                    <MudCheckBox @bind-Value="@d1.UserRights"
+                                                 Label="@(d1.UserRights ? "Rights" : "No Rights")"
+                                                 CheckedIcon="@Icons.Material.Filled.CheckCircle"
+                                                 UncheckedIcon="@Icons.Material.Filled.Cancel"
+                                                 Color="Color.Primary"
+                                                 FullWidth="true" />
+                                </MudTd>
+                                <MudTd DataLabel="Form Name">@d1.CMenuName</MudTd>
+                            </RowTemplate>
+                            <PagerContent>
+                                <MudTablePager />
+                            </PagerContent>
+                        </MudTable>
+                    </MudPaper>
+                </MudItem>
+
+            </MudContainer>
+
+        </div>
+
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedPage />
+    </NotAuthorized>
+</AuthorizeView>

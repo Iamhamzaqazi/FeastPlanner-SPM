@@ -1,0 +1,295 @@
+﻿@using MudBlazor
+@inherits LayoutComponentBase
+@implements IDisposable
+
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>Feast Planner</PageTitle>
+
+<MudThemeProvider @bind-IsDarkMode="@ThemeMode" @ref="@_mudThemeProvider" Theme="_theme" />
+
+<MudLayout class="main-layout">
+    <!-- Enhanced AppBar -->
+    <MudAppBar Elevation="4" Class="professional-appbar">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu"
+                       Color="Color.Inherit"
+                       Edge="Edge.Start"
+                       OnClick="@ToggleDrawer"
+                       Class="nav-toggle-btn" />
+
+        <!-- Enhanced Brand Section -->
+        <div class="brand-section">
+            <a class="navbar-brand" href="../Index" target="_blank">
+                <img src="../images/logo.png" class="brand-logo" />
+                <div class="brand-text">
+                    <MudText Typo="Typo.h6" Class="fw-bold brand-title">Feast Planner</MudText>
+                    <MudText Typo="Typo.caption" Class="brand-subtitle">Professional Event Management</MudText>
+                </div>
+            </a>
+        </div>
+
+        <MudSpacer />
+
+        <!-- Notifications with Enhanced Badge -->
+        <MudBadge Content="@NotificationCount" Color="Color.Error" Overlap="true" Class="mx-2">
+            <MudIconButton Icon="@Icons.Material.Filled.Notifications"
+                           Color="Color.Inherit"
+                           Size="Size.Medium"
+                           OnClick="() => OpenNotificationsDialog(NotificationBoxSetting)"
+                           Class="header-action-btn" />
+        </MudBadge>
+
+        <!-- Messages with Enhanced Badge -->
+        <MudBadge Content="@MessageCount" Color="Color.Warning" Overlap="true" Class="mx-2">
+            <MudIconButton Icon="@Icons.Material.Filled.Message"
+                           Color="Color.Inherit"
+                           Size="Size.Medium"
+                           OnClick="() => OpenMessageDialog(NotificationBoxSetting)"
+                           Class="header-action-btn" />
+        </MudBadge>
+
+        <!-- User Profile Section -->
+        <div class="user-profile-section">
+            <MudAvatar Image="@BusinessLogo" Size="Size.Small" Class="business-avatar me-2" Variant="Variant.Outlined" />
+            <div class="user-info">
+                <MudText Typo="Typo.body2" Class="fw-bold business-name">@BusinessName</MudText>
+                <MudText Typo="Typo.caption" Class="text-muted user-role">Administrator</MudText>
+            </div>
+        </div>
+
+        <!-- Premium User Profile Menu -->
+        <MudMenu Icon="@Icons.Material.Filled.AccountCircle"
+                 Color="Color.Inherit"
+                 Size="Size.Medium"
+                 TransformOrigin="Origin.TopRight"
+                 AnchorOrigin="Origin.BottomRight"
+                 Class="premium-user-menu">
+            <MudMenuItem Class="premium-profile-header">
+                <div class="profile-header-content">
+                    <div class="avatar-section">
+                        <div class="avatar-container">
+                            <MudBadge Dot="true" Color="Color.Success" Class="online-status-badge">
+                                <MudAvatar Size="Size.Large"
+                                           Color="Color.Primary"
+                                           Variant="Variant.Outlined"
+                                           Class="premium-user-avatar">
+                                    @(UserName?.Length > 0 ? UserName[0] : 'U')
+                                </MudAvatar>
+                            </MudBadge>
+                        </div>
+                        <div class="user-info">
+                            <MudText Typo="Typo.h6" Class="user-name">@UserName</MudText>
+                            <MudText Typo="Typo.caption" Class="user-email">@UserEmail</MudText>
+                            <MudChip Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled" Class="role-chip">
+                                <MudIcon Icon="@Icons.Material.Filled.Verified" Size="Size.Small" Class="me-1" />
+                                Administrator
+                            </MudChip>
+                        </div>
+                    </div>
+                    <div class="profile-stats-section">
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <MudIcon Icon="@Icons.Material.Filled.Notifications" Size="Size.Small" />
+                            </div>
+                            <div class="stat-content">
+                                <MudText Typo="Typo.h6" Class="stat-value">@NotificationCount</MudText>
+                                <MudText Typo="Typo.caption" Class="stat-label">Alerts</MudText>
+                            </div>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <div class="stat-icon">
+                                <MudIcon Icon="@Icons.Material.Filled.Message" Size="Size.Small" />
+                            </div>
+                            <div class="stat-content">
+                                <MudText Typo="Typo.h6" Class="stat-value">@MessageCount</MudText>
+                                <MudText Typo="Typo.caption" Class="stat-label">Messages</MudText>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </MudMenuItem>
+
+            <MudDivider Class="premium-divider" />
+
+            <MudMenuItem Class="premium-menu-item">
+                <MudButton FullWidth="true"
+                           Variant="Variant.Text"
+                           Color="Color.Primary"
+                           OnClick="@AccountSetting"
+                           Justify="Justify.Start"
+                           Class="premium-menu-button">
+                    <div class="menu-item-content">
+                        <div class="menu-icon">
+                            <MudIcon Icon="@Icons.Material.Filled.Person" Color="Color.Primary" />
+                        </div>
+                        <div class="menu-text">
+                            <MudText Typo="Typo.body1" Class="menu-title">Account Settings</MudText>
+                            <MudText Typo="Typo.caption" Class="menu-description">Manage your profile and preferences</MudText>
+                        </div>
+                    </div>
+                    <MudIcon Icon="@Icons.Material.Filled.ChevronRight" Class="menu-arrow" />
+                </MudButton>
+            </MudMenuItem>
+
+            <MudMenuItem Class="premium-menu-item">
+                <MudButton FullWidth="true"
+                           Variant="Variant.Text"
+                           Color="Color.Primary"
+                           OnClick="@PasswordSetting"
+                           Justify="Justify.Start"
+                           Class="premium-menu-button">
+                    <div class="menu-item-content">
+                        <div class="menu-icon">
+                            <MudIcon Icon="@Icons.Material.Filled.Lock" Color="Color.Primary" />
+                        </div>
+                        <div class="menu-text">
+                            <MudText Typo="Typo.body1" Class="menu-title">Security</MudText>
+                            <MudText Typo="Typo.caption" Class="menu-description">Change password and 2FA settings</MudText>
+                        </div>
+                    </div>
+                    <MudIcon Icon="@Icons.Material.Filled.ChevronRight" Class="menu-arrow" />
+                </MudButton>
+            </MudMenuItem>
+
+            <MudDivider Class="premium-divider" />
+
+            <MudMenuItem Class="premium-menu-item logout-item">
+                <MudButton FullWidth="true"
+                           Variant="Variant.Text"
+                           Color="Color.Error"
+                           OnClick="() => OpenLogoutDialog(maxWidth)"
+                           Justify="Justify.Start"
+                           Class="premium-menu-button logout-button">
+                    <div class="menu-item-content">
+                        <div class="menu-icon">
+                            <MudIcon Icon="@Icons.Material.Filled.Logout" Color="Color.Error" />
+                        </div>
+                        <div class="menu-text">
+                            <MudText Typo="Typo.body1" Class="menu-title">Sign Out</MudText>
+                            <MudText Typo="Typo.caption" Class="menu-description">Secure session logout</MudText>
+                        </div>
+                    </div>
+                    <MudIcon Icon="@Icons.Material.Filled.ExitToApp" Color="Color.Error" Class="menu-arrow" />
+                </MudButton>
+            </MudMenuItem>
+        </MudMenu>
+        <!-- Premium Theme Selector -->
+        <MudMenu Icon="@Icons.Material.Filled.Palette"
+                 Color="Color.Inherit"
+                 Size="Size.Medium"
+                 TransformOrigin="Origin.TopRight"
+                 AnchorOrigin="Origin.BottomRight"
+                 Class="premium-theme-menu">
+            <MudMenuItem Class="theme-header p-4">
+                <div class="text-center w-100">
+                    <MudIcon Icon="@Icons.Material.Filled.ColorLens" Size="Size.Large" Color="Color.Primary" Class="mb-2" />
+                    <MudText Typo="Typo.h6" Class="fw-bold mb-1">Theme Preferences</MudText>
+                    <MudText Typo="Typo.caption" Class="text-muted">Choose your visual style</MudText>
+                </div>
+            </MudMenuItem>
+
+            <MudDivider Class="menu-divider" />
+
+            <MudMenuItem Class="px-4 py-3 theme-item">
+                <MudButton FullWidth="true"
+                           StartIcon="@Icons.Material.Filled.WbSunny"
+                           Variant="@(ThemeMode == false ? Variant.Filled : Variant.Outlined)"
+                           Color="Color.Warning"
+                           OnClick="@LightTheme"
+                           Justify="Justify.Start"
+                           Class="theme-button">
+                    <div class="text-start flex-grow-1">
+                        <MudText Typo="Typo.body1" Class="fw-semibold">Light Theme</MudText>
+                        <MudText Typo="Typo.caption" Class="text-muted">Clean and bright interface</MudText>
+                    </div>
+                    @if (ThemeMode == false)
+                    {
+                        <MudBadge Color="Color.Success" Size="Size.Small" Class="active-badge">
+                            <MudIcon Icon="@Icons.Material.Filled.Check" Size="Size.Small" />
+                        </MudBadge>
+                    }
+                </MudButton>
+            </MudMenuItem>
+
+            <MudMenuItem Class="px-4 py-3 theme-item">
+                <MudButton FullWidth="true"
+                           StartIcon="@Icons.Material.Filled.NightsStay"
+                           Variant="@(ThemeMode == true ? Variant.Filled : Variant.Outlined)"
+                           Color="Color.Primary"
+                           OnClick="@DarkTheme"
+                           Justify="Justify.Start"
+                           Class="theme-button">
+                    <div class="text-start flex-grow-1">
+                        <MudText Typo="Typo.body1" Class="fw-semibold">Dark Theme</MudText>
+                        <MudText Typo="Typo.caption" Class="text-muted">Easy on the eyes</MudText>
+                    </div>
+                    @if (ThemeMode == true)
+                    {
+                        <MudBadge Color="Color.Success" Size="Size.Small" Class="active-badge">
+                            <MudIcon Icon="@Icons.Material.Filled.Check" Size="Size.Small" />
+                        </MudBadge>
+                    }
+                </MudButton>
+            </MudMenuItem>
+
+            <MudMenuItem Class="px-4 py-3 theme-item">
+                <MudButton FullWidth="true"
+                           StartIcon="@Icons.Material.Filled.Devices"
+                           Variant="@(ThemeMode == null ? Variant.Filled : Variant.Outlined)"
+                           Color="Color.Secondary"
+                           OnClick="@SystemTheme"
+                           Justify="Justify.Start"
+                           Class="theme-button">
+                    <div class="text-start flex-grow-1">
+                        <MudText Typo="Typo.body1" Class="fw-semibold">System Default</MudText>
+                        <MudText Typo="Typo.caption" Class="text-muted">Follow device settings</MudText>
+                    </div>
+                    @if (ThemeMode == null)
+                    {
+                        <MudBadge Color="Color.Success" Size="Size.Small" Class="active-badge">
+                            <MudIcon Icon="@Icons.Material.Filled.Check" Size="Size.Small" />
+                        </MudBadge>
+                    }
+                </MudButton>
+            </MudMenuItem>
+
+            <MudDivider Class="menu-divider" />
+
+            <MudMenuItem Class="px-4 py-3">
+                <MudText Typo="Typo.caption" Class="text-muted text-center">
+                    <MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Small" Class="me-1" />
+                    Changes apply immediately
+                </MudText>
+            </MudMenuItem>
+        </MudMenu>
+    </MudAppBar>
+
+    <!-- Drawer -->
+    <MudDrawer @bind-Open="@open" Breakpoint="Breakpoint.Xl" Width="350px" Variant="DrawerVariant.Responsive" Class="professional-drawer">
+        <NavMenu />
+    </MudDrawer>
+
+    <!-- Main Content -->
+    <MudMainContent Class="professional-main-content">
+        <MudContainer MaxWidth="MaxWidth.False" Class="p-0">
+            <AuthorizeView>
+                <Authorized>
+                    @Body
+                </Authorized>
+                <NotAuthorized>
+                    <NotAuthorizedPage />
+                </NotAuthorized>
+            </AuthorizeView>
+        </MudContainer>
+
+        <!-- Enhanced Scroll to Top -->
+        <MudScrollToTop Position="Position.BottomRight" Class="scroll-to-top">
+            <MudFab Color="Color.Primary"
+                    Size="Size.Medium"
+                    StartIcon="@Icons.Material.Filled.KeyboardArrowUp"
+                    Class="elevation-6" />
+        </MudScrollToTop>
+    </MudMainContent>
+</MudLayout>

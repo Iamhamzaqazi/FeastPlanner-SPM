@@ -1,0 +1,147 @@
+﻿@using MudBlazor
+@inject NavigationManager Navigation
+
+@if (FilteredMenus != null)
+{
+    <div class="nav-wrapper animate-fade">
+        <MudNavMenu Dense="true" Rounded="true" Class="dashboard-navmenu elevation-4">
+
+            <!-- Enhanced Header Section -->
+            <div class="nav-header p-4">
+                <div class="d-flex align-items-center mb-2">
+                    <MudAvatar Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled" Class="me-2">
+                        <MudIcon Icon="@Icons.Material.Filled.Apps" Size="Size.Small" />
+                    </MudAvatar>
+                    <MudText Typo="Typo.h6" Class="fw-bold text-primary mb-0">Navigation Menu</MudText>
+                </div>
+                <MudText Typo="Typo.caption" Class="text-muted">
+                    <MudIcon Icon="@Icons.Material.Filled.Bolt" Size="Size.Small" Class="me-1" />
+                    Quick access to all features
+                </MudText>
+                <MudDivider Class="my-3" />
+            </div>
+
+            <!-- Enhanced Search with Stats -->
+            <div class="px-3 pb-3">
+                <MudTextField T="string"
+                          @bind-Value="@SearchString"
+                          AutoFocus="false"
+                          Placeholder="Search menu items..."
+                          Immediate="true"
+                          Clearable="true"
+                          Variant="Variant.Outlined"
+                          InputType="InputType.Text"
+                          Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search"
+                          AdornmentColor="Color.Primary"
+                          TextChanged="@SearchMenu"
+                          Size="Size.Small"
+                          Class="nav-search" />
+                <MudText Typo="Typo.caption" Class="text-muted mt-1">
+                    @FilteredMenus.Count() menu items available
+                </MudText>
+            </div>
+
+            <!-- Quick Actions Section -->
+            <div class="px-3 pb-2">
+                <MudText Typo="Typo.caption" Class="fw-bold text-primary text-uppercase mb-2">
+                    <MudIcon Icon="@Icons.Material.Filled.FlashOn" Size="Size.Small" Class="me-1" />
+                    Quick Actions
+                </MudText>
+            </div>
+
+            <!-- Enhanced Dashboard with Status -->
+            <MudNavLink Href="Dashboard"
+                    Icon="@Icons.Material.Filled.Dashboard"
+                    IconColor="Color.Primary"
+                    Class="dashboard-navlink animate-card">
+                <div class="d-flex justify-content-between align-items-center w-100">
+                    <MudText Typo="Typo.body2" Class="fw-bold">Dashboard</MudText>
+                    <MudChip Size="Size.Small" Color="Color.Success" Variant="Variant.Filled">
+                        <MudIcon Icon="@Icons.Material.Filled.TrendingUp" Size="Size.Small" Class="me-1" />
+                        Live
+                    </MudChip>
+                </div>
+            </MudNavLink>
+
+            <!-- Dynamic Groups with Enhanced Icons -->
+            @foreach (var parent in FilteredMenus.Select(p => p.PMenuID).Distinct())
+            {
+                var group = FilteredMenus.Where(x => x.PMenuID == parent).ToList();
+                if (group.Any())
+                {
+                    var groupItem = group.FirstOrDefault();
+                    <MudNavGroup Title="@groupItem.PMenuName"
+                             Expanded="false"
+                             Icon="@GetMenuIcon(parent)"
+                             IconColor="Color.Primary"
+                             HideExpandIcon="false"
+                             ExpandIconColor="Color.Primary"
+                             Class="dashboard-navgroup">
+
+                        <!-- Group Header with Count -->
+                            <div class="d-flex justify-content-between align-items-center w-100 pe-2">
+                                @* <MudText Typo="Typo.body2" Class="fw-bold">@groupItem.PMenuName</MudText> *@
+                                <MudText Typo="Typo.body2" Class="fw-bold"></MudText>
+                                <MudBadge Color="Color.Primary">
+                                <MudText>@group.Count</MudText>
+                                </MudBadge>
+                            </div>
+
+                        @foreach (var item in group.OrderBy(x => x.CMenuName))
+                        {
+                            var isActive = Navigation.Uri.EndsWith(item.MenuLink) || Navigation.Uri.Contains(item.MenuLink);
+                            <MudNavLink Href="@item.MenuLink"
+                                    IconColor="Color.Primary"
+                                    Class="dashboard-navlink-child">
+                                <div class="d-flex align-items-center">
+                                    <MudIcon Icon="@GetChildMenuIcon(item.CMenuName)" Size="Size.Small" Class="me-2" />
+                                    <MudText Typo="Typo.body2" Class="@(isActive ? "fw-bold text-primary" : "")">
+                                        @item.CMenuName
+                                    </MudText>
+                                    @if (IsNewFeature(item.CMenuName))
+                                    {
+                                        <MudBadge Color="Color.Warning" Size="Size.Small" Class="ms-2" Variant="Variant.Filled">
+                                            New
+                                        </MudBadge>
+                                    }
+                                </div>
+                            </MudNavLink>
+                        }
+                    </MudNavGroup>
+                }
+            }
+
+            <!-- System Status Section -->
+            <div class="px-3 pt-3">
+                <MudText Typo="Typo.caption" Class="fw-bold text-primary text-uppercase mb-2">
+                    <MudIcon Icon="@Icons.Material.Filled.MonitorHeart" Size="Size.Small" Class="me-1" />
+                    System Status
+                </MudText>
+                <MudPaper Class="pa-2 mb-3" Elevation="1">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <MudText Typo="Typo.caption">All Systems</MudText>
+                        <MudChip Size="Size.Small" Color="Color.Success" Variant="Variant.Outlined">
+                            Operational
+                        </MudChip>
+                    </div>
+                </MudPaper>
+            </div>
+
+            <!-- Enhanced Footer Section -->
+            <div class="nav-footer p-3 mt-auto">
+                <MudDivider Class="my-2" />
+                <div class="text-center">
+                    <MudText Typo="Typo.caption" Class="text-muted d-block">
+                        <MudIcon Icon="@Icons.Material.Filled.Security" Size="Size.Small" Class="me-1" />
+                        Secure Connection
+                    </MudText>
+                    <MudText Typo="Typo.caption" Class="text-muted">
+                        © @DateTime.Now.Year Feast Planner v(@UIConfig.AppVersion)
+                    </MudText>
+                </div>
+            </div>
+
+        </MudNavMenu>
+    </div>
+}

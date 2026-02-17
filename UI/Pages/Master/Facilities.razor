@@ -1,0 +1,177 @@
+﻿@page "/Facilities"
+@using System.ComponentModel.DataAnnotations
+@using System.Globalization;
+@using MudBlazor
+
+<PageTitle>Facilities</PageTitle>
+<AuthorizeView Roles="Facilities">
+    <Authorized>
+
+        <div class="dashboard-wrapper">
+
+            <MudContainer MaxWidth="MaxWidth.False" Class="p-2">
+
+                <!-- HEADER -->
+                <MudItem xs="12" Class="mb-3">
+                    <div class="dashboard-header fade-in">
+                        <MudText Typo="Typo.h5" Class="fw-bold">
+                            <span class="text-primary">Facilities</span>
+                        </MudText>
+                        <MudIconButton Icon="@Icons.Material.Filled.Refresh"
+                                       Title="Refresh"
+                                       Size="Size.Medium"
+                                       Color="Color.Primary"
+                                       @onclick="Refresh" />
+                    </div>
+                    @* <MudText Typo="Typo.caption" Class="text-muted mt-1">
+                        You can add Facilities details as per your <b>Desired</b>
+                    </MudText> *@
+                    <MudDivider Class="my-2" />
+                    <MudLink Class="text-muted me-1" Underline="Underline.None">Master Data / </MudLink>
+                    <MudLink Href="/Facilities" Class="text-muted fw-bold" Underline="Underline.None">Facilities</MudLink>
+                    <MudDivider Class="my-2" />
+                </MudItem>
+
+                <!-- Facilities FORM -->
+                <MudItem xs="12" Class="mb-3">
+                    <MudForm @ref="formUser" @bind-IsValid="@successUser" @bind-Errors="@errors">
+                        <MudPaper Elevation="8" Class="dashboard-card animate-card p-4">
+                            <MudGrid GutterSize="3">
+
+                                <MudItem xs="12" sm="6" md="4">
+                                    <MudTextField T="string" @bind-Value="oModel.Name"
+                                                  AutoFocus="true"
+                                                  MaxLength="150"
+                                                  Immediate="true" Clearable="true"
+                                                  Label="Description" Variant="Variant.Outlined"
+                                                  InputType="InputType.Text"
+                                                  Required="true" RequiredError="Description required"
+                                                  Adornment="Adornment.Start"
+                                                  AdornmentIcon="@Icons.Material.Filled.TextFields"
+                                                  FullWidth="true" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="6" md="4">
+                                    <MudNumericField Min="1" @bind-Value="oModel.Price"
+                                                     Format="N0"
+                                                     Immediate="true" Clearable="true"
+                                                     Label="Price" Variant="Variant.Outlined"
+                                                     Required="oModel.IsComplimentary" RequiredError="Price required"
+                                                     Adornment="Adornment.Start"
+                                                     AdornmentText="Rs"
+                                                     FullWidth="true" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="2" md="2" Class="d-flex align-items-center">
+                                    <MudCheckBox @bind-Value="@oModel.IsComplimentary"
+                                                 Label="Complimentary"
+                                                 CheckedIcon="@Icons.Material.Filled.CheckCircle"
+                                                 UncheckedIcon="@Icons.Material.Filled.Cancel"
+                                                 Color="Color.Primary" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="2" md="2" Class="d-flex align-items-center">
+                                    <MudCheckBox @bind-Value="@oModel.IsActive"
+                                                 Label="Active"
+                                                 CheckedIcon="@Icons.Material.Filled.CheckCircle"
+                                                 UncheckedIcon="@Icons.Material.Filled.Cancel"
+                                                 Color="Color.Primary" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="3" md="3">
+                                    <MudButton FullWidth="true"
+                                               Class="login-btn mt-3"
+                                               Variant="Variant.Filled"
+                                               Color="Color.Primary"
+                                               Disabled="@(loading)"
+                                               StartIcon="@Icons.Material.Sharp.Save"
+                                               OnClick="Save">
+                                        @if (loading)
+                                        {
+                                            <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                                            <span class="ms-2">Processing...</span>
+                                        }
+                                        else
+                                        {
+                                            <MudText>Save</MudText>
+                                        }
+                                    </MudButton>
+                                </MudItem>
+
+                            </MudGrid>
+                        </MudPaper>
+                    </MudForm>
+                </MudItem>
+
+                <!-- Facilities TABLE -->
+                <MudItem xs="12" Class="mt-3">
+                    <MudPaper Elevation="8" Class="dashboard-card animate-card p-4">
+                        <MudTable Items="@oList"
+                                  Dense="true"
+                                  Hover="true"
+                                  Bordered="true"
+                                  Striped="true"
+                                  RowsPerPage="5"
+                                  Elevation="0"
+                                  Loading="@loading"
+                                  LoadingProgressColor="Color.Primary"
+                                  Filter="new Func<MstFacility, bool>(FilterFunc)">
+                            <ToolBarContent>
+                                <MudText Typo="Typo.h6">Facilities</MudText>
+                                <MudSpacer />
+                                <MudTextField T="string" @bind-Value="searchString1"
+                                              Placeholder="Search"
+                                              Variant="Variant.Outlined"
+                                              Clearable="true"
+                                              Immediate="true"
+                                              Adornment="Adornment.Start"
+                                              AdornmentIcon="@Icons.Material.Filled.Search"
+                                              FullWidth="false" />
+                            </ToolBarContent>
+                            <HeaderContent>
+                                <MudTh Class="fw-bold">Description</MudTh>
+                                <MudTh Class="fw-bold">Price</MudTh>
+                                <MudTh Class="fw-bold">Complimentary</MudTh>
+                                <MudTh Class="fw-bold">Active</MudTh>
+                                <MudTh Class="fw-bold">Action</MudTh>
+                            </HeaderContent>
+                            <NoRecordsContent>
+                                <MudText>No record found...</MudText>
+                            </NoRecordsContent>
+                            <RowTemplate Context="d1">
+                                <MudTd>
+                                    <MudHighlighter Text="@d1.Name" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudHighlighter Text="@d1.Price.ToString("C2", CultureInfo.CreateSpecificCulture("ur-PK"))" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudHighlighter Text="@d1.IsComplimentary.ToString()" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudHighlighter Text="@d1.IsActive.ToString()" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudIconButton Color="Color.Primary"
+                                                   Variant="Variant.Outlined"
+                                                   Icon="@Icons.Material.Filled.Edit"
+                                                   OnClick="@(() => EditRecord(d1.Id))"
+                                                   Title="Edit" />
+                                </MudTd>
+                            </RowTemplate>
+                            <PagerContent>
+                                <MudTablePager />
+                            </PagerContent>
+                        </MudTable>
+                    </MudPaper>
+                </MudItem>
+
+            </MudContainer>
+
+        </div>
+
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedPage />
+    </NotAuthorized>
+</AuthorizeView>

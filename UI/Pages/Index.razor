@@ -1,0 +1,94 @@
+﻿@page "/Dashboard"
+@using MudBlazor
+@using System.Collections.Generic
+<PageTitle>Dashboard</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+
+        <div class="dashboard-wrapper">
+
+            <MudContainer MaxWidth="MaxWidth.False">
+                <MudGrid GutterSize="3">
+
+                    <!-- HEADER -->
+                    <MudItem xs="12">
+                        <div class="dashboard-header fade-in">
+                            <MudText Typo="Typo.h5" Class="fw-bold">
+                                <span class="text-primary">Dashboard</span>
+                            </MudText>
+
+                            <MudIconButton Icon="@Icons.Material.Filled.Refresh"
+                                           Title="Refresh"
+                                           Size="Size.Medium"
+                                           Color="Color.Primary"
+                                           Class="refresh-btn"
+                                           @onclick="Refresh" />
+                        </div>
+                        <MudDivider Class="my-2" />
+                    </MudItem>
+
+                    <!-- ANALYTICS CARDS -->
+                    <MudItem xs="12" sm="6" md="4">
+                        <MudPaper Elevation="8" Class="dashboard-card animate-card">
+                            <div class="card-title">Total Bookings</div>
+                            <div class="card-value">128</div>
+                        </MudPaper>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6" md="4">
+                        <MudPaper Elevation="8" Class="dashboard-card animate-card delay-1">
+                            <div class="card-title">Upcoming Events</div>
+                            <div class="card-value">23</div>
+                        </MudPaper>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6" md="4">
+                        <MudPaper Elevation="8" Class="dashboard-card animate-card delay-2">
+                            <div class="card-title">Revenue</div>
+                            <div class="card-value">$45,700</div>
+                        </MudPaper>
+                    </MudItem>
+
+                    <!-- BAR CHART -->
+                    <MudItem xs="12">
+                        <MudPaper Elevation="10" Class="dashboard-chart animate-chart">
+                            <div class="chart-title">Bookings by Region</div>
+
+                            <MudChart ChartType="ChartType.Bar"
+                                      ChartSeries="@Series"
+                                      XAxisLabels="@XAxisLabels"
+                                      Width="100%"
+                                      Height="350px" />
+                        </MudPaper>
+                    </MudItem>
+
+                    <!-- LINE CHART -->
+                    <MudItem xs="12" md="6">
+                        <MudPaper Elevation="8" Class="dashboard-chart animate-chart delay-1">
+                            <div class="chart-title">Monthly Bookings Trend</div>
+                            <MudChart ChartType="ChartType.Line"
+                                      ChartSeries="@SeriesLine"
+                                      XAxisLabels="@XAxisLabels"
+                                      Width="100%"
+                                      Height="300px" />
+                        </MudPaper>
+                    </MudItem>
+
+                    <MudItem xs="12" md="6">
+                        <MudPaper Elevation="8" Class="dashboard-card-sm animate-card delay-2">
+                            <div class="card-title">Recent Users</div>
+                        </MudPaper>
+                    </MudItem>
+
+                </MudGrid>
+            </MudContainer>
+
+        </div>
+
+    </Authorized>
+
+    <NotAuthorized>
+        <NotAuthorizedPage />
+    </NotAuthorized>
+</AuthorizeView>
