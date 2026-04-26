@@ -167,3 +167,48 @@ SPM Practicum Work Submission
 - Improve system features.
 - Prepare future project deliverables.
 
+
+
+# Project Progress – Week 05
+## FeastPlanner
+SPM Practicum Work Submission
+
+## Objectives
+- Submit weekly project progress report
+- Prepare release notes documentation
+- Complete case study summary
+
+## Submission Details
+
+### 1. Progress Reporting
+- Submitted `progress.txt` in `/progress` folder.
+- Document includes:
+  - Completed tasks
+  - Pending tasks
+  - Outstanding issues
+
+### 2. Release Notes
+- Release notes document prepared (MS Word format).
+- Followed template provided in lecture folder.
+- Document includes system updates, improvements, and changes.
+- Stored in `/release_notes` folder.
+
+### 3. Case Study Summary
+- Case study reviewed from lecture folder.
+- Instructions followed from `Instructions.txt`.
+- 1-page article summary prepared and submitted.
+- Stored in `/CS` folder.
+### 4. Retrospective Report
+## Progress Summary
+- Weekly progress documented.
+- Release notes prepared using provided template.
+- Case study article reviewed and summarized.
+
+## Current Status
+🟢 On Track
+
+## Next Steps
+- Continue project implementation UI and Db authentication.
+- Improve system features and security.
+- Prepare future project deliverables.
+
