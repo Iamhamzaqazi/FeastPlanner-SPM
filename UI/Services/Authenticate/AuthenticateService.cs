@@ -2,6 +2,7 @@
 using AppDBContext.VMModels;
 using Newtonsoft.Json;
 using RestSharp;
+
 namespace UI.Services.Authenticate
 {
     public class AuthenticateService : IAuthenticate
