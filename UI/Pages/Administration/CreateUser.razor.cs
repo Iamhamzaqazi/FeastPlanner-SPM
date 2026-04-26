@@ -138,6 +138,7 @@ namespace UI.Pages.Administration
                 PasswordInput = InputType.Text;
             }
         }
+        # BUG: This should returned ContactExist instead of EmailExist (wrong variable returned)
         private async Task<bool> CheckEmail()
         {
             try
