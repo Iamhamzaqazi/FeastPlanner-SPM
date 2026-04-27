@@ -2,6 +2,8 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Globalization;
+using UI.Pages.Components;
+using Severity = MudBlazor.Severity;
 
 namespace UI.Pages.Master
 {
@@ -9,7 +11,9 @@ namespace UI.Pages.Master
     {
         #region Variables
 
-        DialogOptions maxWidth = new DialogOptions() { MaxWidth = MaxWidth.False, CloseButton = true, DisableBackdropClick = true };
+        DialogOptions maxWidth = new DialogOptions() { MaxWidth = MaxWidth.ExtraLarge, CloseButton = true, DisableBackdropClick = true };
+        private string DialogFor = "";
+
         private bool loading = false;
         private bool IsSet = false;
         private bool IsEdit = false;
@@ -212,15 +216,14 @@ namespace UI.Pages.Master
                 LogsUI.GenerateLogs(ex);
             }
         }
-        public void EditRecord(int Id)
+        public void DeleteRecord(int Id)
         {
             try
             {
-                var res = oList.Where(x => x.Id == Id).FirstOrDefault();
+                var res = oListPackages.Where(x => x.Id == Id).FirstOrDefault();
                 if (res != null)
                 {
-                    oModel = res;
-                    //oList = oList.Where(x => x.Id != Id);
+                    oListPackages = oListPackages.Where(x => x.Id != Id).ToList();
                 }
             }
             catch (Exception ex)
@@ -248,7 +251,7 @@ namespace UI.Pages.Master
                 string Clause = $@" AND BusinessKey = '{BusinessKey}'";
                 OldLogo = $"{WebHostEnviroment.WebRootPath}\\{oModel.Logo}";
                 OldLogoPath = oModel.Logo;
-                //oList = await _trnsFinancial.GetAllExpenseData(Clause);
+                oList = await _masterData.GetAllAssociatesData(Clause);
             }
             catch (Exception ex)
             {
@@ -294,8 +297,17 @@ namespace UI.Pages.Master
         {
             try
             {
+                await Task.Delay(1);
                 MstAssociatesPackages packages = new MstAssociatesPackages();
-                oListPackages.Add(packages);
+                if (oListPackages.Any(x => string.IsNullOrWhiteSpace(x.ItemName) && x.ItemsCount == 0 && x.ItemPrice == 0 && x.MinHead == 0))
+                {
+                    Snackbar.Add("Fill the detail first", Severity.Error);
+                }
+                else
+                {
+                    packages.Id = oListPackages.Count() + 1;
+                    oListPackages.Add(packages);
+                }
             }
             catch (Exception ex)
             {
@@ -310,14 +322,39 @@ namespace UI.Pages.Master
                 {
                     oModel.BusinessKey = BusinessKey;
                     oModel.AddedBy = LoggedInUser;
+                    oListPackages.ForEach(x =>
+                    {
+                        x.AddedBy = LoggedInUser;
+                        x.BusinessKey = BusinessKey;
+                        x.AssociateKey = null;
+                    });
+                    oListAvailability.ForEach(x =>
+                    {
+                        x.AddedBy = LoggedInUser;
+                        x.BusinessKey = BusinessKey;
+                    });
                     IsSet = true;
                 }
                 else
                 {
                     oModel.BusinessKey = BusinessKey;
                     oModel.UpdatedBy = LoggedInUser;
+                    oListPackages.ForEach(x =>
+                    {
+                        x.UpdatedBy = LoggedInUser;
+                        x.BusinessKey = BusinessKey;
+                    });
+                    oListAvailability.ForEach(x =>
+                    {
+                        x.UpdatedBy = LoggedInUser;
+                        x.BusinessKey = BusinessKey;
+                    });
                     IsSet = true;
                 }
+                oModel.Area = oMstArea.Name;
+                oModel.City = oMstCity.Name;
+                oModel.AssociatesPackages = oListPackages;
+                oModel.AssociatesAvailability = oListAvailability;
             }
             catch (Exception ex)
             {
@@ -334,7 +371,7 @@ namespace UI.Pages.Master
                 await formUser.Validate();
                 if (IsSet && successUser)
                 {
-                    //res = await _trnsFinancial.Crud(oModel);
+                    res = await _masterData.Crud(oModel);
                     if (res.Id > 0)
                     {
                         Snackbar.Add(res.Message, MudBlazor.Severity.Success);
@@ -365,6 +402,38 @@ namespace UI.Pages.Master
                 LogsUI.GenerateLogs(ex);
             }
         }
+        private async Task OpenDialog(DialogOptions options)
+        {
+            try
+            {
+                DialogFor = "MstAssociates";
+                var parameters = new DialogParameters();
+                parameters.Add("DialogFor", DialogFor);
+                var dialog = Dialog.Show<DialogBox>("Associates", parameters, options);
+                var result = await dialog.Result;
+                if (!result.Canceled)
+                {
+                    oModel = (MstAssociates)result.Data;
+                    if (oCityList?.Count() == 0)
+                    {
+                        oCityList = await _masterData.GetAllCityData("");
+                    }
+                    if (oAreaList?.Count() == 0)
+                    {
+                        oAreaList = await _masterData.GetAllAreaData("");
+                    }
+                    oMstCity = oCityList.Where(x => x.Name == oModel.City).FirstOrDefault();
+                    oMstArea = oAreaList.Where(x => x.Name == oModel.Area).FirstOrDefault();
+                    oListPackages = oModel.AssociatesPackages;
+                    oListAvailability = oModel.AssociatesAvailability;
+                    IsEdit = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex.Message);
+            }
+        }
 
         #endregion
 
@@ -383,6 +452,8 @@ namespace UI.Pages.Master
                     UserKey = user.Claims.Where(x => x.Type == "UserKey").Select(x => x.Value).FirstOrDefault();
                     BusinessKey = user.Claims.Where(x => x.Type == "BusinessKey").Select(x => x.Value).FirstOrDefault();
                     oModel.CategoryType = "Banquets";
+                    oModel.MinGathering = 0;
+                    oModel.MaxGathering = 0;
                     await CallAPI();
                 }
                 else

@@ -20,8 +20,13 @@
                         <MudIconButton Icon="@Icons.Material.Filled.Refresh"
                                        Title="Refresh"
                                        Size="Size.Medium"
-                                       Color="Color.Primary"
+                                       Color="Color.Primary" Class="float-left"
                                        @onclick="Refresh" />
+                        <MudIconButton Icon="@Icons.Material.Filled.ViewList" Class="float-left"
+                                       Title="View All"
+                                       Size="Size.Medium"
+                                       Color="Color.Primary"
+                                       OnClick="()=> OpenDialog(maxWidth)" />
                     </div>
                     <MudDivider Class="my-2" />
                     <MudLink Class="text-muted me-1" Underline="Underline.None">Master Data / </MudLink>
@@ -235,6 +240,7 @@
                                                     <MudTh Class="fw-bold">Rate</MudTh>
                                                     @* <MudTh Class="fw-bold">Facilities</MudTh> *@
                                                     <MudTh Class="fw-bold">Remarks</MudTh>
+                                                    <MudTh Class="fw-bold">Action</MudTh>
                                                 </HeaderContent>
                                                 <RowTemplate Context="d1">
                                                     <MudTd>
@@ -251,6 +257,9 @@
                                                     </MudTd> *@
                                                     <MudTd>
                                                         <MudTextField T="string" @bind-Value="d1.Remarks" Variant="Variant.Outlined" Required="true" />
+                                                    </MudTd>
+                                                    <MudTd>
+                                                        <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@(() => DeleteRecord(d1.Id))" Title="Delete" />
                                                     </MudTd>
                                                 </RowTemplate>
                                             </MudTable>
@@ -283,6 +292,7 @@
                                                     <MudTh Class="fw-bold">Rate Per Head</MudTh>
                                                     <MudTh Class="fw-bold">Min Head</MudTh>
                                                     <MudTh Class="fw-bold">Remarks</MudTh>
+                                                    <MudTh Class="fw-bold">Action</MudTh>
                                                 </HeaderContent>
                                                 <RowTemplate Context="d1">
                                                     <MudTd>
@@ -299,6 +309,9 @@
                                                     </MudTd>
                                                     <MudTd>
                                                         <MudTextField T="string" @bind-Value="d1.Remarks" Variant="Variant.Outlined" Required="true" />
+                                                    </MudTd>
+                                                    <MudTd>
+                                                        <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@(() => DeleteRecord(d1.Id))" Title="Delete" />
                                                     </MudTd>
                                                 </RowTemplate>
                                             </MudTable>

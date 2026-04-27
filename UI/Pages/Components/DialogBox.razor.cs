@@ -28,20 +28,19 @@ namespace UI.Pages.Components
         private string ManualCode = "";
         private string Type = "";
 
-        #region Mst Business Customer
+        private string searchString1 = "";
 
-        private string searchStringCustomer = "";
         //private bool FilterFuncCustomer(MstBusinessCustomer element) => FilterFuncCustomer(element, searchStringCustomer);
-        //MstBusinessCustomer oModelCustomer = new MstBusinessCustomer();
         //private IEnumerable<MstBusinessCustomer> oListCustomer = new List<MstBusinessCustomer>();
-        //private MudTable<MstBusinessCustomer> _tableCustomers;
 
         //HubConnection _hubConnection;
         //public bool IsConnected => _hubConnection?.State == HubConnectionState.Connected;
 
-        #endregion
 
         [Parameter] public string DialogFor { get; set; }
+        [Parameter] public bool DialogMulti { get; set; }
+        [Parameter] public string CategoryType { get; set; }
+        [Parameter] public string DocEntry { get; set; }
 
         [CascadingParameter]
         MudDialogInstance MudDialog { get; set; }
@@ -62,6 +61,30 @@ namespace UI.Pages.Components
         private IEnumerable<UserAlert> oListUserAlert = new List<UserAlert>();
 
         private IEnumerable<MstUserMessage> oListUserMessage = new List<MstUserMessage>();
+
+        private bool FilterFuncMstAssociates(MstAssociates element) => FilterFuncMstAssociates(element, searchString1);
+        private MudTable<MstAssociates> _tableMstAssociates;
+        MstAssociates oModelMstAssociates = new MstAssociates();
+        private IEnumerable<MstAssociates> oListMstAssociates = new List<MstAssociates>();
+        private HashSet<MstAssociates> oListSelectedMstAssociates = new HashSet<MstAssociates>();
+
+        private bool FilterFuncMstAssociatesAvailability(MstAssociatesAvailability element) => FilterFuncMstAssociatesAvailability(element, searchString1);
+        private MudTable<MstAssociatesAvailability> _tableMstAssociatesAvailability;
+        MstAssociatesAvailability oModelMstAssociatesAvailability = new MstAssociatesAvailability();
+        private IEnumerable<MstAssociatesAvailability> oListMstAssociatesAvailability = new List<MstAssociatesAvailability>();
+        private HashSet<MstAssociatesAvailability> oListSelectedMstAssociatesAvailability = new HashSet<MstAssociatesAvailability>();
+
+        private bool FilterFuncMstAssociatesPackages(MstAssociatesPackages element) => FilterFuncMstAssociatesPackages(element, searchString1);
+        private MudTable<MstAssociatesPackages> _tableMstAssociatesPackages;
+        MstAssociatesPackages oModelMstAssociatesPackages = new MstAssociatesPackages();
+        private IEnumerable<MstAssociatesPackages> oListMstAssociatesPackages = new List<MstAssociatesPackages>();
+        private HashSet<MstAssociatesPackages> oListSelectedMstAssociatesPackages = new HashSet<MstAssociatesPackages>();
+
+        private bool FilterFuncTrnsPackages(TrnsPackages element) => FilterFuncTrnsPackages(element, searchString1);
+        private MudTable<TrnsPackages> _tableTrnsPackages;
+        TrnsPackages oModelTrnsPackages = new TrnsPackages();
+        private IEnumerable<TrnsPackages> oListTrnsPackages = new List<TrnsPackages>();
+        private HashSet<TrnsPackages> oListSelectedTrnsPackages = new HashSet<TrnsPackages>();
 
         #region Deactivate profile
 
@@ -758,6 +781,284 @@ namespace UI.Pages.Components
 
         #endregion
 
+        #region MstAssociates
+
+        private async Task GetMstAssociates()
+        {
+            try
+            {
+                string Clause = $@" AND BusinessKey = '{BusinessKey}' ";
+                if (DialogFor == "ActiveMstAssociates")
+                {
+                    Clause += $"And CategoryType = '{CategoryType}' AND IsActive = 'True'";
+                }
+                oListMstAssociates = await _masterData.GetAllAssociatesData(Clause);
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+            }
+        }
+        private bool FilterFuncMstAssociates(MstAssociates element, string searchString1)
+        {
+            if (string.IsNullOrWhiteSpace(searchString1))
+                return true;
+            if (element.BusinessName.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.CategoryType.Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.City.Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.Area.Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.AddedBy.Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.IsActive.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            return false;
+        }
+        public void RowClickEventMstAssociates(TableRowClickEventArgs<MstAssociates> tableRowClickEventArgs)
+        {
+            try
+            {
+                clickedEvents.Add("Row has been clicked");
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+            }
+
+        }
+        private string SelectedRowClassFuncMstAssociates(MstAssociates element, int rowNumber)
+        {
+            if (selectedRowNumber == rowNumber)
+            {
+                selectedRowNumber = -1;
+                clickedEvents.Add("Selected Row: None");
+                return string.Empty;
+            }
+            else if (_tableMstAssociates.SelectedItem != null && _tableMstAssociates.SelectedItem.Equals(element))
+            {
+                selectedRowNumber = rowNumber;
+                clickedEvents.Add($"Selected Row: {rowNumber}");
+                return "selected";
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        #endregion
+
+        #region MstAssociatesAvailability
+
+        private async Task GetMstAssociatesAvailability()
+        {
+            try
+            {
+                string Clause = $@" AND BusinessKey = '{BusinessKey}' and DocEntry = {DocEntry}";
+                if (DialogFor == "ActiveMstAssociatesAvailability")
+                {
+                    Clause += " AND IsActive = 'True'";
+                }
+                oListMstAssociatesAvailability = await _masterData.GetAllAssociatesAvailabilityData(Clause);
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+            }
+        }
+        private bool FilterFuncMstAssociatesAvailability(MstAssociatesAvailability element, string searchString1)
+        {
+            if (string.IsNullOrWhiteSpace(searchString1))
+                return true;
+            if (element.AvailableDays.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.TimeSlots.Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.AddedBy.Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.IsActive.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            return false;
+        }
+        public void RowClickEventMstAssociatesAvailability(TableRowClickEventArgs<MstAssociatesAvailability> tableRowClickEventArgs)
+        {
+            try
+            {
+                clickedEvents.Add("Row has been clicked");
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+            }
+
+        }
+        private string SelectedRowClassFuncMstAssociatesAvailability(MstAssociatesAvailability element, int rowNumber)
+        {
+            if (selectedRowNumber == rowNumber)
+            {
+                selectedRowNumber = -1;
+                clickedEvents.Add("Selected Row: None");
+                return string.Empty;
+            }
+            else if (_tableMstAssociatesAvailability.SelectedItem != null && _tableMstAssociatesAvailability.SelectedItem.Equals(element))
+            {
+                selectedRowNumber = rowNumber;
+                clickedEvents.Add($"Selected Row: {rowNumber}");
+                return "selected";
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        #endregion
+
+        #region MstAssociatesPackages
+
+        private async Task GetMstAssociatesPackages()
+        {
+            try
+            {
+                string Clause = $@" AND BusinessKey = '{BusinessKey}' and DocEntry = {DocEntry}";
+                if (DialogFor == "ActiveMstAssociatesPackages")
+                {
+                    Clause += " AND IsActive = 'True'";
+                }
+                oListMstAssociatesPackages = await _masterData.GetAllAssociatesPackagesData(Clause);
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+            }
+        }
+        private bool FilterFuncMstAssociatesPackages(MstAssociatesPackages element, string searchString1)
+        {
+            if (string.IsNullOrWhiteSpace(searchString1))
+                return true;
+            if (element.ItemName.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.ItemPrice.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.ItemsCount.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.MinHead.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.Remarks.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.AddedBy.Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.IsActive.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            return false;
+        }
+        public void RowClickEventMstAssociatesPackages(TableRowClickEventArgs<MstAssociatesPackages> tableRowClickEventArgs)
+        {
+            try
+            {
+                clickedEvents.Add("Row has been clicked");
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+            }
+
+        }
+        private string SelectedRowClassFuncMstAssociatesPackages(MstAssociatesPackages element, int rowNumber)
+        {
+            if (selectedRowNumber == rowNumber)
+            {
+                selectedRowNumber = -1;
+                clickedEvents.Add("Selected Row: None");
+                return string.Empty;
+            }
+            else if (_tableMstAssociatesPackages.SelectedItem != null && _tableMstAssociatesPackages.SelectedItem.Equals(element))
+            {
+                selectedRowNumber = rowNumber;
+                clickedEvents.Add($"Selected Row: {rowNumber}");
+                return "selected";
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        #endregion
+
+        #region TrnsPackages
+
+        private async Task GetTrnsPackages()
+        {
+            try
+            {
+                string Clause = $@" AND BusinessKey = '{BusinessKey}' ";
+                if (DialogFor == "ActiveTrnsPackages")
+                {
+                    Clause += $" AND IsActive = 'True'";
+                }
+                oListTrnsPackages = await _masterData.GetAllPackagesData(Clause);
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+            }
+        }
+        private bool FilterFuncTrnsPackages(TrnsPackages element, string searchString1)
+        {
+            if (string.IsNullOrWhiteSpace(searchString1))
+                return true;
+            if (element.CategoryType.Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.PackageType.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.PackageName.Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.BasePrice.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.AddedBy.Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.IsActive.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            return false;
+        }
+        public void RowClickEventTrnsPackages(TableRowClickEventArgs<TrnsPackages> tableRowClickEventArgs)
+        {
+            try
+            {
+                clickedEvents.Add("Row has been clicked");
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+            }
+
+        }
+        private string SelectedRowClassFuncTrnsPackages(TrnsPackages element, int rowNumber)
+        {
+            if (selectedRowNumber == rowNumber)
+            {
+                selectedRowNumber = -1;
+                clickedEvents.Add("Selected Row: None");
+                return string.Empty;
+            }
+            else if (_tableTrnsPackages.SelectedItem != null && _tableTrnsPackages.SelectedItem.Equals(element))
+            {
+                selectedRowNumber = rowNumber;
+                clickedEvents.Add($"Selected Row: {rowNumber}");
+                return "selected";
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        #endregion
+
         #region User Message
 
         private async Task GetUserMessage()
@@ -804,14 +1105,42 @@ namespace UI.Pages.Components
         {
             try
             {
-                //if ((DialogFor == "CompletedCustomers") && (DialogFor == "CompletedCustomers") && oModelCustomer.Id > 0)
-                //{
-                //    MudDialog.Close(DialogResult.Ok<MstUser>(oModelUser));
-                //}
-                //else
-                //{
-                //    Snackbar.Add("Select row first", MudBlazor.Severity.Error);
-                //}
+                if (DialogFor.Contains("MstAssociates") && oModelMstAssociates.Id > 0 && !DialogMulti)
+                {
+                    MudDialog.Close(DialogResult.Ok<MstAssociates>(oModelMstAssociates));
+                }
+                else if (DialogFor.Contains("MstAssociates") && oListSelectedMstAssociates.Count() > 0 && DialogMulti)
+                {
+                    MudDialog.Close(DialogResult.Ok<HashSet<MstAssociates>>(oListSelectedMstAssociates));
+                }
+                else if (DialogFor.Contains("MstAssociatesAvailability") && oModelMstAssociatesAvailability.Id > 0 && !DialogMulti)
+                {
+                    MudDialog.Close(DialogResult.Ok<MstAssociatesAvailability>(oModelMstAssociatesAvailability));
+                }
+                else if (DialogFor.Contains("MstAssociatesAvailability") && oListSelectedMstAssociatesAvailability.Count() > 0 && DialogMulti)
+                {
+                    MudDialog.Close(DialogResult.Ok<HashSet<MstAssociatesAvailability>>(oListSelectedMstAssociatesAvailability));
+                }
+                else if (DialogFor.Contains("MstAssociatesPackages") && oModelMstAssociatesPackages.Id > 0 && !DialogMulti)
+                {
+                    MudDialog.Close(DialogResult.Ok<MstAssociatesPackages>(oModelMstAssociatesPackages));
+                }
+                else if (DialogFor.Contains("MstAssociatesPackages") && oListSelectedMstAssociatesPackages.Count() > 0 && DialogMulti)
+                {
+                    MudDialog.Close(DialogResult.Ok<HashSet<MstAssociatesPackages>>(oListSelectedMstAssociatesPackages));
+                }
+                else if (DialogFor.Contains("TrnsPackages") && oModelTrnsPackages.Id > 0 && !DialogMulti)
+                {
+                    MudDialog.Close(DialogResult.Ok<TrnsPackages>(oModelTrnsPackages));
+                }
+                else if (DialogFor.Contains("TrnsPackages") && oListSelectedTrnsPackages.Count() > 0 && DialogMulti)
+                {
+                    MudDialog.Close(DialogResult.Ok<HashSet<TrnsPackages>>(oListSelectedTrnsPackages));
+                }
+                else
+                {
+                    Snackbar.Add("Select row first", MudBlazor.Severity.Error);
+                }
             }
             catch (Exception ex)
             {
@@ -885,6 +1214,22 @@ namespace UI.Pages.Components
                         else if (DialogFor == "Update Payment")
                         {
                             await SetPaymentModel();
+                        }
+                        else if (DialogFor.Contains("MstAssociates") && DialogFor != "ActiveMstAssociatesAvailability" && DialogFor != "ActiveMstAssociatesPackages")
+                        {
+                            await GetMstAssociates();
+                        }
+                        else if (DialogFor.Contains("MstAssociatesAvailability"))
+                        {
+                            await GetMstAssociatesAvailability();
+                        }
+                        else if (DialogFor.Contains("MstAssociatesPackages"))
+                        {
+                            await GetMstAssociatesPackages();
+                        }
+                        else if (DialogFor.Contains("TrnsPackages"))
+                        {
+                            await GetTrnsPackages();
                         }
                     }
                     else

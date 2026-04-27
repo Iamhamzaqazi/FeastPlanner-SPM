@@ -1,4 +1,5 @@
 ﻿@using MudBlazor
+@using System.Globalization
 @implements IDisposable
 
 @if (DialogFor == "Signup")
@@ -46,7 +47,7 @@
 
             <!-- Dialog Content -->
             <div class="logout-content p-5">
-                <div class="warning-section text-center mb-4">                    
+                <div class="warning-section text-center mb-4">
                     <MudText Typo="Typo.body1" Class="text-muted mb-3">
                         Are you sure you want to <span class="text-primary fw-bold">logout</span> from your account?
                     </MudText>
@@ -88,45 +89,45 @@
 @if (DialogFor == "Notifications")
 {
     <MudDialog MaxWidth="MaxWidth.Medium" FullWidth="true" Class="premium-notifications-dialog">
-       <DialogContent>
-        <!-- Professional Header -->
-        <div class="notifications-header">
-            <div class="header-content p-4">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small" Class="me-3">
-                            <MudIcon Icon="@Icons.Material.Filled.NotificationsActive" />
-                        </MudAvatar>
-                        <div>
-                            <MudText Typo="Typo.h6" Class="fw-bold text-white mb-0">Notifications Center</MudText>
-                            <MudText Typo="Typo.caption" Class="text-white opacity-85">Stay updated with your alerts</MudText>
+        <DialogContent>
+            <!-- Professional Header -->
+            <div class="notifications-header">
+                <div class="header-content p-4">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small" Class="me-3">
+                                <MudIcon Icon="@Icons.Material.Filled.NotificationsActive" />
+                            </MudAvatar>
+                            <div>
+                                <MudText Typo="Typo.h6" Class="fw-bold text-white mb-0">Notifications Center</MudText>
+                                <MudText Typo="Typo.caption" Class="text-white opacity-85">Stay updated with your alerts</MudText>
+                            </div>
                         </div>
+                        <MudBadge Color="Color.Warning" Content="@(oListUserAlert.Where(x => !x.MarkAsRead).Count())" Class="unread-count">
+                            Unread
+                        </MudBadge>
                     </div>
-                    <MudBadge Color="Color.Warning" Content="@(oListUserAlert.Where(x => !x.MarkAsRead).Count())" Class="unread-count">
-                        Unread
-                    </MudBadge>
                 </div>
             </div>
-        </div>
             <MudTabs Color="Color.Primary" Position="Position.Top" Rounded="true" Class="premium-notification-tabs">
                 <!-- Notifications Tab -->
-                <MudTabPanel Text="Alerts" Icon="@Icons.Material.Filled.Notifications" 
-                            BadgeColor="Color.Warning" 
-                            BadgeData="@oListUserAlert.Where(x => x.UserKey == UserKey && x.Type == "Alert" && !x.MarkAsRead).Count()">
+                <MudTabPanel Text="Alerts" Icon="@Icons.Material.Filled.Notifications"
+                             BadgeColor="Color.Warning"
+                             BadgeData="@oListUserAlert.Where(x => x.UserKey == UserKey && x.Type == "Alert" && !x.MarkAsRead).Count()">
                     <div class="tab-content p-3">
                         @if (oListUserAlert.Where(x => x.UserKey == UserKey && x.Type == "Alert").Any())
                         {
                             foreach (var notification in oListUserAlert.Where(x => x.UserKey == UserKey && x.Type == "Alert"))
                             {
-                                <MudCard Class="notification-card  mb-3" 
-                                         Variant="Variant.Outlined" 
+                                <MudCard Class="notification-card  mb-3"
+                                         Variant="Variant.Outlined"
                                          OnClick="@(() => MarkasRead(notification.Id))">
                                     <MudCardContent Class="pa-4">
                                         <div class="d-flex align-items-start">
                                             <div class="notification-icon me-3">
-                                                <MudAvatar Size="Size.Small" 
-                                                          Color="@(notification.MarkAsRead ? Color.Secondary : Color.Primary)" 
-                                                          Variant="Variant.Filled">
+                                                <MudAvatar Size="Size.Small"
+                                                           Color="@(notification.MarkAsRead ? Color.Secondary : Color.Primary)"
+                                                           Variant="Variant.Filled">
                                                     <MudIcon Icon="@Icons.Material.Filled.CircleNotifications" />
                                                 </MudAvatar>
                                                 @if (!notification.MarkAsRead)
@@ -184,22 +185,22 @@
                 </MudTabPanel>
 
                 <!-- Security Alerts Tab -->
-                <MudTabPanel Text="Security" Icon="@Icons.Material.Filled.Security" 
-                            BadgeColor="Color.Error" 
-                            BadgeData="@oListUserAlert.Where(x => x.UserKey == UserKey && x.Type == "SecurityAlert" && !x.MarkAsRead).Count()">
+                <MudTabPanel Text="Security" Icon="@Icons.Material.Filled.Security"
+                             BadgeColor="Color.Error"
+                             BadgeData="@oListUserAlert.Where(x => x.UserKey == UserKey && x.Type == "SecurityAlert" && !x.MarkAsRead).Count()">
                     <div class="tab-content p-3">
                         @if (oListUserAlert.Where(x => x.UserKey == UserKey && x.Type == "SecurityAlert").Any())
                         {
                             foreach (var securityAlert in oListUserAlert.Where(x => x.UserKey == UserKey && x.Type == "SecurityAlert"))
                             {
-                                <MudCard Class="security-card mb-3" 
+                                <MudCard Class="security-card mb-3"
                                          Variant="Variant.Outlined">
                                     <MudCardContent Class="pa-4">
                                         <div class="d-flex align-items-start">
                                             <div class="notification-icon me-3">
-                                                <MudAvatar Size="Size.Small" 
-                                                          Color="@(securityAlert.MarkAsRead ? Color.Secondary : Color.Error)" 
-                                                          Variant="Variant.Filled">
+                                                <MudAvatar Size="Size.Small"
+                                                           Color="@(securityAlert.MarkAsRead ? Color.Secondary : Color.Error)"
+                                                           Variant="Variant.Filled">
                                                     <MudIcon Icon="@Icons.Material.Filled.Security" />
                                                 </MudAvatar>
                                                 @if (!securityAlert.MarkAsRead)
@@ -250,9 +251,9 @@
                 </MudTabPanel>
 
                 <!-- Updates Tab -->
-                <MudTabPanel Text="Updates" Icon="@Icons.Material.Filled.Update" 
-                            BadgeColor="Color.Info" 
-                            BadgeData="@oListUserAlert.Where(x => x.Type == "Updates" && !x.MarkAsRead).Count()">
+                <MudTabPanel Text="Updates" Icon="@Icons.Material.Filled.Update"
+                             BadgeColor="Color.Info"
+                             BadgeData="@oListUserAlert.Where(x => x.Type == "Updates" && !x.MarkAsRead).Count()">
                     <div class="tab-content p-3">
                         @if (oListUserAlert.Where(x => x.Type == "Updates" && !x.MarkAsRead).Any())
                         {
@@ -300,39 +301,39 @@
 @if (DialogFor == "Messages")
 {
     <MudDialog MaxWidth="MaxWidth.Medium" FullWidth="true" Class="premium-messages-dialog">
-       <DialogContent>
-        <!-- Professional Header -->
-        <div class="messages-header">
-            <div class="header-content p-4">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center">
-                        <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small" Class="me-3">
-                            <MudIcon Icon="@Icons.Material.Filled.Chat" />
-                        </MudAvatar>
-                        <div>
-                            <MudText Typo="Typo.h6" Class="fw-bold text-white mb-0">Messages</MudText>
-                            <MudText Typo="Typo.caption" Class="text-white opacity-85">Your conversations</MudText>
+        <DialogContent>
+            <!-- Professional Header -->
+            <div class="messages-header">
+                <div class="header-content p-4">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <MudAvatar Color="Color.Primary" Variant="Variant.Filled" Size="Size.Small" Class="me-3">
+                                <MudIcon Icon="@Icons.Material.Filled.Chat" />
+                            </MudAvatar>
+                            <div>
+                                <MudText Typo="Typo.h6" Class="fw-bold text-white mb-0">Messages</MudText>
+                                <MudText Typo="Typo.caption" Class="text-white opacity-85">Your conversations</MudText>
+                            </div>
                         </div>
+                        <MudBadge Color="Color.Warning"
+                                  Content="@(oListUserMessage.Where(x => x.FktoUserId == UserID && !x.MarkAsRead).Count())"
+                                  Class="unread-count">
+                            Unread
+                        </MudBadge>
                     </div>
-                    <MudBadge Color="Color.Warning" 
-                             Content="@(oListUserMessage.Where(x => x.FktoUserId == UserID && !x.MarkAsRead).Count())" 
-                             Class="unread-count">
-                        Unread
-                    </MudBadge>
                 </div>
             </div>
-        </div>
             <div class="messages-container">
                 @if (oListUserMessage.Any())
                 {
                     foreach (var message in oListUserMessage.Take(10))
                     {
-                        var unreadCount = oListUserMessage.Count(x => 
-                            ((x.FkfromUserId == UserID && x.FktoUserId == message.FktoUserId) || 
-                             (x.FktoUserId == UserID && x.FkfromUserId == message.FkfromUserId)) && 
-                            !x.MarkAsRead);
+                        var unreadCount = oListUserMessage.Count(x =>
+                        ((x.FkfromUserId == UserID && x.FktoUserId == message.FktoUserId) ||
+                        (x.FktoUserId == UserID && x.FkfromUserId == message.FkfromUserId)) &&
+                        !x.MarkAsRead);
 
-                        <MudCard Class="message-card mb-2" 
+                        <MudCard Class="message-card mb-2"
                                  Variant="Variant.Outlined"
                                  OnClick="@(() => OpenChat())">
                             <MudCardContent Class="pa-4">
@@ -588,7 +589,7 @@
                             </div>
                             <div class="pulse-effect"></div>
                         </div>
-                        <MudText Typo="Typo.h4" Class="fw-bold header-title mb-2">Two-Factor Authentication</MudText>                        
+                        <MudText Typo="Typo.h4" Class="fw-bold header-title mb-2">Two-Factor Authentication</MudText>
                         <div class="security-indicator">
                             <MudChip Color="Color.Success" Variant="Variant.Filled" Size="Size.Small" Class="security-chip">
                                 <MudIcon Icon="@Icons.Material.Filled.Verified" Size="Size.Small" Class="me-1" />
@@ -606,7 +607,7 @@
                 @if (!IsSent)
                 {
                     <!-- Method Selection -->
-                    <div class="method-selection">                        
+                    <div class="method-selection">
 
                         @if (!loading)
                         {
@@ -912,5 +913,232 @@
                 </MudButton>
             </div>
         </DialogContent>
+    </MudDialog>
+}
+
+@if (DialogFor.Contains("MstAssociates") && DialogFor != "ActiveMstAssociatesAvailability" && DialogFor != "ActiveMstAssociatesPackages")
+{
+    <MudDialog Class="professional-dialog">
+        <DialogContent>
+            <MudTable Items="@oListMstAssociates" Dense="true" Hover="true" Bordered="true" Striped="true" RowsPerPage="5" Elevation="0" OnRowClick="RowClickEventMstAssociates" T="MstAssociates" RowClassFunc="@SelectedRowClassFuncMstAssociates" MultiSelection="DialogMulti"
+                      Filter="new Func<MstAssociates, bool>(FilterFuncMstAssociates)" Loading="@loading" LoadingProgressColor="Color.Primary" @bind-SelectedItem="oModelMstAssociates" @bind-SelectedItems="oListSelectedMstAssociates" @ref="@_tableMstAssociates">
+                <ToolBarContent>
+                    <MudSpacer />
+                    <MudTextField T="string" @bind-Value="searchString1" Placeholder="Search"
+                                  Variant="Variant.Outlined" Clearable="true" Immediate="true"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+                                  FullWidth="false" />
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh Class="fw-bold">Business Name</MudTh>
+                    <MudTh Class="fw-bold">Category Type</MudTh>
+                    <MudTh Class="fw-bold">City</MudTh>
+                    <MudTh Class="fw-bold">Area</MudTh>
+                    <MudTh Class="fw-bold">Added By</MudTh>
+                    <MudTh Class="fw-bold">Active</MudTh>
+                </HeaderContent>
+                <NoRecordsContent>
+                    <MudText>No record found...</MudText>
+                </NoRecordsContent>
+                <RowTemplate Context="d1">
+                    <MudTd><MudHighlighter Text="@d1.BusinessName" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.CategoryType" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.City" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.Area" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.AddedBy" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.IsActive.ToString()" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Class="login-btn mt-3"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Disabled="@(loading)"
+                       StartIcon="@Icons.Material.Sharp.CheckCircle"
+                       OnClick="Submit">
+                Ok
+            </MudButton>
+            <MudButton Class="login-btn mt-3"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Disabled="@(loading)"
+                       StartIcon="@Icons.Material.Sharp.Cancel"
+                       OnClick="Cancel">
+                Cancel
+            </MudButton>
+        </DialogActions>
+    </MudDialog>
+}
+@if (DialogFor.Contains("MstAssociatesAvailability"))
+{
+    <MudDialog Class="professional-dialog">
+        <DialogContent>
+            <MudTable Items="@oListMstAssociatesAvailability" Dense="true" Hover="true" Bordered="true" Striped="true" RowsPerPage="5" Elevation="0" OnRowClick="RowClickEventMstAssociatesAvailability" T="MstAssociatesAvailability" RowClassFunc="@SelectedRowClassFuncMstAssociatesAvailability" MultiSelection="DialogMulti"
+                      Filter="new Func<MstAssociatesAvailability, bool>(FilterFuncMstAssociatesAvailability)" Loading="@loading" LoadingProgressColor="Color.Primary" @bind-SelectedItem="oModelMstAssociatesAvailability" @bind-SelectedItems="oListSelectedMstAssociatesAvailability" @ref="@_tableMstAssociatesAvailability">
+                <ToolBarContent>
+                    <MudSpacer />
+                    <MudTextField T="string" @bind-Value="searchString1" Placeholder="Search"
+                                  Variant="Variant.Outlined" Clearable="true" Immediate="true"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+                                  FullWidth="false" />
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh Class="fw-bold">Available Days</MudTh>
+                    <MudTh Class="fw-bold">Time Slot</MudTh>
+                    <MudTh Class="fw-bold">Added By</MudTh>
+                    <MudTh Class="fw-bold">Active</MudTh>
+                </HeaderContent>
+                <NoRecordsContent>
+                    <MudText>No record found...</MudText>
+                </NoRecordsContent>
+                <RowTemplate Context="d1">
+                    <MudTd><MudHighlighter Text="@d1.AvailableDays" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.TimeSlots" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.AddedBy" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.IsActive.ToString()" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Class="login-btn mt-3"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Disabled="@(loading)"
+                       StartIcon="@Icons.Material.Sharp.CheckCircle"
+                       OnClick="Submit">
+                Ok
+            </MudButton>
+            <MudButton Class="login-btn mt-3"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Disabled="@(loading)"
+                       StartIcon="@Icons.Material.Sharp.Cancel"
+                       OnClick="Cancel">
+                Cancel
+            </MudButton>
+        </DialogActions>
+    </MudDialog>
+}
+@if (DialogFor.Contains("MstAssociatesPackages"))
+{
+    <MudDialog Class="professional-dialog">
+        <DialogContent>
+            <MudTable Items="@oListMstAssociatesPackages" Dense="true" Hover="true" Bordered="true" Striped="true" RowsPerPage="5" Elevation="0" OnRowClick="RowClickEventMstAssociatesPackages" T="MstAssociatesPackages" RowClassFunc="@SelectedRowClassFuncMstAssociatesPackages" MultiSelection="DialogMulti"
+                      Filter="new Func<MstAssociatesPackages, bool>(FilterFuncMstAssociatesPackages)" Loading="@loading" LoadingProgressColor="Color.Primary" @bind-SelectedItem="oModelMstAssociatesPackages" @bind-SelectedItems="oListSelectedMstAssociatesPackages" @ref="@_tableMstAssociatesPackages">
+                <ToolBarContent>
+                    <MudSpacer />
+                    <MudTextField T="string" @bind-Value="searchString1" Placeholder="Search"
+                                  Variant="Variant.Outlined" Clearable="true" Immediate="true"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+                                  FullWidth="false" />
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh Class="fw-bold">Item Name</MudTh>
+                    <MudTh Class="fw-bold">Item Count</MudTh>
+                    <MudTh Class="fw-bold">Item Price</MudTh>
+                    <MudTh Class="fw-bold">Min Head</MudTh>
+                    <MudTh Class="fw-bold">Remarks</MudTh>
+                    <MudTh Class="fw-bold">Added By</MudTh>
+                    <MudTh Class="fw-bold">Active</MudTh>
+                </HeaderContent>
+                <NoRecordsContent>
+                    <MudText>No record found...</MudText>
+                </NoRecordsContent>
+                <RowTemplate Context="d1">
+                    <MudTd><MudHighlighter Text="@d1.ItemName" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.ItemsCount.ToString("C2", CultureInfo.CreateSpecificCulture("ur-PK"))" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.ItemPrice.ToString("C2", CultureInfo.CreateSpecificCulture("ur-PK"))" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.MinHead.ToString("C2", CultureInfo.CreateSpecificCulture("ur-PK"))" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.Remarks" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.AddedBy" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.IsActive.ToString()" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Class="login-btn mt-3"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Disabled="@(loading)"
+                       StartIcon="@Icons.Material.Sharp.CheckCircle"
+                       OnClick="Submit">
+                Ok
+            </MudButton>
+            <MudButton Class="login-btn mt-3"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Disabled="@(loading)"
+                       StartIcon="@Icons.Material.Sharp.Cancel"
+                       OnClick="Cancel">
+                Cancel
+            </MudButton>
+        </DialogActions>
+    </MudDialog>
+}
+@if (DialogFor.Contains("TrnsPackages"))
+{
+    <MudDialog Class="professional-dialog">
+        <DialogContent>
+            <MudTable Items="@oListTrnsPackages" Dense="true" Hover="true" Bordered="true" Striped="true" RowsPerPage="5" Elevation="0" OnRowClick="RowClickEventTrnsPackages" T="TrnsPackages" RowClassFunc="@SelectedRowClassFuncTrnsPackages" MultiSelection="DialogMulti"
+                      Filter="new Func<TrnsPackages, bool>(FilterFuncTrnsPackages)" Loading="@loading" LoadingProgressColor="Color.Primary" @bind-SelectedItem="oModelTrnsPackages" @bind-SelectedItems="oListSelectedTrnsPackages" @ref="@_tableTrnsPackages">
+                <ToolBarContent>
+                    <MudSpacer />
+                    <MudTextField T="string" @bind-Value="searchString1" Placeholder="Search"
+                                  Variant="Variant.Outlined" Clearable="true" Immediate="true"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+                                  FullWidth="false" />
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh Class="fw-bold">Category Type</MudTh>
+                    <MudTh Class="fw-bold">Package Type</MudTh>
+                    <MudTh Class="fw-bold">Package Name</MudTh>
+                    <MudTh Class="fw-bold">Base Price</MudTh>
+                    <MudTh Class="fw-bold">Added By</MudTh>
+                    <MudTh Class="fw-bold">Active</MudTh>
+                </HeaderContent>
+                <NoRecordsContent>
+                    <MudText>No record found...</MudText>
+                </NoRecordsContent>
+                <RowTemplate Context="d1">
+                    <MudTd><MudHighlighter Text="@d1.CategoryType" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.PackageType" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.PackageName" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.BasePrice.ToString("C2", CultureInfo.CreateSpecificCulture("ur-PK"))" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.AddedBy" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.IsActive.ToString()" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Class="login-btn mt-3"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Disabled="@(loading)"
+                       StartIcon="@Icons.Material.Sharp.CheckCircle"
+                       OnClick="Submit">
+                Ok
+            </MudButton>
+            <MudButton Class="login-btn mt-3"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Disabled="@(loading)"
+                       StartIcon="@Icons.Material.Sharp.Cancel"
+                       OnClick="Cancel">
+                Cancel
+            </MudButton>
+        </DialogActions>
     </MudDialog>
 }

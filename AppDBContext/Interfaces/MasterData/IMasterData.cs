@@ -42,6 +42,23 @@ namespace AppDBContext.Interfaces.MasterData
 
         #endregion
 
+        #region Mst Associates
+
+        Task<List<MstAssociates>> GetAllAssociatesData(string Clause);
+        Task<List<MstAssociatesAvailability>> GetAllAssociatesAvailabilityData(string Clause);
+        Task<List<MstAssociatesPackages>> GetAllAssociatesPackagesData(string Clause);
+        Task<APIResponseModel> Crud(MstAssociates oMstAssociates);
+
+        #endregion
+
+        #region Trns Packages
+
+        Task<List<TrnsPackages>> GetAllPackagesData(string Clause);
+        Task<List<TrnsPackagesDetail>> GetAllPackagesDetailData(string Clause);
+        Task<APIResponseModel> Crud(TrnsPackages oTrnsPackages);
+
+        #endregion
+
         #region Mst Facility
 
         Task<List<MstFacility>> GetAllFacilityData(string Clause);

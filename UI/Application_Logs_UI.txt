@@ -369,3 +369,41 @@ System.AggregateException: Unable to connect to the server with any of the avail
    at Microsoft.AspNetCore.Http.Connections.Client.HttpConnection.SelectAndStartTransport(TransferFormat transferFormat, CancellationToken cancellationToken)
    --- End of inner exception stack trace ---<---
 : 12/30/2025 6:58:33 PM
+System.ArgumentNullException: Value cannot be null. (Parameter 'value')
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at UI.Services.MasterData.MasterDataService.Crud(MstAssociates oMstAssociates) in D:\FAST Nuces\Semester 3\Practicum\FeastPlanner\UI\Services\MasterData\MasterDataService.cs:line 297: 3/17/2026 12:43:33 AM
+System.ArgumentNullException: Value cannot be null. (Parameter 'value')
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at UI.Services.MasterData.MasterDataService.Crud(MstAssociates oMstAssociates) in D:\FAST Nuces\Semester 3\Practicum\FeastPlanner\UI\Services\MasterData\MasterDataService.cs:line 297: 3/17/2026 1:04:01 AM
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at UI.Pages.Master.Associates.GetAreaByCity(): 3/17/2026 2:16:40 AM
+Microsoft.JSInterop.JSDisconnectedException: JavaScript interop calls cannot be issued at this time. This is because the circuit has disconnected and is being disposed.
+   at Microsoft.AspNetCore.Components.Server.Circuits.RemoteJSRuntime.BeginInvokeJS(Int64 asyncHandle, String identifier, String argsJson, JSCallResultType resultType, Int64 targetInstanceId)
+   at Microsoft.JSInterop.JSRuntime.InvokeAsync[TValue](Int64 targetInstanceId, String identifier, CancellationToken cancellationToken, Object[] args)
+   at Microsoft.JSInterop.JSRuntime.InvokeAsync[TValue](String identifier, CancellationToken cancellationToken, Object[] args)
+   at Microsoft.JSInterop.JSRuntimeExtensions.InvokeAsync[TValue](IJSRuntime jsRuntime, String identifier, CancellationToken cancellationToken, Object[] args)
+   at Blazored.LocalStorage.BrowserStorageProvider.GetItemAsync(String key, CancellationToken cancellationToken)
+   at Blazored.LocalStorage.LocalStorageService.GetItemAsync[T](String key, CancellationToken cancellationToken)
+   at UI.Services.User.MstUserAuthorizationService.GetToken()
+   at UI.Services.User.MstUserAuthorizationService.GetAllData(String Clause, Boolean IsSuper): 3/17/2026 2:17:29 AM
+Microsoft.JSInterop.JSDisconnectedException: JavaScript interop calls cannot be issued at this time. This is because the circuit has disconnected and is being disposed.
+   at Microsoft.AspNetCore.Components.Server.Circuits.RemoteJSRuntime.BeginInvokeJS(Int64 asyncHandle, String identifier, String argsJson, JSCallResultType resultType, Int64 targetInstanceId)
+   at Microsoft.JSInterop.JSRuntime.InvokeAsync[TValue](Int64 targetInstanceId, String identifier, CancellationToken cancellationToken, Object[] args)
+   at Microsoft.JSInterop.JSRuntime.InvokeAsync[TValue](String identifier, CancellationToken cancellationToken, Object[] args)
+   at Microsoft.JSInterop.JSRuntimeExtensions.InvokeAsync[TValue](IJSRuntime jsRuntime, String identifier, CancellationToken cancellationToken, Object[] args)
+   at Blazored.LocalStorage.BrowserStorageProvider.GetItemAsync(String key, CancellationToken cancellationToken)
+   at Blazored.LocalStorage.LocalStorageService.GetItemAsync[T](String key, CancellationToken cancellationToken)
+   at UI.Services.MasterData.MasterDataService.GetToken()
+   at UI.Services.MasterData.MasterDataService.GetAllAssociatesData(String Clause): 3/17/2026 2:17:32 AM
+Microsoft.JSInterop.JSDisconnectedException: JavaScript interop calls cannot be issued at this time. This is because the circuit has disconnected and is being disposed.
+   at Microsoft.AspNetCore.Components.Server.Circuits.RemoteJSRuntime.BeginInvokeJS(Int64 asyncHandle, String identifier, String argsJson, JSCallResultType resultType, Int64 targetInstanceId)
+   at Microsoft.JSInterop.JSRuntime.InvokeAsync[TValue](Int64 targetInstanceId, String identifier, CancellationToken cancellationToken, Object[] args)
+   at Microsoft.JSInterop.JSRuntime.InvokeAsync[TValue](String identifier, CancellationToken cancellationToken, Object[] args)
+   at Microsoft.JSInterop.JSRuntimeExtensions.InvokeAsync[TValue](IJSRuntime jsRuntime, String identifier, CancellationToken cancellationToken, Object[] args)
+   at Blazored.LocalStorage.BrowserStorageProvider.GetItemAsync(String key, CancellationToken cancellationToken)
+   at Blazored.LocalStorage.LocalStorageService.GetItemAsync[T](String key, CancellationToken cancellationToken)
+   at UI.Services.MasterData.MasterDataService.GetToken()
+   at UI.Services.MasterData.MasterDataService.GetAllDefaultValueData(String Clause): 3/17/2026 2:17:33 AM
+Value cannot be null. (Parameter 'source'): 3/17/2026 2:17:34 AM

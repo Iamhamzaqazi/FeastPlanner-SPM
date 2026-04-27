@@ -256,7 +256,187 @@ namespace UI.Services.MasterData
             }
         }
 
-        #endregion     
+        #endregion
+
+        #region Mst Associates
+        public async Task<List<MstAssociates>> GetAllAssociatesData(string Clause)
+        {
+            try
+            {
+                List<MstAssociates> oList = new List<MstAssociates>();
+
+                var request = new RestRequest("MasterData/getAllAssociatesClause", Method.Get) { RequestFormat = DataFormat.Json };
+                request.AddHeader("Authorization", await GetToken());
+                request.AddParameter("Clause", Clause);
+                var response = await _restClient.ExecuteAsync<List<MstAssociates>>(request);
+
+                if (response.IsSuccessful)
+                {
+                    return response.Data;
+                }
+                else
+                {
+                    return response.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+                return null;
+            }
+        }
+        public async Task<List<MstAssociatesAvailability>> GetAllAssociatesAvailabilityData(string Clause)
+        {
+            try
+            {
+                List<MstAssociatesAvailability> oList = new List<MstAssociatesAvailability>();
+
+                var request = new RestRequest("MasterData/getAllAssociatesAvailabilityClause", Method.Get) { RequestFormat = DataFormat.Json };
+                request.AddHeader("Authorization", await GetToken());
+                request.AddParameter("Clause", Clause);
+                var response = await _restClient.ExecuteAsync<List<MstAssociatesAvailability>>(request);
+
+                if (response.IsSuccessful)
+                {
+                    return response.Data;
+                }
+                else
+                {
+                    return response.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+                return null;
+            }
+        }
+        public async Task<List<MstAssociatesPackages>> GetAllAssociatesPackagesData(string Clause)
+        {
+            try
+            {
+                List<MstAssociatesPackages> oList = new List<MstAssociatesPackages>();
+
+                var request = new RestRequest("MasterData/getAllAssociatesPackagesClause", Method.Get) { RequestFormat = DataFormat.Json };
+                request.AddHeader("Authorization", await GetToken());
+                request.AddParameter("Clause", Clause);
+                var response = await _restClient.ExecuteAsync<List<MstAssociatesPackages>>(request);
+
+                if (response.IsSuccessful)
+                {
+                    return response.Data;
+                }
+                else
+                {
+                    return response.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+                return null;
+            }
+        }
+        public async Task<APIResponseModel> Crud(MstAssociates oMstAssociates)
+        {
+            APIResponseModel response = new APIResponseModel();
+            try
+            {
+                var request = new RestRequest("MasterData/crudAssociates", Method.Post);
+                request.AddHeader("Authorization", await GetToken());
+                request.AddJsonBody(oMstAssociates);
+                var res = await _restClient.ExecuteAsync(request);
+                var contentObj = JsonConvert.DeserializeObject<APIResponseModel>(res.Content);
+                response.Id = contentObj.Id;
+                response.Message = contentObj.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Id = 0;
+                response.Message = ex.Message;
+                LogsUI.GenerateLogs(ex);
+            }
+            return response;
+        }
+
+        #endregion
+
+        #region Trns Packages
+        public async Task<List<TrnsPackages>> GetAllPackagesData(string Clause)
+        {
+            try
+            {
+                List<TrnsPackages> oList = new List<TrnsPackages>();
+
+                var request = new RestRequest("MasterData/getAllPackagesClause", Method.Get) { RequestFormat = DataFormat.Json };
+                request.AddHeader("Authorization", await GetToken());
+                request.AddParameter("Clause", Clause);
+                var response = await _restClient.ExecuteAsync<List<TrnsPackages>>(request);
+
+                if (response.IsSuccessful)
+                {
+                    return response.Data;
+                }
+                else
+                {
+                    return response.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+                return null;
+            }
+        }
+        public async Task<List<TrnsPackagesDetail>> GetAllPackagesDetailData(string Clause)
+        {
+            try
+            {
+                List<TrnsPackagesDetail> oList = new List<TrnsPackagesDetail>();
+
+                var request = new RestRequest("MasterData/getAllPackagesDetailClause", Method.Get) { RequestFormat = DataFormat.Json };
+                request.AddHeader("Authorization", await GetToken());
+                request.AddParameter("Clause", Clause);
+                var response = await _restClient.ExecuteAsync<List<TrnsPackagesDetail>>(request);
+
+                if (response.IsSuccessful)
+                {
+                    return response.Data;
+                }
+                else
+                {
+                    return response.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+                return null;
+            }
+        }
+        public async Task<APIResponseModel> Crud(TrnsPackages oTrnsPackages)
+        {
+            APIResponseModel response = new APIResponseModel();
+            try
+            {
+                var request = new RestRequest("MasterData/crudPackages", Method.Post);
+                request.AddHeader("Authorization", await GetToken());
+                request.AddJsonBody(oTrnsPackages);
+                var res = await _restClient.ExecuteAsync(request);
+                var contentObj = JsonConvert.DeserializeObject<APIResponseModel>(res.Content);
+                response.Id = contentObj.Id;
+                response.Message = contentObj.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Id = 0;
+                response.Message = ex.Message;
+                LogsUI.GenerateLogs(ex);
+            }
+            return response;
+        }
+
+        #endregion
 
         #region Mst Facility
         public async Task<List<MstFacility>> GetAllFacilityData(string Clause)

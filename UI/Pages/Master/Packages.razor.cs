@@ -1,5 +1,10 @@
 ﻿using AppDBContext.Models;
 using AppDBContext.VMModels;
+using FluentValidation;
+using System.Collections.Generic;
+using System.Globalization;
+using UI.Pages.Components;
+using Severity = MudBlazor.Severity;
 
 namespace UI.Pages.Master
 {
@@ -7,42 +12,57 @@ namespace UI.Pages.Master
     {
         #region Variables
 
-        DialogOptions maxWidth = new DialogOptions() { MaxWidth = MaxWidth.False, CloseButton = true, DisableBackdropClick = true };
+        DialogOptions maxWidth = new DialogOptions() { MaxWidth = MaxWidth.ExtraLarge, CloseButton = true, DisableBackdropClick = true };
+        private string DialogFor = "";
+
         private bool loading = false;
         private bool IsSet = false;
+        private bool IsEdit = false;
+        private bool DialogMulti = false;
 
         private string UserKey = "";
         private string BusinessKey = "";
         private string LoggedInUser = "";
 
+        private CultureInfo CulturePKR = CultureInfo.GetCultureInfo("ur-PK");
+
         bool successUser;
         string[] errors = { };
         MudForm formUser;
 
-        MstFacility oModel = new MstFacility();
+        private IEnumerable<CfgDefaultValue> oCfgDefaultValueList = new List<CfgDefaultValue>();
 
-        private IEnumerable<MstFacility> oList = new List<MstFacility>();
 
-        private string searchString1 = "";
-        private bool FilterFunc(MstFacility element) => FilterFunc(element, searchString1);
+        TrnsPackages oModel = new TrnsPackages();
+        TrnsPackagesDetail oModelDetail = new TrnsPackagesDetail();
+
+        private IEnumerable<TrnsPackages> oList = new List<TrnsPackages>();
+        private List<TrnsPackagesDetail> oListPackagesDetail = new List<TrnsPackagesDetail>();
+        private List<TrnsPackagesDetail2> oListPackagesDetail2 = new List<TrnsPackagesDetail2>();
 
         #endregion
 
         #region Functions
-        private bool FilterFunc(MstFacility element, string searchString1)
+        public class FluentValueValidator<T> : AbstractValidator<T>
         {
-            if (string.IsNullOrWhiteSpace(searchString1))
-                return true;
-            if (element.Name.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
-                return true;
-            if (element.Price.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
-                return true;
-            if (element.IsComplimentary.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
-                return true;
-            if (element.IsActive.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
-                return true;
-            return false;
+            public FluentValueValidator(Action<IRuleBuilderInitial<T, T>> rule)
+            {
+                rule(RuleFor(x => x));
+            }
+
+            private IEnumerable<string> ValidateValue(T arg)
+            {
+                if (arg == null)
+                    return new string[0];
+                var result = Validate(arg);
+                if (result.IsValid)
+                    return new string[0];
+                return result.Errors.Select(e => e.ErrorMessage);
+            }
+
+            public Func<T, IEnumerable<string>> Validation => ValidateValue;
         }
+
         public void EditRecord(int Id)
         {
             try
@@ -64,6 +84,7 @@ namespace UI.Pages.Master
             try
             {
                 await GetAllPackages();
+                await GetAllDefaultValue();
             }
             catch (Exception ex)
             {
@@ -75,7 +96,55 @@ namespace UI.Pages.Master
             try
             {
                 string Clause = $@" AND BusinessKey = '{BusinessKey}'";
-                oList = await _masterData.GetAllFacilityData(Clause);
+                oList = await _masterData.GetAllPackagesData(Clause);
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+            }
+        }
+        public async Task AddPackageRow()
+        {
+            try
+            {
+                await Task.Delay(1);
+                oModelDetail = new TrnsPackagesDetail();
+                if (oListPackagesDetail.Any(x => string.IsNullOrWhiteSpace(x.AssociateKey) && string.IsNullOrWhiteSpace(x.AssociateAvailabilityKey) && x.MinGathering == 0 && x.MaxGathering == 0 && x.Price == 0))
+                {
+                    Snackbar.Add("Fill the detail first", Severity.Error);
+                }
+                else
+                {
+                    oModelDetail.Id = oListPackagesDetail.Count() + 1;
+                    oListPackagesDetail.Add(oModelDetail);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex.Message);
+            }
+        }
+        public void DeleteRecord(int Id)
+        {
+            try
+            {
+                var res = oListPackagesDetail.Where(x => x.Id == Id).FirstOrDefault();
+                if (res != null)
+                {
+                    oListPackagesDetail = oListPackagesDetail.Where(x => x.Id != Id).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+            }
+        }
+        private async Task GetAllDefaultValue()
+        {
+            try
+            {
+                string Clause = "AND IsActive = 'True'";
+                oCfgDefaultValueList = await _masterData.GetAllDefaultValueData(Clause);
             }
             catch (Exception ex)
             {
@@ -90,12 +159,23 @@ namespace UI.Pages.Master
                 {
                     oModel.BusinessKey = BusinessKey;
                     oModel.AddedBy = LoggedInUser;
+                    oListPackagesDetail.ForEach(x =>
+                    {
+                        x.AddedBy = LoggedInUser;
+                        x.BusinessKey = BusinessKey;
+                    });
+                    oModel.PackagesDetail = oListPackagesDetail;
                     IsSet = true;
                 }
                 else
                 {
                     oModel.BusinessKey = BusinessKey;
                     oModel.UpdatedBy = LoggedInUser;
+                    oListPackagesDetail.ForEach(x =>
+                    {
+                        x.UpdatedBy = LoggedInUser;
+                    });
+                    oModel.PackagesDetail = oListPackagesDetail;
                     IsSet = true;
                 }
             }
@@ -143,6 +223,114 @@ namespace UI.Pages.Master
             catch (Exception ex)
             {
                 LogsUI.GenerateLogs(ex);
+            }
+        }
+        private async Task OpenDialog(DialogOptions options)
+        {
+            try
+            {
+                DialogFor = "TrnsPackages";
+                var parameters = new DialogParameters();
+                parameters.Add("DialogFor", DialogFor);
+                var dialog = Dialog.Show<DialogBox>("Packages", parameters, options);
+                var result = await dialog.Result;
+                if (!result.Canceled)
+                {
+                    oModel = (TrnsPackages)result.Data;
+                    oListPackagesDetail = oModel.PackagesDetail;
+                    IsEdit = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex.Message);
+            }
+        }
+        private async Task OpenDialogAssociates(DialogOptions options)
+        {
+            try
+            {
+                DialogFor = "ActiveMstAssociates";
+                var parameters = new DialogParameters();
+                parameters.Add("DialogFor", DialogFor);
+                parameters.Add("CategoryType", oModel.CategoryType);
+                DialogMulti = false;
+                parameters.Add("DialogMulti", DialogMulti);
+                var dialog = Dialog.Show<DialogBox>("Associates", parameters, options);
+                var result = await dialog.Result;
+                if (!result.Canceled)
+                {
+                    var oModelAssociates = (MstAssociates)result.Data;
+                    if (oModelAssociates?.Id > 0)
+                    {
+                        oModelDetail.AssociateKey = oModelAssociates.Id.ToString();
+                        oModelDetail.AssociateBusinessName = oModelAssociates.BusinessName;
+                    }
+                    IsEdit = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex.Message);
+            }
+        }
+        private async Task OpenDialogAssociatesAvailability(DialogOptions options, string DocEntry)
+        {
+            try
+            {
+                DialogFor = "ActiveMstAssociatesAvailability";
+                var parameters = new DialogParameters();
+                parameters.Add("DialogFor", DialogFor);
+                parameters.Add("DocEntry", DocEntry);
+                DialogMulti = false;
+                parameters.Add("DialogMulti", DialogMulti);
+                var dialog = Dialog.Show<DialogBox>("Availability", parameters, options);
+                var result = await dialog.Result;
+                if (!result.Canceled)
+                {
+                    var oModelAssociatesAvailability = (MstAssociatesAvailability)result.Data;
+                    if (oModelAssociatesAvailability?.Id > 0)
+                    {
+                        oModelDetail.AssociateAvailabilityKey = oModelAssociatesAvailability.UniqueKey;
+                        oModelDetail.AvailableDays = oModelAssociatesAvailability.AvailableDays;
+                        oModelDetail.TimeSlots = oModelAssociatesAvailability.TimeSlots;
+                    }
+                    IsEdit = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex.Message);
+            }
+        }
+        private async Task OpenDialogAssociatesPackages(DialogOptions options, string DocEntry)
+        {
+            try
+            {
+                DialogFor = "ActiveMstAssociatesPackages";
+                var parameters = new DialogParameters();
+                parameters.Add("DialogFor", DialogFor);
+                parameters.Add("DocEntry", DocEntry);
+                DialogMulti = false;
+                parameters.Add("DialogMulti", DialogMulti);
+                var dialog = Dialog.Show<DialogBox>("Packages", parameters, options);
+                var result = await dialog.Result;
+                if (!result.Canceled)
+                {
+                    var oModelAssociatesPackages = (MstAssociatesPackages)result.Data;
+                    if (oModelAssociatesPackages?.Id > 0)
+                    {
+                        oModelDetail.AssociatePackagesKey = oModelAssociatesPackages.UniqueKey;
+                        oModelDetail.ItemName = oModelAssociatesPackages.ItemName;
+                        oModelDetail.MinGathering = (decimal)oModelAssociatesPackages.MinHead;
+                        oModelDetail.RatePerHead = (decimal)oModelAssociatesPackages.ItemPrice;
+                    }
+                    IsEdit = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex.Message);
             }
         }
 

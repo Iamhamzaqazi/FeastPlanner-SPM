@@ -8,6 +8,7 @@ namespace AppDBContext.Models
 {
     public partial class MstAssociatesAvailability : BaseEntity
     {
+        public int DocEntry { get; set; }
         public string AssociateKey { get; set; }
         public string BusinessKey { get; set; }
         public string AvailableDays { get; set; }

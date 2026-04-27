@@ -258,6 +258,182 @@ namespace API.Controllers
 
         #endregion
 
+        #region Mst Associates
+
+        [Route("getAllAssociatesClause")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllAssociatesData(string Clause)
+        {
+            List<MstAssociates> oModel = new List<MstAssociates>();
+            try
+            {
+                oModel = await _masterData.GetAllAssociatesData(Clause);
+                if (oModel == null)
+                {
+                    return BadRequest(oModel);
+                }
+                else
+                {
+                    return Ok(oModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsAPI.GenerateLogs(ex);
+                return BadRequest("Something went wrong.");
+            }
+        }
+
+        [Route("getAllAssociatesAvailabilityClause")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllAssociatesAvailabilityData(string Clause)
+        {
+            List<MstAssociatesAvailability> oModel = new List<MstAssociatesAvailability>();
+            try
+            {
+                oModel = await _masterData.GetAllAssociatesAvailabilityData(Clause);
+                if (oModel == null)
+                {
+                    return BadRequest(oModel);
+                }
+                else
+                {
+                    return Ok(oModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsAPI.GenerateLogs(ex);
+                return BadRequest("Something went wrong.");
+            }
+        }
+
+        [Route("getAllAssociatesPackagesClause")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllAssociatesPackagesData(string Clause)
+        {
+            List<MstAssociatesPackages> oModel = new List<MstAssociatesPackages>();
+            try
+            {
+                oModel = await _masterData.GetAllAssociatesPackagesData(Clause);
+                if (oModel == null)
+                {
+                    return BadRequest(oModel);
+                }
+                else
+                {
+                    return Ok(oModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsAPI.GenerateLogs(ex);
+                return BadRequest("Something went wrong.");
+            }
+        }
+
+        [Route("crudAssociates")]
+        [HttpPost]
+        public async Task<IActionResult> Crud([FromBody] MstAssociates oModel)
+        {
+            APIResponseModel response = new APIResponseModel();
+            try
+            {
+                response = await _masterData.Crud(oModel);
+                if (response == null || response.Id == 0)
+                {
+                    return BadRequest(response);
+                }
+                else
+                {
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsAPI.GenerateLogs(ex);
+                return BadRequest("Something went wrong.");
+            }
+        }
+
+        #endregion
+
+        #region Mst Packages
+
+        [Route("getAllPackagesClause")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllPackagesData(string Clause)
+        {
+            List<TrnsPackages> oModel = new List<TrnsPackages>();
+            try
+            {
+                oModel = await _masterData.GetAllPackagesData(Clause);
+                if (oModel == null)
+                {
+                    return BadRequest(oModel);
+                }
+                else
+                {
+                    return Ok(oModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsAPI.GenerateLogs(ex);
+                return BadRequest("Something went wrong.");
+            }
+        }
+
+        [Route("getAllPackagesDetailClause")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllPackagesDetailData(string Clause)
+        {
+            List<TrnsPackagesDetail> oModel = new List<TrnsPackagesDetail>();
+            try
+            {
+                oModel = await _masterData.GetAllPackagesDetailData(Clause);
+                if (oModel == null)
+                {
+                    return BadRequest(oModel);
+                }
+                else
+                {
+                    return Ok(oModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsAPI.GenerateLogs(ex);
+                return BadRequest("Something went wrong.");
+            }
+        }
+
+        [Route("crudPackages")]
+        [HttpPost]
+        public async Task<IActionResult> Crud([FromBody] TrnsPackages oModel)
+        {
+            APIResponseModel response = new APIResponseModel();
+            try
+            {
+                response = await _masterData.Crud(oModel);
+                if (response == null || response.Id == 0)
+                {
+                    return BadRequest(response);
+                }
+                else
+                {
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsAPI.GenerateLogs(ex);
+                return BadRequest("Something went wrong.");
+            }
+        }
+
+        #endregion
+
         #region Mst Facility
 
         [Route("getAllFacilityClause")]

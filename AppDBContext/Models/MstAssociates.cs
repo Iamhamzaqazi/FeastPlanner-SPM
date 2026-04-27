@@ -8,6 +8,12 @@ namespace AppDBContext.Models
 {
     public partial class MstAssociates : BaseEntity
     {
+        public MstAssociates()
+        {
+            AssociatesPackages = new List<MstAssociatesPackages>();
+            AssociatesAvailability = new List<MstAssociatesAvailability>();
+        }
+        public int DocEntry{ get; set; }
         public string BusinessKey { get; set; }
         public string CategoryType { get; set; }
         public string ServiceType { get; set; }
@@ -21,5 +27,7 @@ namespace AppDBContext.Models
         public decimal? MinGathering { get; set; }
         public decimal? MaxGathering { get; set; }
         public string Logo { get; set; }
+        public List<MstAssociatesPackages> AssociatesPackages { get; set; }
+        public List<MstAssociatesAvailability> AssociatesAvailability { get; set; }
     }
 }
