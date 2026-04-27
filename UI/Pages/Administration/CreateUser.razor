@@ -146,8 +146,10 @@
                             </NoRecordsContent>
                             <RowTemplate Context="d1">
                                 <MudTd><MudHighlighter Text="@d1.Name" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                                <!-- Consider adding uniqueness check (server-side) to prevent duplicate user emails -->
                                 <MudTd><MudHighlighter Text="@d1.Email" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
                                 <MudTd><MudHighlighter Text="@d1.Contact" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                                <!-- Good practice: Password is masked, but ideally avoid sending/storing password in UI model at all for security --> 
                                 <MudTd><MudHighlighter Text="●●●●●●●●" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
                                 <MudTd><MudHighlighter Text="@d1.AddedBy" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
                                 <MudTd><MudHighlighter Text="@d1.IsActive.ToString()" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
