@@ -1,4 +1,5 @@
 ﻿@page "/AddBooking"
+@page "/AddBooking/{Key}"
 @using System.ComponentModel.DataAnnotations
 @using System.Globalization;
 @using MudBlazor
@@ -22,11 +23,11 @@
                                        Size="Size.Medium"
                                        Color="Color.Primary"
                                        @onclick="Refresh" />
-                        <MudIconButton Icon="@Icons.Material.Filled.ViewList" Class="float-left"
+                        @* <MudIconButton Icon="@Icons.Material.Filled.ViewList" Class="float-left"
                                        Title="View All"
                                        Size="Size.Medium"
                                        Color="Color.Primary"
-                                       OnClick="()=> OpenDialog(maxWidth)" />
+                                       OnClick="()=> OpenDialog(maxWidth)" /> *@
                     </div>
                     <MudDivider Class="my-2" />
                     <MudLink Class="text-muted me-1" Underline="Underline.None">Booking / </MudLink>
@@ -35,13 +36,19 @@
                 </MudItem>
 
                 <MudItem xs="12" Class="mt-4">
-                    <MudTabs Rounded="true" Color="Color.Primary" PanelClass="pa-0" Centered="true">
+                    <MudTabs Rounded="true" Color="Color.Primary" PanelClass="pa-0" Centered="true" @bind-ActivePanelIndex="TabIndex">
 
                         <!-- General Details TAB -->
-                        <MudTabPanel Text="General Details">
-                            <MudForm @ref="formUser" @bind-IsValid="@successUser" @bind-Errors="@errors">
+                        <MudTabPanel Text="Customer Details" Disabled="true">
+                            <MudForm @ref="formCustomer" @bind-IsValid="@successCustomer" @bind-Errors="@errors">
                                 <MudPaper Elevation="8" Class="dashboard-card animate-card p-4 mt-4">
                                     <MudGrid GutterSize="3">
+                                        <MudItem xs="10" sm="10" md="10" lg="10">
+                                            <MudText Class="fw-bold" Typo="Typo.h5">Customer Details</MudText>
+                                            <MudText Class="fw-bold text-muted" Typo="Typo.caption">
+                                                You can add/edit detail
+                                            </MudText>
+                                        </MudItem>
                                         <MudItem xs="12" sm="6" md="3">
                                             <MudTextField T="string" @bind-Value="oModelCustomer.CustomerName" Label="Name"
                                                           Variant="Variant.Outlined" Required="true" AutoFocus="true"
@@ -66,8 +73,8 @@
                                         </MudItem>
 
                                         <MudItem xs="12" sm="6" md="3">
-                                            <MudTextField T="string" @bind-Value="oModelCustomer.CustomerNIC" 
-                                                          Label="NIC Number" Variant="Variant.Outlined" 
+                                            <MudTextField T="string" @bind-Value="oModelCustomer.CustomerNIC"
+                                                          Label="NIC Number" Variant="Variant.Outlined"
                                                           Required="true"
                                                           MaxLength="15"
                                                           Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.PermIdentity"
@@ -81,18 +88,117 @@
                                                          UncheckedIcon="@Icons.Material.Filled.Cancel"
                                                          Color="Color.Primary" />
                                         </MudItem>
+                                        <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-3">
+                                            <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled" Class="float-end">
+                                                @if (!loading)
+                                                {
+                                                    <MudButton Size="Size.Small" EndIcon="@Icons.Material.Filled.KeyboardArrowRight" Disabled="@(!successCustomer)" Variant="Variant.Filled"
+                                                               OnClick="()=>Next(0)">Next</MudButton>
+                                                }
+                                            </MudButtonGroup>
+                                        </MudItem>
                                     </MudGrid>
                                 </MudPaper>
                             </MudForm>
                         </MudTabPanel>
-                        <MudTabPanel Text="Booking Details">
+                        <MudTabPanel Text="Booking Details" Disabled="true">
                             <MudPaper Elevation="8" Class="dashboard-card animate-card p-4 mt-4">
                                 <MudGrid GutterSize="3">
-                                    <MudItem xs="12" sm="3" md="3" Class="d-flex align-items-center">
-                                        <MudIconButton Color="Color.Info" Icon="@Icons.Material.Filled.Add" Title="Add Detail" onclick="@AddPackageRow" />
+                                    <MudItem xs="10" sm="10" md="10" lg="10">
+                                        <MudText Class="fw-bold text-muted" Typo="Typo.caption">
+                                            You can add/edit Booking detail as per the requirement by the <b>Customer</b>
+                                        </MudText>
                                     </MudItem>
+                                    <MudItem xs="2" sm="2" md="2" lg="2" Class="float-end">
+                                        <MudIconButton Color="Color.Info" Icon="@Icons.Material.Filled.Add" Title="Add Detail" onclick="@AddBookingDetailRow" />
+                                    </MudItem>
+
+                                    <MudItem xs="12" sm="6" md="4">
+                                        <MudSelect @bind-Value="@oModelDetail.CategoryType" Clearable="false" Required="true" RequiredError="Category required" Variant="Variant.Outlined"
+                                                   Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Label="Select Category">
+                                            @foreach (var defaultValue in oCfgDefaultValueList.Where(x => x.Type == "Category"))
+                                            {
+                                                <MudSelectItem Value="@defaultValue.Name">@defaultValue.Name</MudSelectItem>
+                                            }
+                                        </MudSelect>
+                                    </MudItem>
+
+                                    <MudItem xs="12" sm="6" md="4">
+                                        <MudSelect @bind-Value="@oModelDetail.EventType" Clearable="false" Required="true" RequiredError="Event required" Variant="Variant.Outlined"
+                                                   Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Label="Select Event">
+                                            @foreach (var defaultValue in oCfgDefaultValueList.Where(x => x.Type == "EventType"))
+                                            {
+                                                <MudSelectItem Value="@defaultValue.Name">@defaultValue.Name</MudSelectItem>
+                                            }
+                                        </MudSelect>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6" md="4">
+                                        <MudTextField @bind-Value="oModelDetail.AssociateName"
+                                                      Required="true" RequiredError="Associate required" Variant="Variant.Outlined"
+                                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Label="Select Associate"
+                                                      OnAdornmentClick="@((e) => OpenDialogAssociates(maxWidth))" />
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6" md="4">
+                                        <MudTextField @bind-Value="oModelDetail.AssociateAvailability"
+                                                      Required="true" RequiredError="Associate availability required"
+                                                      Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Label="Select Associate Availability"
+                                                      OnAdornmentClick="@((e) => OpenDialogAssociatesAvailability(maxWidth, oModelDetail.AssociateKey))" />
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6" md="4">
+                                        <MudDatePicker PickerVariant="PickerVariant.Dialog" DateFormat="MM/dd/yyyy" Label="Event Date" AdditionalDateClassesFunc="CheckDate"
+                                                       @bind-Date="oModelDetail.EventDate" Variant="Variant.Outlined" Required="true" RequiredError="Date requried" PickerClosed="@PickValue"
+                                                       Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.CalendarMonth" MinDate="DateTime.Today">
+                                        </MudDatePicker>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6" md="4">
+                                        <MudSelect @bind-Value="@oModelDetail.TimeOfEvent" Clearable="false" Required="true" RequiredError="Time of Event required" Variant="Variant.Outlined"
+                                                   Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Label="Select Time of Event">
+                                            @foreach (var defaultValue in oCfgDefaultValueList.Where(x => x.Type == "TimeOfEvent"))
+                                            {
+                                                <MudSelectItem Value="@defaultValue.Name">@defaultValue.Name</MudSelectItem>
+                                            }
+                                        </MudSelect>
+                                    </MudItem>
+
+                                    <MudItem xs="12" sm="6" md="4">
+                                        <MudSelect @bind-Value="@oModelDetail.ServingType" Clearable="false" Required="true" RequiredError="Serve type required" Variant="Variant.Outlined"
+                                                   Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Label="Select Serve Type">
+                                            @foreach (var defaultValue in oCfgDefaultValueList.Where(x => x.Type == "ServiceType"))
+                                            {
+                                                <MudSelectItem Value="@defaultValue.Name">@defaultValue.Name</MudSelectItem>
+                                            }
+                                        </MudSelect>
+                                    </MudItem>
+
+                                    <MudItem xs="12" sm="6" md="4">
+
+                                        <MudTextField @bind-Value="oModelDetail.Facility"
+                                                      Variant="Variant.Outlined"
+                                                      Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Label="Select Facility"
+                                                      OnAdornmentClick="@((e) => OpenDialogFacility(maxWidth))" />
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6" md="4">
+                                        <MudNumericField Min="1" @bind-Value="oModelDetail.Gathering"
+                                                         Format="N0" Culture="@CulturePKR"
+                                                         Immediate="true" Clearable="true"
+                                                         Label="Gathering" Variant="Variant.Outlined"
+                                                         Required="true" RequiredError="Gathering required"
+                                                         Adornment="Adornment.Start"
+                                                         AdornmentText="#" />
+                                    </MudItem>
+                                    <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-3">
+                                        <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled" Class="float-end">
+                                            <MudButton StartIcon="@Icons.Material.Sharp.KeyboardArrowLeft" Variant="Variant.Filled" OnClick="() => Back(0)">Back</MudButton>
+                                            <MudButton EndIcon="@Icons.Material.Filled.KeyboardArrowRight" Disabled="@(!successBooking)" Variant="Variant.Filled"
+                                                       OnClick="()=>Next(1)">Next</MudButton>
+                                        </MudButtonGroup>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudPaper>
+                            <MudPaper Elevation="8" Class="dashboard-card animate-card p-4 mt-4">
+                                <MudGrid GutterSize="3">
                                     <MudItem xs="12">
-                                        <MudTable Items="@oListPackagesDetail"
+                                        <MudTable Items="@oBookingDetail"
                                                   Dense="true"
                                                   Hover="true"
                                                   Bordered="true"
@@ -102,92 +208,44 @@
                                                   Loading="@loading"
                                                   LoadingProgressColor="Color.Primary">
                                             <HeaderContent>
+                                                <MudTh Class="fw-bold">Category Type</MudTh>
+                                                <MudTh Class="fw-bold">Event Type</MudTh>
                                                 <MudTh Class="fw-bold">Associate</MudTh>
-                                                <MudTh Class="fw-bold">Available Day</MudTh>
-                                                <MudTh Class="fw-bold">Time Slot</MudTh>
-                                                @if (oModel.CategoryType == "Banquets")
-                                                {
-                                                    <MudTh Class="fw-bold">Min Gathering</MudTh>
-                                                    <MudTh Class="fw-bold">Max Gathering</MudTh>
-                                                }
-                                                @if (oModel.CategoryType == "Caterers")
-                                                {
-                                                    <MudTh Class="fw-bold">Item List</MudTh>
-                                                    <MudTh Class="fw-bold">Min Head</MudTh>
-                                                    <MudTh Class="fw-bold">Per Head</MudTh>
-                                                    <MudTh Class="fw-bold">Rate Per Head</MudTh>
-                                                }
-                                                @if (oModel.CategoryType == "Photographer")
-                                                {
-                                                    <MudTh Class="fw-bold">Package Name</MudTh>
-                                                    <MudTh Class="fw-bold">Photos Included</MudTh>
-                                                    <MudTh Class="fw-bold">Video Length</MudTh>
-                                                    <MudTh Class="fw-bold">Days Covered</MudTh>
-                                                    <MudTh Class="fw-bold">Rate Per Day</MudTh>
-                                                }
-                                                <MudTh Class="fw-bold">Price</MudTh>
+                                                <MudTh Class="fw-bold">Availability</MudTh>
+                                                <MudTh Class="fw-bold">Event Date</MudTh>
+                                                <MudTh Class="fw-bold">Time of Event</MudTh>
+                                                <MudTh Class="fw-bold">Serve Type</MudTh>
+                                                <MudTh Class="fw-bold">Facilities</MudTh>
+                                                <MudTh Class="fw-bold">Gathering</MudTh>
                                                 <MudTh Class="fw-bold">Action</MudTh>
                                             </HeaderContent>
                                             <RowTemplate Context="d1">
                                                 <MudTd>
-                                                    <MudTd>
-                                                        <MudTextField @bind-Value="d1.AssociateBusinessName" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.ManageSearch"
-                                                                      OnAdornmentClick="@((e) => OpenDialogAssociates(maxWidth))" Required="true" />
-                                                    </MudTd>
+                                                    <MudHighlighter Text="@d1.CategoryType" Class="text-primary fw-bold" />
                                                 </MudTd>
                                                 <MudTd>
-                                                    <MudTextField @bind-Value="d1.AvailableDays" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.ManageSearch"
-                                                                  OnAdornmentClick="@((e) => OpenDialogAssociatesAvailability(maxWidth, d1.AssociateKey))" Required="true" />
+                                                    <MudHighlighter Text="@d1.EventType" Class="text-primary fw-bold" />
                                                 </MudTd>
                                                 <MudTd>
-                                                    <MudTextField @bind-Value="d1.TimeSlots" Variant="Variant.Outlined" Required="true" />
+                                                    <MudHighlighter Text="@d1.AssociateName" Class="text-primary fw-bold" />
                                                 </MudTd>
-                                                @if (oModel.CategoryType == "Banquets")
-                                                {
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.MinGathering" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.MaxGathering" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                }
-                                                @if (oModel.CategoryType == "Caterers")
-                                                {
-                                                    <MudTd>
-                                                        <MudTextField @bind-Value="d1.ItemName" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.ManageSearch"
-                                                                      OnAdornmentClick="@((e) => OpenDialogAssociatesPackages(maxWidth, d1.AssociateKey))" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.MinGathering" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.PerHead" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.RatePerHead" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                }
-                                                @if (oModel.CategoryType == "Photographer")
-                                                {
-                                                    <MudTd>
-                                                        <MudTextField @bind-Value="d1.Description" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.ManageSearch"
-                                                                      OnAdornmentClick="@((e) => OpenDialogAssociatesPackages(maxWidth, d1.AssociateKey))" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.PhotosIncluded" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.VideoLength" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.PerHead" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.RatePerHead" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                }
                                                 <MudTd>
-                                                    <MudNumericField Min="1" @bind-Value="d1.Price" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
+                                                    <MudHighlighter Text="@d1.AssociateAvailability" Class="text-primary fw-bold" />
+                                                </MudTd>
+                                                <MudTd>
+                                                    <MudHighlighter Text="@Convert.ToDateTime(d1.EventDate).ToString("MM/dd/yyyy")" Class="text-primary fw-bold" />
+                                                </MudTd>
+                                                <MudTd>
+                                                    <MudHighlighter Text="@d1.TimeOfEvent" Class="text-primary fw-bold" />
+                                                </MudTd>
+                                                <MudTd>
+                                                    <MudHighlighter Text="@d1.ServingType" Class="text-primary fw-bold" />
+                                                </MudTd>
+                                                <MudTd>
+                                                    <MudHighlighter Text="@d1.Facility" Class="text-primary fw-bold" />
+                                                </MudTd>
+                                                <MudTd>
+                                                    <MudHighlighter Text="@d1.Gathering.ToString("N2")" Class="text-primary fw-bold" />
                                                 </MudTd>
                                                 <MudTd>
                                                     <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@(() => DeleteRecord(d1.Id))" Title="Delete" />
@@ -198,144 +256,220 @@
                                 </MudGrid>
                             </MudPaper>
                         </MudTabPanel>
-                        <MudTabPanel Text="Payment Details">
-                            <MudPaper Elevation="8" Class="dashboard-card animate-card p-4 mt-4">
-                                <MudGrid GutterSize="3">
-                                    <MudItem xs="12" sm="3" md="3" Class="d-flex align-items-center">
-                                        <MudIconButton Color="Color.Info" Icon="@Icons.Material.Filled.Add" Title="Add Detail" onclick="@AddPackageRow" />
-                                    </MudItem>
-                                    <MudItem xs="12">
-                                        <MudTable Items="@oListPackagesDetail"
-                                                  Dense="true"
-                                                  Hover="true"
-                                                  Bordered="true"
-                                                  Striped="true"
-                                                  RowsPerPage="10"
-                                                  Elevation="0"
-                                                  Loading="@loading"
-                                                  LoadingProgressColor="Color.Primary">
-                                            <HeaderContent>
-                                                <MudTh Class="fw-bold">Associate</MudTh>
-                                                <MudTh Class="fw-bold">Available Day</MudTh>
-                                                <MudTh Class="fw-bold">Time Slot</MudTh>
-                                                @if (oModel.CategoryType == "Banquets")
+                        <MudTabPanel Text="Payment Details" Disabled="true">
+                            <MudForm @ref="formPayment" @bind-IsValid="@successPayment" @bind-Errors="@errors">
+                                <MudPaper Elevation="8" Class="dashboard-card animate-card p-4 mt-4">
+                                    <MudGrid GutterSize="3">
+                                        <MudItem xs="10" sm="10" md="10" lg="10">
+                                            <MudText Class="fw-bold text-muted" Typo="Typo.caption">
+                                                You can add/edit Booking payment detail as per the requirement by the <b>Customer</b>
+                                            </MudText>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="6" md="4">
+                                            <MudSelect @bind-Value="@oModelPayment.PaymentTerms" Clearable="false" Disabled="@IsEdit" Required="true" RequiredError="Payment Terms required" Variant="Variant.Outlined"
+                                                       Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Label="Select Payment Term">
+                                                @foreach (var defaultValue in oCfgDefaultValueList.Where(x => x.Type == "PaymentTerms"))
                                                 {
-                                                    <MudTh Class="fw-bold">Min Gathering</MudTh>
-                                                    <MudTh Class="fw-bold">Max Gathering</MudTh>
+                                                    <MudSelectItem Value="@defaultValue.Name">@defaultValue.Name</MudSelectItem>
                                                 }
-                                                @if (oModel.CategoryType == "Caterers")
-                                                {
-                                                    <MudTh Class="fw-bold">Item List</MudTh>
-                                                    <MudTh Class="fw-bold">Min Head</MudTh>
-                                                    <MudTh Class="fw-bold">Per Head</MudTh>
-                                                    <MudTh Class="fw-bold">Rate Per Head</MudTh>
-                                                }
-                                                @if (oModel.CategoryType == "Photographer")
-                                                {
-                                                    <MudTh Class="fw-bold">Package Name</MudTh>
-                                                    <MudTh Class="fw-bold">Photos Included</MudTh>
-                                                    <MudTh Class="fw-bold">Video Length</MudTh>
-                                                    <MudTh Class="fw-bold">Days Covered</MudTh>
-                                                    <MudTh Class="fw-bold">Rate Per Day</MudTh>
-                                                }
-                                                <MudTh Class="fw-bold">Price</MudTh>
-                                                <MudTh Class="fw-bold">Action</MudTh>
-                                            </HeaderContent>
-                                            <RowTemplate Context="d1">
-                                                <MudTd>
-                                                    <MudTd>
-                                                        <MudTextField @bind-Value="d1.AssociateBusinessName" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.ManageSearch"
-                                                                      OnAdornmentClick="@((e) => OpenDialogAssociates(maxWidth))" Required="true" />
-                                                    </MudTd>
-                                                </MudTd>
-                                                <MudTd>
-                                                    <MudTextField @bind-Value="d1.AvailableDays" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.ManageSearch"
-                                                                  OnAdornmentClick="@((e) => OpenDialogAssociatesAvailability(maxWidth, d1.AssociateKey))" Required="true" />
-                                                </MudTd>
-                                                <MudTd>
-                                                    <MudTextField @bind-Value="d1.TimeSlots" Variant="Variant.Outlined" Required="true" />
-                                                </MudTd>
-                                                @if (oModel.CategoryType == "Banquets")
-                                                {
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.MinGathering" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.MaxGathering" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                }
-                                                @if (oModel.CategoryType == "Caterers")
-                                                {
-                                                    <MudTd>
-                                                        <MudTextField @bind-Value="d1.ItemName" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.ManageSearch"
-                                                                      OnAdornmentClick="@((e) => OpenDialogAssociatesPackages(maxWidth, d1.AssociateKey))" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.MinGathering" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.PerHead" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.RatePerHead" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                }
-                                                @if (oModel.CategoryType == "Photographer")
-                                                {
-                                                    <MudTd>
-                                                        <MudTextField @bind-Value="d1.Description" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.ManageSearch"
-                                                                      OnAdornmentClick="@((e) => OpenDialogAssociatesPackages(maxWidth, d1.AssociateKey))" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.PhotosIncluded" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.VideoLength" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.PerHead" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.RatePerHead" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                }
-                                                <MudTd>
-                                                    <MudNumericField Min="1" @bind-Value="d1.Price" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                </MudTd>
-                                                <MudTd>
-                                                    <MudIconButton Color="Color.Primary" Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Delete" OnClick="@(() => DeleteRecord(d1.Id))" Title="Delete" />
-                                                </MudTd>
-                                            </RowTemplate>
-                                        </MudTable>
-                                    </MudItem>
-                                </MudGrid>
-                            </MudPaper>
+                                            </MudSelect>
+                                        </MudItem>
+
+                                        <MudItem xs="12" sm="6" md="4">
+                                            <MudNumericField Min="1" @bind-Value="oModelPayment.Amount"
+                                                             Format="N0" OnBlur="CalculateRemainingAmount"
+                                                             Immediate="true" Clearable="true"
+                                                             Label="Enter Amount" Variant="Variant.Outlined"
+                                                             Required="true" RequiredError="Amount required"
+                                                             Adornment="Adornment.Start"
+                                                             AdornmentText="Rs" />
+                                        </MudItem>
+                                        <MudItem xs="12" sm="6" md="4">
+                                            <MudNumericField Min="1" @bind-Value="oModelPayment.Deposit"
+                                                             Format="N0" OnBlur="CalculateRemainingAmount"
+                                                             Immediate="true" Clearable="true"
+                                                             Label="Enter Deposit" Variant="Variant.Outlined"
+                                                             Required="true" RequiredError="Deposit required"
+                                                             Adornment="Adornment.Start"
+                                                             AdornmentText="Rs" />
+                                        </MudItem>
+                                        <MudItem xs="12" sm="6" md="4">
+                                            <MudNumericField Min="1" @bind-Value="oModelPayment.Remaining"
+                                                             Format="N0"
+                                                             Immediate="true" Clearable="true"
+                                                             Label="Remaining" Variant="Variant.Outlined"
+                                                             Required="true" RequiredError="Remaining required"
+                                                             Adornment="Adornment.Start" Disabled="true"
+                                                             AdornmentText="Rs" />
+                                        </MudItem>
+                                        <MudItem xs="12" sm="6" md="4">
+                                            <MudDatePicker PickerVariant="PickerVariant.Dialog" DateFormat="MM/dd/yyyy" Label="Payment Date"
+                                                           @bind-Date="oModelPayment.PaymentDate" Variant="Variant.Outlined" Required="true" RequiredError="Date requried"
+                                                           Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.CalendarMonth" MinDate="DateTime.Today">
+                                            </MudDatePicker>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="6" md="4">
+                                            <MudDatePicker PickerVariant="PickerVariant.Dialog" DateFormat="MM/dd/yyyy" Label="Payment Due Date"
+                                                           @bind-Date="oModelPayment.SecondPaymentDate" Variant="Variant.Outlined" Required="true" RequiredError="Date requried"
+                                                           Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.CalendarMonth" MinDate="DateTime.Today">
+                                            </MudDatePicker>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-3">
+                                            <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled" Class="float-end">
+                                                <MudButton StartIcon="@Icons.Material.Sharp.KeyboardArrowLeft" Variant="Variant.Filled" OnClick="() => Back(1)">Back</MudButton>
+                                                <MudButton EndIcon="@Icons.Material.Filled.KeyboardArrowRight" Disabled="@(!successPayment)" Variant="Variant.Filled"
+                                                           OnClick="()=>Next(2)">Next</MudButton>
+                                            </MudButtonGroup>
+                                        </MudItem>
+                                    </MudGrid>
+                                </MudPaper>
+                            </MudForm>
+                        </MudTabPanel>
+                        <MudTabPanel Text="Invoice" Disabled="true">
+                            <MudForm @ref="formInvoice" @bind-IsValid="@successInvoice" @bind-Errors="@errors">
+                                <MudPaper Elevation="8" Class="dashboard-card animate-card p-4 mt-4">
+                                    <MudGrid GutterSize="3">
+                                        <MudItem xs="10" sm="10" md="10" lg="10">
+                                            <MudText Class="fw-bold text-muted" Typo="Typo.caption">
+                                                The invoice of current <b>Booking</b>
+                                            </MudText>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-5">
+                                            <img src="../images/logo.png" class="brand-logo" style="width:280px; height:65px" />
+                                        </MudItem>
+                                        <MudGrid Spacing="1" Class="pl-2">
+                                            <MudItem xs="8" sm="8" md="8" lg="8">
+                                                <MudGrid Spacing="1" Class="pl-2">
+                                                    <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-3">
+                                                        <MudText Class="fw-bold" Typo="Typo.h5">Invoice No: <b>@InvoiceNo</b></MudText>
+                                                    </MudItem>
+                                                    <MudItem xs="6" sm="6" md="6" lg="6" Class="mt-3">
+                                                        <MudText Class="text-muted" Typo="Typo.body1">Issue Date:</MudText>
+                                                        <MudText Class="fw-bold" Typo="Typo.h6">@DateTime.Now.ToString("MM/dd/yyyy")</MudText>
+                                                    </MudItem>
+                                                    <MudItem xs="6" sm="6" md="6" lg="6" Class="mt-3">
+                                                        <MudText Class="text-muted" Typo="Typo.body1">Due Date:</MudText>
+                                                        <MudText Class="fw-bold" Typo="Typo.h6">@oModelPayment.SecondPaymentDate?.ToString("MM/dd/yyyy")</MudText>
+                                                    </MudItem>
+                                                    <MudItem xs="6" sm="6" md="6" lg="6" Class="mt-3">
+                                                        <MudText Class="text-muted" Typo="Typo.body1">Issue For:</MudText>
+                                                        <MudText Class="fw-bold" Typo="Typo.h6">@oModelCustomer.CustomerName</MudText>
+                                                        <MudText Class="text-muted" Typo="Typo.h6">@oModelCustomer.CustomerNIC</MudText>
+                                                        <MudText Class="text-muted" Typo="Typo.h6">@oModelCustomer.CustomerEmail</MudText>
+                                                        <MudText Class="text-muted" Typo="Typo.h6">@oModelCustomer.CustomerContact</MudText>
+                                                    </MudItem>
+                                                    <MudItem xs="6" sm="6" md="6" lg="6" Class="mt-3">
+                                                        <MudText Class="text-muted" Typo="Typo.body1">Issue By:</MudText>
+                                                        <MudText Class="fw-bold" Typo="Typo.h6">Feast Planner</MudText>
+                                                        <MudText Class="text-muted" Typo="Typo.h6">Fb Area Block 14 Karachi, Pakistan</MudText>
+                                                        <MudText Class="text-muted" Typo="Typo.h6">support@feastplanner.com</MudText>
+                                                        <MudText Class="text-muted" Typo="Typo.h6">+923333138515</MudText>
+                                                    </MudItem>
+                                                    <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-3">
+                                                        <MudTable Items="@oBookingDetail" class="table-responsive" Dense="true" Hover="true" Elevation="0" Bordered="false" Striped="false" RowsPerPage="5"
+                                                                  Loading="@loading" LoadingProgressColor="Color.Primary">
+                                                            <ToolBarContent>
+                                                                <MudText Typo="Typo.h6">Booking Details</MudText>
+                                                                <MudSpacer />
+                                                            </ToolBarContent>
+                                                            <HeaderContent>
+                                                                <MudTh Class="fw-bold">Category Type</MudTh>
+                                                                <MudTh Class="fw-bold">Event Type</MudTh>
+                                                                <MudTh Class="fw-bold">Associate</MudTh>
+                                                                <MudTh Class="fw-bold">Availability</MudTh>
+                                                                <MudTh Class="fw-bold">Event Date</MudTh>
+                                                                <MudTh Class="fw-bold">Time of Event</MudTh>
+                                                                <MudTh Class="fw-bold">Serving</MudTh>
+                                                                <MudTh Class="fw-bold">Gatheirng</MudTh>
+                                                            </HeaderContent>
+                                                            <NoRecordsContent>
+                                                                <MudText Style="white-space: pre-wrap;">No record found...</MudText>
+                                                            </NoRecordsContent>
+                                                            <RowTemplate Context="d1">
+                                                                <MudTd DataLabel="Book For">@d1.CategoryType</MudTd>
+                                                                <MudTd DataLabel="Book For">@d1.EventType</MudTd>
+                                                                <MudTd DataLabel="Book For">@d1.AssociateName</MudTd>
+                                                                <MudTd DataLabel="Book For">@d1.AssociateAvailability</MudTd>
+                                                                <MudTd DataLabel="Event Date">@Convert.ToDateTime(d1.EventDate).ToString("MM/dd/yyyy")</MudTd>
+                                                                <MudTd DataLabel="Gathering">@d1.TimeOfEvent</MudTd>
+                                                                <MudTd DataLabel="Food Items">@d1.ServingType</MudTd>
+                                                                <MudTd DataLabel="Time of Event">@d1.Gathering</MudTd>
+                                                            </RowTemplate>
+                                                            <PagerContent>
+                                                                <MudTablePager />
+                                                            </PagerContent>
+                                                        </MudTable>
+                                                    </MudItem>
+                                                    <MudDivider />
+                                                    <MudItem xs="4" sm="4" md="4" lg="4" Class="mt-3 float-end justify-content-end text-end">
+                                                        <MudText Class="text-muted" Typo="Typo.body1">Total</MudText>
+                                                        <MudText Class="fw-bold" Typo="Typo.h6">@oModelPayment.Amount.ToString("C2", CultureInfo.CreateSpecificCulture("ur-PK"))</MudText>
+                                                    </MudItem>
+                                                    <MudItem xs="4" sm="4" md="4" lg="4" Class="mt-3 float-end justify-content-end text-end">
+                                                        <MudText Class="text-muted" Typo="Typo.body1">Paid</MudText>
+                                                        <MudText Class="fw-bold" Typo="Typo.h6">@oModelPayment.Deposit.ToString("C2", CultureInfo.CreateSpecificCulture("ur-PK"))</MudText>
+                                                    </MudItem>
+                                                    <MudItem xs="4" sm="4" md="4" lg="4" Class="mt-3 float-end justify-content-end text-end">
+                                                        <MudText Class="text-muted" Typo="Typo.body1">Remaining</MudText>
+                                                        <MudText Class="fw-bold" Typo="Typo.h6">@oModelPayment.Remaining.ToString("C2", CultureInfo.CreateSpecificCulture("ur-PK"))</MudText>
+                                                    </MudItem>
+                                                </MudGrid>
+                                            </MudItem>
+                                            <MudItem xs="4" sm="4" md="4" lg="4">
+                                                <MudPaper Elevation="2" Class="pa-4 mt-5">
+                                                    <MudGrid Spacing="1" Class="pl-2">
+                                                        <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-3">
+                                                            <MudText Class="fw-bold" Typo="Typo.h5">Payment Details</MudText>
+                                                        </MudItem>
+                                                        <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-3">
+                                                            <MudText Class="text-muted" Typo="Typo.body1">Payment Terms:</MudText>
+                                                            <MudText Class="fw-bold" Typo="Typo.h6">@oModelPayment.PaymentTerms</MudText>
+                                                        </MudItem>
+                                                        <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-3">
+                                                            <MudText Class="text-muted" Typo="Typo.body1">Completed By:</MudText>
+                                                            <MudText Class="fw-bold" Typo="Typo.h6">@LoggedInUser</MudText>
+                                                        </MudItem>
+                                                        <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-3">
+                                                            <MudText Class="text-muted" Typo="Typo.body1">Invoice Date:</MudText>
+                                                            <MudText Class="fw-bold" Typo="Typo.h6">@DateTime.Now</MudText>
+                                                        </MudItem>
+                                                        <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-3">
+                                                            <MudText Class="text-muted" Typo="Typo.body1">Note:</MudText>
+                                                            <MudText Class="fw-bold" Typo="Typo.caption">This is system generated invoice and doesn't need any signature or stamp, <br /> this invoice will be treated as evidence for the future references.</MudText>
+                                                        </MudItem>
+                                                    </MudGrid>
+                                                </MudPaper>
+                                            </MudItem>
+                                            <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-3">
+                                                <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled" Class="float-end">
+                                                    <MudButton StartIcon="@Icons.Material.Sharp.KeyboardArrowLeft" Variant="Variant.Filled" OnClick="() => Back(2)">Back</MudButton>
+                                                    <MudButton Class="login-btn mt-3"
+                                                               Variant="Variant.Filled"
+                                                               Color="Color.Primary"
+                                                               Disabled="@(loading)"
+                                                               StartIcon="@Icons.Material.Sharp.Save"
+                                                               OnClick="Save">
+                                                        @if (loading)
+                                                        {
+                                                            <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                                                            <span class="ms-2">Processing...</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <MudText>Confirm</MudText>
+                                                        }
+                                                    </MudButton>
+                                                </MudButtonGroup>
+                                            </MudItem>
+                                        </MudGrid>
+                                    </MudGrid>
+                                </MudPaper>
+                            </MudForm>
                         </MudTabPanel>
                     </MudTabs>
-                    <MudItem xs="12" sm="3" md="3">
-                        <MudButton FullWidth="true"
-                                   Class="login-btn mt-3"
-                                   Variant="Variant.Filled"
-                                   Color="Color.Primary"
-                                   Disabled="@(loading)"
-                                   StartIcon="@Icons.Material.Sharp.Save"
-                                   OnClick="Save">
-                            @if (loading)
-                            {
-                                <MudProgressCircular Size="Size.Small" Indeterminate="true" />
-                                <span class="ms-2">Processing...</span>
-                            }
-                            else
-                            {
-                                <MudText>Save</MudText>
-                            }
-                        </MudButton>
-                    </MudItem>
                 </MudItem>
             </MudContainer>
-
         </div>
-
     </Authorized>
     <NotAuthorized>
         <NotAuthorizedPage />

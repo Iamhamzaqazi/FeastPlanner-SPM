@@ -8,6 +8,9 @@ namespace AppDBContext.Models
 {
     public partial class TrnsBusinessBookingPayment : BaseEntity
     {
+        public int DocEntry { get; set; }
+        public string CustomerKey { get; set; }
+        public string BusinessKey { get; set; }
         public string BookingKey { get; set; }
         public string PaymentTerms { get; set; }
         public decimal Amount { get; set; }

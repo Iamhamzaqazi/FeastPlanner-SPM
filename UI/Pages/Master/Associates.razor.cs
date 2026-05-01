@@ -201,6 +201,18 @@ namespace UI.Pages.Master
             Selector = (e) => e.AvailableDays
 
         };
+
+        private void CalculateAmount(MstAssociatesPackages d1)
+        {
+            try
+            {
+                d1.Amount = d1.ItemsCount * d1.ItemPrice;
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+            }
+        }
         private async Task GetAreaByCity()
         {
             try
@@ -299,7 +311,7 @@ namespace UI.Pages.Master
             {
                 await Task.Delay(1);
                 MstAssociatesPackages packages = new MstAssociatesPackages();
-                if (oListPackages.Any(x => string.IsNullOrWhiteSpace(x.ItemName) && x.ItemsCount == 0 && x.ItemPrice == 0 && x.MinHead == 0))
+                if (oListPackages.Any(x => string.IsNullOrWhiteSpace(x.ItemName) && x.ItemsCount == 0 && x.ItemPrice == 0 && x.Amount == 0))
                 {
                     Snackbar.Add("Fill the detail first", Severity.Error);
                 }

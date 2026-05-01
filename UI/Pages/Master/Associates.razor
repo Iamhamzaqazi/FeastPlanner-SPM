@@ -236,7 +236,7 @@
                                                       LoadingProgressColor="Color.Primary">
                                                 <HeaderContent>
                                                     <MudTh Class="fw-bold">Package Name</MudTh>
-                                                    <MudTh Class="fw-bold">Photos Included</MudTh>
+                                                    <MudTh Class="fw-bold">Count</MudTh>
                                                     <MudTh Class="fw-bold">Rate</MudTh>
                                                     @* <MudTh Class="fw-bold">Facilities</MudTh> *@
                                                     <MudTh Class="fw-bold">Remarks</MudTh>
@@ -288,9 +288,10 @@
                                                       LoadingProgressColor="Color.Primary">
                                                 <HeaderContent>
                                                     <MudTh Class="fw-bold">Item Name</MudTh>
-                                                    <MudTh Class="fw-bold">Items Count</MudTh>
-                                                    <MudTh Class="fw-bold">Rate Per Head</MudTh>
-                                                    <MudTh Class="fw-bold">Min Head</MudTh>
+                                                    <MudTh Class="fw-bold">Packing</MudTh>
+                                                    <MudTh Class="fw-bold">Qunatity</MudTh>
+                                                    <MudTh Class="fw-bold">Price</MudTh>
+                                                    <MudTh Class="fw-bold">Amount</MudTh>
                                                     <MudTh Class="fw-bold">Remarks</MudTh>
                                                     <MudTh Class="fw-bold">Action</MudTh>
                                                 </HeaderContent>
@@ -299,13 +300,21 @@
                                                         <MudTextField T="string" @bind-Value="d1.ItemName" Variant="Variant.Outlined" Required="true" />
                                                     </MudTd>
                                                     <MudTd>
+                                                        <MudSelect @bind-Value="@d1.Packing" Clearable="false" Variant="Variant.Outlined">
+                                                            @foreach (var defaultValue in oCfgDefaultValueList.Where(x => x.Type == "PackingType"))
+                                                            {
+                                                                <MudSelectItem Value="@defaultValue.Name">@defaultValue.Name</MudSelectItem>
+                                                            }
+                                                        </MudSelect>
+                                                    </MudTd>
+                                                    <MudTd>
                                                         <MudNumericField Min="1" @bind-Value="d1.ItemsCount" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
                                                     </MudTd>
                                                     <MudTd>
                                                         <MudNumericField Min="1" @bind-Value="d1.ItemPrice" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
                                                     </MudTd>
                                                     <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.MinHead" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
+                                                        <MudNumericField Min="1" @bind-Value="d1.Amount" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
                                                     </MudTd>
                                                     <MudTd>
                                                         <MudTextField T="string" @bind-Value="d1.Remarks" Variant="Variant.Outlined" Required="true" />

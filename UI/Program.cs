@@ -7,6 +7,7 @@ global using Blazored.LocalStorage;
 global using MudBlazor;
 global using MudBlazor.Services;
 using AppDBContext.Interfaces.Authentication;
+using AppDBContext.Interfaces.Booking;
 using AppDBContext.Interfaces.Business;
 using AppDBContext.Interfaces.Financials;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.Http.Connections;
 using System.Text.Json.Serialization;
 using UI.Authentication;
 using UI.Services.Authenticate;
+using UI.Services.Booking;
 using UI.Services.Business;
 using UI.Services.Financials;
 using UI.Services.MasterData;
@@ -66,6 +68,7 @@ builder.Services.AddScoped<IMstUserAuthorization, MstUserAuthorizationService>()
 builder.Services.AddScoped<IMasterData, MasterDataService>();
 builder.Services.AddScoped<IBusinessData, BusinessDataService>();
 builder.Services.AddScoped<ITrnsFinancial, TrnsFinancialService>();
+builder.Services.AddScoped<IBooking, BookingDataService>();
 builder.Services.AddSingleton<ActiveUsersService>(); // Register active user service
 
 UIConfig.AppVersion = builder.Configuration.GetValue<string>("AppVersion");

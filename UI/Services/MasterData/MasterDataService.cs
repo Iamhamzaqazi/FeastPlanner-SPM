@@ -258,6 +258,57 @@ namespace UI.Services.MasterData
 
         #endregion
 
+        #region Mst BusinessCustomer
+        public async Task<List<MstBusinessCustomer>> GetAllBusinessCustomerData(string Clause)
+        {
+            try
+            {
+                List<MstBusinessCustomer> oList = new List<MstBusinessCustomer>();
+
+                var request = new RestRequest("MasterData/getAllBusinessCustomerClause", Method.Get) { RequestFormat = DataFormat.Json };
+                request.AddHeader("Authorization", await GetToken());
+                request.AddParameter("Clause", Clause);
+                var response = await _restClient.ExecuteAsync<List<MstBusinessCustomer>>(request);
+
+                if (response.IsSuccessful)
+                {
+                    return response.Data;
+                }
+                else
+                {
+                    return response.Data;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+                return null;
+            }
+        }
+        public async Task<APIResponseModel> Crud(MstBusinessCustomer oMstBusinessCustomer)
+        {
+            APIResponseModel response = new APIResponseModel();
+            try
+            {
+                var request = new RestRequest("MasterData/crudBusinessCustomer", Method.Post);
+                request.AddHeader("Authorization", await GetToken());
+                request.AddJsonBody(oMstBusinessCustomer);
+                var res = await _restClient.ExecuteAsync(request);
+                var contentObj = JsonConvert.DeserializeObject<APIResponseModel>(res.Content);
+                response.Id = contentObj.Id;
+                response.Message = contentObj.Message;
+            }
+            catch (Exception ex)
+            {
+                response.Id = 0;
+                response.Message = ex.Message;
+                LogsUI.GenerateLogs(ex);
+            }
+            return response;
+        }
+
+        #endregion
+
         #region Mst Associates
         public async Task<List<MstAssociates>> GetAllAssociatesData(string Clause)
         {

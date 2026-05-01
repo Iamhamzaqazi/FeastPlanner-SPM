@@ -1,5 +1,6 @@
 ﻿@using System.Net.Http
 @using AppDBContext.Interfaces.Authentication
+@using AppDBContext.Interfaces.Booking
 @using AppDBContext.Interfaces.Business
 @using AppDBContext.Interfaces.Financials
 @using Microsoft.AspNetCore.Authorization
@@ -31,3 +32,4 @@
 @inject IMstUserAuthorization _mstUserAuthorization
 @inject IBusinessData _businessData
 @inject ITrnsFinancial _trnsFinancial
+@inject IBooking _trnsBooking

@@ -125,18 +125,15 @@
                                                 }
                                                 @if (oModel.CategoryType == "Caterers")
                                                 {
-                                                    <MudTh Class="fw-bold">Item List</MudTh>
-                                                    <MudTh Class="fw-bold">Min Head</MudTh>
-                                                    <MudTh Class="fw-bold">Per Head</MudTh>
-                                                    <MudTh Class="fw-bold">Rate Per Head</MudTh>
+                                                    <MudTh Class="fw-bold">Item Name</MudTh>
+                                                    <MudTh Class="fw-bold">Quantity</MudTh>
                                                 }
                                                 @if (oModel.CategoryType == "Photographer")
                                                 {
                                                     <MudTh Class="fw-bold">Package Name</MudTh>
                                                     <MudTh Class="fw-bold">Photos Included</MudTh>
                                                     <MudTh Class="fw-bold">Video Length</MudTh>
-                                                    <MudTh Class="fw-bold">Days Covered</MudTh>
-                                                    <MudTh Class="fw-bold">Rate Per Day</MudTh>
+                                                    <MudTh Class="fw-bold">Quantity</MudTh>
                                                 }
                                                 <MudTh Class="fw-bold">Price</MudTh>
                                                 <MudTh Class="fw-bold">Action</MudTh>
@@ -171,19 +168,16 @@
                                                                       OnAdornmentClick="@((e) => OpenDialogAssociatesPackages(maxWidth, d1.AssociateKey))" Required="true" />
                                                     </MudTd>
                                                     <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.MinGathering" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.PerHead" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
                                                         <MudNumericField Min="1" @bind-Value="d1.RatePerHead" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
+                                                    </MudTd>
+                                                    <MudTd>
+                                                        <MudNumericField Min="1" @bind-Value="d1.MinGathering" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
                                                     </MudTd>
                                                 }
                                                 @if (oModel.CategoryType == "Photographer")
                                                 {
                                                     <MudTd>
-                                                        <MudTextField @bind-Value="d1.Description" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.ManageSearch"
+                                                        <MudTextField @bind-Value="d1.ItemName" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.ManageSearch"
                                                                       OnAdornmentClick="@((e) => OpenDialogAssociatesPackages(maxWidth, d1.AssociateKey))" Required="true" />
                                                     </MudTd>
                                                     <MudTd>
@@ -191,9 +185,6 @@
                                                     </MudTd>
                                                     <MudTd>
                                                         <MudNumericField Min="1" @bind-Value="d1.VideoLength" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
-                                                    </MudTd>
-                                                    <MudTd>
-                                                        <MudNumericField Min="1" @bind-Value="d1.PerHead" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />
                                                     </MudTd>
                                                     <MudTd>
                                                         <MudNumericField Min="1" @bind-Value="d1.RatePerHead" Variant="Variant.Outlined" Format="N2" Culture="@CulturePKR" Required="true" />

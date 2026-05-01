@@ -10,5 +10,6 @@ namespace AppDBContext.VMModels
     {
         public int Id { get; set; }
         public string? Message { get; set; }
+        public string? UniqueKey { get; set; }
     }
 }

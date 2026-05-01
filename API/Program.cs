@@ -1,6 +1,7 @@
 using API.Authentication;
 using API.DapperDAL;
 using API.Repository.Authenticate;
+using API.Repository.Booking;
 using API.Repository.Business;
 using API.Repository.Financials;
 using API.Repository.MasterData;
@@ -8,6 +9,7 @@ using API.Repository.User;
 using API.SignalHub;
 using AppDBContext.General;
 using AppDBContext.Interfaces.Authentication;
+using AppDBContext.Interfaces.Booking;
 using AppDBContext.Interfaces.Business;
 using AppDBContext.Interfaces.Dapper;
 using AppDBContext.Interfaces.Financials;
@@ -41,6 +43,7 @@ builder.Services.AddScoped<IMstUserAuthorization, MstUserAuthorizationRepo>();
 builder.Services.AddScoped<IMasterData, MasterDataRepo>();
 builder.Services.AddScoped<IBusinessData, BusinessDataRepo>();
 builder.Services.AddScoped<ITrnsFinancial, TrnsFinancialRepo>();
+builder.Services.AddScoped<IBooking, BookingDataRepo>();
 
 APIConfig.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 APIConfig.RepositoryType = builder.Configuration.GetValue<string>("RepositoryType");

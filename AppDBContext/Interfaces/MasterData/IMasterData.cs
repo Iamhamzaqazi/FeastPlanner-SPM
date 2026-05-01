@@ -36,6 +36,12 @@ namespace AppDBContext.Interfaces.MasterData
 
         #endregion
 
+        #region Mst BusinessCustomer
+        Task<List<MstBusinessCustomer>> GetAllBusinessCustomerData(string Clause);
+        Task<APIResponseModel> Crud(MstBusinessCustomer oMstBusinessCustomer);
+
+        #endregion
+
         #region Default Value
 
         Task<List<CfgDefaultValue>> GetAllDefaultValueData(string Clause);

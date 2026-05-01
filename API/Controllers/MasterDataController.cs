@@ -258,6 +258,58 @@ namespace API.Controllers
 
         #endregion
 
+        #region Mst BusinessCustomer
+
+        [Route("getAllBusinessCustomerClause")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllBusinessCustomerData(string Clause)
+        {
+            List<MstBusinessCustomer> oModel = new List<MstBusinessCustomer>();
+            try
+            {
+                oModel = await _masterData.GetAllBusinessCustomerData(Clause);
+                if (oModel == null)
+                {
+                    return BadRequest(oModel);
+                }
+                else
+                {
+                    return Ok(oModel);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsAPI.GenerateLogs(ex);
+                return BadRequest("Something went wrong.");
+            }
+        }
+
+        [Route("crudBusinessCustomer")]
+        [HttpPost]
+        public async Task<IActionResult> Crud([FromBody] MstBusinessCustomer oModel)
+        {
+            APIResponseModel response = new APIResponseModel();
+            try
+            {
+                response = await _masterData.Crud(oModel);
+                if (response == null || response.Id == 0)
+                {
+                    return BadRequest(response);
+                }
+                else
+                {
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogsAPI.GenerateLogs(ex);
+                return BadRequest("Something went wrong.");
+            }
+        }
+
+        #endregion
+
         #region Mst Associates
 
         [Route("getAllAssociatesClause")]

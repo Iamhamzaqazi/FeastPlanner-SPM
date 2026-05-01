@@ -13,9 +13,10 @@ namespace AppDBContext.Models
         public string AssociateKey { get; set; }
         public string BusinessKey { get; set; }
         public string ItemName { get; set; }
+        public string Packing { get; set; }
         public decimal ItemsCount { get; set; }
         public decimal ItemPrice { get; set; }
-        public decimal MinHead { get; set; }
+        public decimal Amount { get; set; }
         public string Remarks { get; set; }
     }
 }

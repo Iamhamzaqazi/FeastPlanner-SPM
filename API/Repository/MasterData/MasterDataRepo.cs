@@ -319,6 +319,78 @@ namespace API.Repository.MasterData
 
         #endregion
 
+        #region Mst BusinessCustomer
+        public async Task<List<MstBusinessCustomer>> GetAllBusinessCustomerData(string Clause)
+        {
+            List<MstBusinessCustomer> oList = new List<MstBusinessCustomer>();
+            try
+            {
+                await Task.Run(() =>
+                {
+                    DapperQuery oQuery = new DapperQuery();
+                    string Query = oQuery.FormatSelectQuery<MstBusinessCustomer>(Clause);
+                    oList = _dapper.SelectQueryList<MstBusinessCustomer>(Query);
+                });
+            }
+            catch (Exception ex)
+            {
+                LogsAPI.GenerateLogs(ex);
+            }
+            return oList;
+        }
+        public async Task<APIResponseModel> Crud(MstBusinessCustomer oModel)
+        {
+            APIResponseModel response = new APIResponseModel();
+            try
+            {
+                await Task.Run(() =>
+                {
+                    if (APIConfig.RepositoryType.ToLower() == "sql")
+                    {
+                        DapperQuery oQuery = new DapperQuery();
+                        string xmlData = _dapper.ConvertToXml(oModel);
+                        string Query = oQuery.FormatMergeQuery<MstBusinessCustomer>(false, false, false, false);
+
+
+                        response.Id = _dapper.CRUDQuery<MstBusinessCustomer>(Query, xmlData);
+                    }
+                    if (response.Id > 0)
+                    {
+                        response.Id = 1;
+                        if (oModel.Id > 0)
+                        {
+                            response.Message = "Update successfully";
+                        }
+                        else
+                        {
+                            response.Message = "Saved successfully";
+                        }
+                    }
+                    else
+                    {
+                        response.Id = 0;
+                        if (oModel.Id > 0)
+                        {
+                            response.Message = "Failed to Update successfully";
+                        }
+                        else
+                        {
+                            response.Message = "Failed to Saved successfully";
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                response.Id = 0;
+                response.Message = ex.Message;
+                LogsAPI.GenerateLogs(ex);
+            }
+            return response;
+        }
+
+        #endregion
+
         #region Mst Associates
         public async Task<List<MstAssociates>> GetAllAssociatesData(string Clause)
         {

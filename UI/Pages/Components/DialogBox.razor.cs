@@ -86,6 +86,12 @@ namespace UI.Pages.Components
         private IEnumerable<TrnsPackages> oListTrnsPackages = new List<TrnsPackages>();
         private HashSet<TrnsPackages> oListSelectedTrnsPackages = new HashSet<TrnsPackages>();
 
+        private bool FilterFuncMstFacility(MstFacility element) => FilterFuncMstFacility(element, searchString1);
+        private MudTable<MstFacility> _tableMstFacility;
+        MstFacility oModelMstFacility = new MstFacility();
+        private IEnumerable<MstFacility> oListMstFacility = new List<MstFacility>();
+        private HashSet<MstFacility> oListSelectedMstFacility = new HashSet<MstFacility>();
+
         #region Deactivate profile
 
         bool successUser;
@@ -945,7 +951,7 @@ namespace UI.Pages.Components
                 return true;
             if (element.ItemsCount.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
                 return true;
-            if (element.MinHead.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+            if (element.Amount.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
                 return true;
             if (element.Remarks.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
                 return true;
@@ -1059,6 +1065,72 @@ namespace UI.Pages.Components
 
         #endregion
 
+        #region MstFacility
+
+        private async Task GetMstFacility()
+        {
+            try
+            {
+                string Clause = $@" AND BusinessKey = '{BusinessKey}' ";
+                if (DialogFor == "ActiveMstFacility")
+                {
+                    Clause += $" AND IsActive = 'True'";
+                }
+                oListMstFacility = await _masterData.GetAllFacilityData(Clause);
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+            }
+        }
+        private bool FilterFuncMstFacility(MstFacility element, string searchString1)
+        {
+            if (string.IsNullOrWhiteSpace(searchString1))
+                return true;
+            if (element.Name.Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.Price.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.IsComplimentary.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            if (element.IsActive.ToString().Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+                return true;
+            return false;
+        }
+        public void RowClickEventMstFacility(TableRowClickEventArgs<MstFacility> tableRowClickEventArgs)
+        {
+            try
+            {
+                clickedEvents.Add("Row has been clicked");
+            }
+            catch (Exception ex)
+            {
+                LogsUI.GenerateLogs(ex);
+            }
+
+        }
+        private string SelectedRowClassFuncMstFacility(MstFacility element, int rowNumber)
+        {
+            if (selectedRowNumber == rowNumber)
+            {
+                selectedRowNumber = -1;
+                clickedEvents.Add("Selected Row: None");
+                return string.Empty;
+            }
+            else if (_tableMstFacility.SelectedItem != null && _tableMstFacility.SelectedItem.Equals(element))
+            {
+                selectedRowNumber = rowNumber;
+                clickedEvents.Add($"Selected Row: {rowNumber}");
+                return "selected";
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        #endregion
+
         #region User Message
 
         private async Task GetUserMessage()
@@ -1136,6 +1208,14 @@ namespace UI.Pages.Components
                 else if (DialogFor.Contains("TrnsPackages") && oListSelectedTrnsPackages.Count() > 0 && DialogMulti)
                 {
                     MudDialog.Close(DialogResult.Ok<HashSet<TrnsPackages>>(oListSelectedTrnsPackages));
+                }
+                else if (DialogFor.Contains("MstFacility") && oModelMstFacility.Id > 0 && !DialogMulti)
+                {
+                    MudDialog.Close(DialogResult.Ok<MstFacility>(oModelMstFacility));
+                }
+                else if (DialogFor.Contains("MstFacility") && oListSelectedMstFacility.Count() > 0 && DialogMulti)
+                {
+                    MudDialog.Close(DialogResult.Ok<HashSet<MstFacility>>(oListSelectedMstFacility));
                 }
                 else
                 {
@@ -1230,6 +1310,10 @@ namespace UI.Pages.Components
                         else if (DialogFor.Contains("TrnsPackages"))
                         {
                             await GetTrnsPackages();
+                        }
+                        else if (DialogFor.Contains("MstFacility"))
+                        {
+                            await GetMstFacility();
                         }
                     }
                     else

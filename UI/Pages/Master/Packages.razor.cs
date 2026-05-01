@@ -268,6 +268,7 @@ namespace UI.Pages.Master
                     }
                     IsEdit = true;
                 }
+                _ = InvokeAsync(StateHasChanged);
             }
             catch (Exception ex)
             {
@@ -297,6 +298,7 @@ namespace UI.Pages.Master
                     }
                     IsEdit = true;
                 }
+                _ = InvokeAsync(StateHasChanged);
             }
             catch (Exception ex)
             {
@@ -322,11 +324,17 @@ namespace UI.Pages.Master
                     {
                         oModelDetail.AssociatePackagesKey = oModelAssociatesPackages.UniqueKey;
                         oModelDetail.ItemName = oModelAssociatesPackages.ItemName;
-                        oModelDetail.MinGathering = (decimal)oModelAssociatesPackages.MinHead;
-                        oModelDetail.RatePerHead = (decimal)oModelAssociatesPackages.ItemPrice;
+                        oModelDetail.RatePerHead = (decimal)oModelAssociatesPackages.ItemsCount;
+                        oModelDetail.MinGathering = (decimal)oModelAssociatesPackages.ItemPrice;
+                        oModelDetail.Price = (decimal)oModelAssociatesPackages.Amount;
+                        if (oModelDetail.Price == 0)
+                        {
+                            oModelDetail.Price = oModelDetail.MinGathering;
+                        }
                     }
                     IsEdit = true;
                 }
+                _ = InvokeAsync(StateHasChanged);
             }
             catch (Exception ex)
             {

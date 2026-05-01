@@ -973,6 +973,8 @@
         </DialogActions>
     </MudDialog>
 }
+
+
 @if (DialogFor.Contains("MstAssociatesAvailability"))
 {
     <MudDialog Class="professional-dialog">
@@ -1041,9 +1043,10 @@
                 </ToolBarContent>
                 <HeaderContent>
                     <MudTh Class="fw-bold">Item Name</MudTh>
+                    <MudTh Class="fw-bold">Packing</MudTh>
                     <MudTh Class="fw-bold">Item Count</MudTh>
                     <MudTh Class="fw-bold">Item Price</MudTh>
-                    <MudTh Class="fw-bold">Min Head</MudTh>
+                    <MudTh Class="fw-bold">Amount</MudTh>
                     <MudTh Class="fw-bold">Remarks</MudTh>
                     <MudTh Class="fw-bold">Added By</MudTh>
                     <MudTh Class="fw-bold">Active</MudTh>
@@ -1053,9 +1056,10 @@
                 </NoRecordsContent>
                 <RowTemplate Context="d1">
                     <MudTd><MudHighlighter Text="@d1.ItemName" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.Packing" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
                     <MudTd><MudHighlighter Text="@d1.ItemsCount.ToString("C2", CultureInfo.CreateSpecificCulture("ur-PK"))" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
                     <MudTd><MudHighlighter Text="@d1.ItemPrice.ToString("C2", CultureInfo.CreateSpecificCulture("ur-PK"))" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
-                    <MudTd><MudHighlighter Text="@d1.MinHead.ToString("C2", CultureInfo.CreateSpecificCulture("ur-PK"))" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                    <MudTd><MudHighlighter Text="@d1.Amount.ToString("C2", CultureInfo.CreateSpecificCulture("ur-PK"))" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
                     <MudTd><MudHighlighter Text="@d1.Remarks" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
                     <MudTd><MudHighlighter Text="@d1.AddedBy" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
                     <MudTd><MudHighlighter Text="@d1.IsActive.ToString()" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
@@ -1085,6 +1089,7 @@
         </DialogActions>
     </MudDialog>
 }
+
 @if (DialogFor.Contains("TrnsPackages"))
 {
     <MudDialog Class="professional-dialog">
@@ -1116,6 +1121,68 @@
                     <MudTd><MudHighlighter Text="@d1.BasePrice.ToString("C2", CultureInfo.CreateSpecificCulture("ur-PK"))" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
                     <MudTd><MudHighlighter Text="@d1.AddedBy" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
                     <MudTd><MudHighlighter Text="@d1.IsActive.ToString()" HighlightedText="@searchString1" Class="text-primary fw-bold" /></MudTd>
+                </RowTemplate>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Class="login-btn mt-3"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Disabled="@(loading)"
+                       StartIcon="@Icons.Material.Sharp.CheckCircle"
+                       OnClick="Submit">
+                Ok
+            </MudButton>
+            <MudButton Class="login-btn mt-3"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Disabled="@(loading)"
+                       StartIcon="@Icons.Material.Sharp.Cancel"
+                       OnClick="Cancel">
+                Cancel
+            </MudButton>
+        </DialogActions>
+    </MudDialog>
+}
+
+@if (DialogFor.Contains("MstFacility"))
+{
+    <MudDialog Class="professional-dialog">
+        <DialogContent>
+            <MudTable Items="@oListMstFacility" Dense="true" Hover="true" Bordered="true" Striped="true" RowsPerPage="5" Elevation="0" OnRowClick="RowClickEventMstFacility" T="MstFacility" RowClassFunc="@SelectedRowClassFuncMstFacility" MultiSelection="DialogMulti"
+                      Filter="new Func<MstFacility, bool>(FilterFuncMstFacility)" Loading="@loading" LoadingProgressColor="Color.Primary" @bind-SelectedItem="oModelMstFacility" @bind-SelectedItems="oListSelectedMstFacility" @ref="@_tableMstFacility">
+                <ToolBarContent>
+                    <MudSpacer />
+                    <MudTextField T="string" @bind-Value="searchString1" Placeholder="Search"
+                                  Variant="Variant.Outlined" Clearable="true" Immediate="true"
+                                  Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search"
+                                  FullWidth="false" />
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh Class="fw-bold">Description</MudTh>
+                    <MudTh Class="fw-bold">Price</MudTh>
+                    <MudTh Class="fw-bold">Complimentary</MudTh>
+                    <MudTh Class="fw-bold">Active</MudTh>
+                </HeaderContent>
+                <NoRecordsContent>
+                    <MudText>No record found...</MudText>
+                </NoRecordsContent>
+                <RowTemplate Context="d1">
+                    <MudTd>
+                        <MudHighlighter Text="@d1.Name" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                    </MudTd>
+                    <MudTd>
+                        <MudHighlighter Text="@d1.Price.ToString("C2", CultureInfo.CreateSpecificCulture("ur-PK"))" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                    </MudTd>
+                    <MudTd>
+                        <MudHighlighter Text="@d1.IsComplimentary.ToString()" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                    </MudTd>
+                    <MudTd>
+                        <MudHighlighter Text="@d1.IsActive.ToString()" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                    </MudTd>
                 </RowTemplate>
                 <PagerContent>
                     <MudTablePager />

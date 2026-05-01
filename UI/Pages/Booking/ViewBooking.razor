@@ -1,0 +1,231 @@
+﻿@page "/ViewBooking"
+@using System.ComponentModel.DataAnnotations
+@using System.Globalization;
+@using MudBlazor
+
+<PageTitle>View Booking</PageTitle>
+<AuthorizeView Roles="View Booking">
+    <Authorized>
+
+        <div class="dashboard-wrapper">
+
+            <MudContainer MaxWidth="MaxWidth.False" Class="p-2">
+
+                <!-- HEADER -->
+                <MudItem xs="12" Class="mb-3">
+                    <div class="dashboard-header fade-in">
+                        <MudText Typo="Typo.h5" Class="fw-bold">
+                            <span class="text-primary">View Booking</span>
+                        </MudText>
+                        <MudIconButton Icon="@Icons.Material.Filled.Refresh"
+                                       Title="Refresh"
+                                       Size="Size.Medium"
+                                       Color="Color.Primary"
+                                       @onclick="Refresh" />
+                    </div>
+                    @* <MudText Typo="Typo.caption" Class="text-muted mt-1">
+                        You can filter Expense details as per your <b>Desired</b>
+                    </MudText> *@
+                    <MudDivider Class="my-2" />
+                    <MudLink Class="text-muted me-1" Underline="Underline.None">Booking / </MudLink>
+                    <MudLink Href="/ViewBooking" Class="text-muted fw-bold" Underline="Underline.None">View Booking</MudLink>
+                    <MudDivider Class="my-2" />
+                </MudItem>
+
+                <!-- FILTER FORM -->
+                @* <MudItem xs="12" Class="mb-3">
+                    <MudForm @ref="formUser" @bind-IsValid="@successUser" @bind-Errors="@errors">
+                        <MudPaper Elevation="8" Class="dashboard-card animate-card p-4">
+                            <MudGrid>
+
+                                <MudItem xs="12" sm="6" md="4">
+                                    <MudDateRangePicker @bind-DateRange="DateRange"
+                                                        PickerVariant="PickerVariant.Inline"
+                                                        DateFormat="MM/dd/yyyy"
+                                                        Label="Date Range"
+                                                        Variant="Variant.Outlined"
+                                                        Required="true"
+                                                        RequiredError="Date range required"
+                                                        Adornment="Adornment.Start"
+                                                        AdornmentIcon="@Icons.Material.Filled.CalendarMonth" />
+                                </MudItem>
+
+                                <MudItem xs="12" sm="3" md="2">
+                                    <MudButton FullWidth="true"
+                                               Variant="Variant.Filled"
+                                               Color="Color.Primary"
+                                               Disabled="@(loading)"
+                                               StartIcon="@Icons.Material.Sharp.Search"
+                                               OnClick="Search">
+                                        @if (loading)
+                                        {
+                                            <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                                            <span class="ms-2">Processing...</span>
+                                        }
+                                        else
+                                        {
+                                            <MudText>Search</MudText>
+                                        }
+                                    </MudButton>
+                                </MudItem>
+
+                                @if (oFilterList.Count() > 0)
+                                {
+                                    <MudItem xs="12" sm="3" md="2">
+                                        <MudButton FullWidth="true"
+                                                   Variant="Variant.Outlined"
+                                                   Color="Color.Primary"
+                                                   Disabled="@(loading)"
+                                                   StartIcon="@Icons.Material.Sharp.Print"
+                                                   OnClick="@Refresh">
+                                            Print
+                                        </MudButton>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="3" md="2">
+                                        <MudButton FullWidth="true"
+                                                   Variant="Variant.Outlined"
+                                                   Color="Color.Primary"
+                                                   Disabled="@(loading)"
+                                                   StartIcon="@Icons.Material.Sharp.Cancel"
+                                                   OnClick="@Refresh">
+                                            Clear Filter
+                                        </MudButton>
+                                    </MudItem>
+                                }
+
+                            </MudGrid>
+                        </MudPaper>
+                    </MudForm>
+                </MudItem> *@
+
+                <!-- View Booking TABLE -->
+                <MudItem xs="12" Class="mt-3">
+                    <MudPaper Elevation="8" Class="dashboard-card animate-card p-4">
+                        <MudTable Items="@oListCustomer"
+                                  Dense="true"
+                                  Hover="true"
+                                  Bordered="true"
+                                  Striped="true"
+                                  RowsPerPage="5"
+                                  Elevation="0"
+                                  Loading="@loading"
+                                  LoadingProgressColor="Color.Primary"
+                                  Filter="new Func<MstBusinessCustomer, bool>(FilterFuncCustomer)">
+                            <ToolBarContent>
+                                <MudText Typo="Typo.h6">View Booking</MudText>
+                                <MudSpacer />
+                                <MudTextField T="string"
+                                              @bind-Value="searchString1"
+                                              Placeholder="Search"
+                                              Variant="Variant.Outlined"
+                                              Clearable="true"
+                                              Immediate="true"
+                                              Adornment="Adornment.Start"
+                                              AdornmentIcon="@Icons.Material.Filled.Search"
+                                              AdornmentColor="Color.Primary"
+                                              FullWidth="false" />
+                            </ToolBarContent>
+                            <HeaderContent>
+                                <MudTh Class="fw-bold">Name</MudTh>
+                                <MudTh Class="fw-bold">Email</MudTh>
+                                <MudTh Class="fw-bold">Contact</MudTh>
+                                <MudTh Class="fw-bold">NIC</MudTh>
+                                <MudTh Class="fw-bold">Active</MudTh>
+                                <MudTh Class="fw-bold">Booking Complete</MudTh>
+                                <MudTh Class="fw-bold">Action</MudTh>
+                            </HeaderContent>
+                            <NoRecordsContent>
+                                <MudText>No record found...</MudText>
+                            </NoRecordsContent>
+                            <RowTemplate Context="d1">
+                                <MudTd>
+                                    <MudIconButton Icon="@Icons.Material.Filled.ArrowDropDown" Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => ViewDetail(d1.UniqueKey))" Title="View/Hide Detail" />
+                                    <MudHighlighter Text="@d1.CustomerName" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudHighlighter Text="@d1.CustomerEmail" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudHighlighter Text="@d1.CustomerContact" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudHighlighter Text="@d1.CustomerNIC" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudHighlighter Text="@d1.IsActive.ToString()" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudHighlighter Text="@d1.IsBookingCompleted.ToString()" HighlightedText="@searchString1" Class="text-primary fw-bold" />
+                                </MudTd>
+                                <MudTd>
+                                    <MudIconButton Variant="Variant.Outlined" Icon="@Icons.Material.Filled.Edit" OnClick="@(() => EditRecord(d1.UniqueKey))" Title="Edit"></MudIconButton>
+                                </MudTd>
+                            </RowTemplate>
+                            <ChildRowContent Context="d2">
+                                @if (d2.IsShow)
+                                {
+                                    <MudTr>
+                                        <td colspan="7">
+                                            <MudCard Elevation="20">
+                                                <MudCardContent Class="pa-0">
+                                                    <MudTable Items="oListBookingDetail"
+                                                              Context="d3"
+                                                              Dense="true"
+                                                              Hover="true"
+                                                              Bordered="true"
+                                                              Striped="true"
+                                                              RowsPerPage="5"
+                                                              Elevation="0"
+                                                              Loading="@loading"
+                                                              LoadingProgressColor="Color.Primary">
+                                                        <ColGroup>
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                            <col />
+                                                        </ColGroup>
+                                                        <HeaderContent>
+                                                            <MudTh Class="fw-bold">Category Type</MudTh>
+                                                            <MudTh Class="fw-bold">Event Type</MudTh>
+                                                            <MudTh Class="fw-bold">Associate</MudTh>
+                                                            <MudTh Class="fw-bold">Availability</MudTh>
+                                                            <MudTh Class="fw-bold">Event Date</MudTh>
+                                                            <MudTh Class="fw-bold">Time of Event</MudTh>
+                                                            <MudTh Class="fw-bold">Serving</MudTh>
+                                                            <MudTh Class="fw-bold">Gatheirng</MudTh>
+                                                        </HeaderContent>
+                                                        <RowTemplate>
+                                                            <MudTd DataLabel="Book For">@d3.CategoryType</MudTd>
+                                                            <MudTd DataLabel="Book For">@d3.EventType</MudTd>
+                                                            <MudTd DataLabel="Book For">@d3.AssociateName</MudTd>
+                                                            <MudTd DataLabel="Book For">@d3.AssociateAvailability</MudTd>
+                                                            <MudTd DataLabel="Event Date">@Convert.ToDateTime(d3.EventDate).ToString("MM/dd/yyyy")</MudTd>
+                                                            <MudTd DataLabel="Gathering">@d3.TimeOfEvent</MudTd>
+                                                            <MudTd DataLabel="Food Items">@d3.ServingType</MudTd>
+                                                            <MudTd DataLabel="Time of Event">@d3.Gathering</MudTd>
+                                                        </RowTemplate>
+                                                    </MudTable>
+                                                </MudCardContent>
+                                            </MudCard>
+                                        </td>
+                                    </MudTr>
+                                }
+                            </ChildRowContent>
+                            <PagerContent>
+                                <MudTablePager />
+                            </PagerContent>
+                        </MudTable>
+                    </MudPaper>
+                </MudItem>
+
+            </MudContainer>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <NotAuthorizedPage />
+    </NotAuthorized>
+</AuthorizeView>
