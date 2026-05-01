@@ -1,0 +1,125 @@
+﻿@inherits LayoutComponentBase
+@implements IDisposable
+
+<MudDialogProvider />
+<MudSnackbarProvider />
+<PageTitle>Feast Planner</PageTitle>
+<MudThemeProvider @bind-IsDarkMode="@ThemeMode" @ref="@_mudThemeProvider" Theme="_theme" />
+
+<MudLayout style="@(ThemeMode == false ? "background-color: #f5f7fa;" : "background-color: #1a1a2e;")">
+
+    @* Metro App Bar - Clean & Modern *@
+    <MudAppBar Elevation="0" Style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <a class="navbar-brand metro-logo-link" href="/">
+            <div class="metro-logo-container">
+                <MudIcon Icon="@Icons.Material.Filled.Cake" Color="Color.Warning" Size="Size.Medium" />
+                <span class="metro-logo-text">Feast Planner</span>
+            </div>
+        </a>
+
+        <MudSpacer />
+
+        @* Metro Navigation Links - Desktop *@
+        <div class="metro-nav-links d-none d-md-flex">
+            <MudLink Href="/" Class="metro-nav-link" Style="color: white;">Home</MudLink>
+            <MudLink Href="/about" Class="metro-nav-link" Style="color: white;">About</MudLink>
+            <MudLink Href="/Booking" Class="metro-nav-link" Style="color: white;">Booking</MudLink>
+            <MudLink Href="/contact" Class="metro-nav-link" Style="color: white;">Contact</MudLink>
+            <MudLink Href="/Sitemap" Class="metro-nav-link" Style="color: white;">Sitemap</MudLink>
+        </div>
+
+    </MudAppBar>
+
+    <MudMainContent>
+        <MudContainer Class="p-0" MaxWidth="MaxWidth.ExtraExtraLarge">
+            @Body
+
+            @* Metro Footer - Modern & Organized *@
+            <footer class="metro-footer mt-6">
+                <div class="metro-footer-content">
+                    <div class="metro-footer-grid">
+                        @* Company Info *@
+                        <div class="metro-footer-section">
+                            <div class="metro-footer-brand">
+                                <MudIcon Icon="@Icons.Material.Filled.Cake" Color="Color.Warning" Size="Size.Medium" />
+                                <h5 class="metro-footer-title">Feast Planner</h5>
+                            </div>
+                            <p class="metro-footer-text">
+                                Empowering event planners in Pakistan with innovative solutions and creative freedom.
+                            </p>
+                            <div class="metro-footer-social">
+                                <MudIconButton Icon="@Icons.Custom.Brands.Facebook" Size="Size.Small" Color="Color.Inherit" Class="metro-social-icon" />
+                                <MudIconButton Icon="@Icons.Custom.Brands.Instagram" Size="Size.Small" Color="Color.Inherit" Class="metro-social-icon" />
+                                <MudIconButton Icon="@Icons.Custom.Brands.Twitter" Size="Size.Small" Color="Color.Inherit" Class="metro-social-icon" />
+                                <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Size="Size.Small" Color="Color.Inherit" Class="metro-social-icon" />
+                            </div>
+                        </div>
+
+                        @* Quick Links *@
+                        <div class="metro-footer-section">
+                            <h6 class="metro-footer-heading">Quick Links</h6>
+                            <ul class="metro-footer-links">
+                                <li><MudLink Href="/" Class="metro-footer-link">Home</MudLink></li>
+                                <li><MudLink Href="/about" Class="metro-footer-link">About Us</MudLink></li>
+                                <li><MudLink Href="/Booking" Class="metro-footer-link">Booking</MudLink></li>
+                                <li><MudLink Href="/contact" Class="metro-footer-link">Contact</MudLink></li>
+                            </ul>
+                        </div>
+
+                        @* Resources *@
+                        <div class="metro-footer-section">
+                            <h6 class="metro-footer-heading">Resources</h6>
+                            <ul class="metro-footer-links">
+                                <li><MudLink Href="/blogs" Class="metro-footer-link">Blogs</MudLink></li>
+                                <li><MudLink Href="/announcements" Class="metro-footer-link">Announcements</MudLink></li>
+                                <li><MudLink Href="/news" Class="metro-footer-link">News</MudLink></li>
+                                <li><MudLink Href="/events" Class="metro-footer-link">Upcoming Events</MudLink></li>
+                            </ul>
+                        </div>
+
+                        @* Legal *@
+                        <div class="metro-footer-section">
+                            <h6 class="metro-footer-heading">Legal</h6>
+                            <ul class="metro-footer-links">
+                                <li><MudLink Href="/terms" Class="metro-footer-link">Terms of Service</MudLink></li>
+                                <li><MudLink Href="/privacy" Class="metro-footer-link">Privacy Policy</MudLink></li>
+                                <li><MudLink Href="/refund" Class="metro-footer-link">Refund Policy</MudLink></li>
+                                <li><MudLink Href="/support" Class="metro-footer-link">Support Policy</MudLink></li>
+                            </ul>
+                        </div>
+
+                        @* Offers & Pricing *@
+                        <div class="metro-footer-section">
+                            <h6 class="metro-footer-heading">Offers</h6>
+                            <ul class="metro-footer-links">
+                                <li><MudLink Href="/packages" Class="metro-footer-link">Packages</MudLink></li>
+                                <li><MudLink Href="/membership" Class="metro-footer-link">Membership Plan</MudLink></li>
+                                <li><MudLink Href="/pricing" Class="metro-footer-link">Pricing</MudLink></li>
+                                <li><MudLink Href="/faqs" Class="metro-footer-link">FAQs</MudLink></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    @* Footer Bottom Bar *@
+                    <div class="metro-footer-bottom">
+                        <div class="metro-footer-copyright">
+                            <MudText Typo="Typo.body2" Class="text-muted">
+                                © @DateTime.Now.Year Feast Planner — Making Events Beautiful.
+                            </MudText>
+                        </div>
+                        <div class="metro-footer-bottom-links">
+                            <MudLink Href="/sitemap" Class="metro-bottom-link">Sitemap</MudLink>
+                            <MudLink Href="/accessibility" Class="metro-bottom-link">Accessibility</MudLink>
+                            <MudLink Href="/careers" Class="metro-bottom-link">Careers</MudLink>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </MudContainer>
+
+        @* Scroll to Top Button *@
+        <MudScrollToTop>
+            <MudFab Color="Color.Primary" Size="Size.Small" Class="metro-scroll-top" StartIcon="@Icons.Material.Filled.ArrowUpward" />
+        </MudScrollToTop>
+    </MudMainContent>
+</MudLayout>

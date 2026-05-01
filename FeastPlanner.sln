@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppDBContext", "AppDBContext\AppDBContext.csproj", "{89BA1ECF-1AFA-42D3-8890-DD4B263CEAAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeastPlannerUser", "FeastPlannerUser\FeastPlannerUser.csproj", "{D08D09CD-3D80-4A93-A4D7-8FD5446FF650}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -27,6 +29,10 @@ Global
 		{89BA1ECF-1AFA-42D3-8890-DD4B263CEAAB}.Debug|x64.Build.0 = Debug|x64
 		{89BA1ECF-1AFA-42D3-8890-DD4B263CEAAB}.Release|x64.ActiveCfg = Release|x64
 		{89BA1ECF-1AFA-42D3-8890-DD4B263CEAAB}.Release|x64.Build.0 = Release|x64
+		{D08D09CD-3D80-4A93-A4D7-8FD5446FF650}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D08D09CD-3D80-4A93-A4D7-8FD5446FF650}.Debug|x64.Build.0 = Debug|Any CPU
+		{D08D09CD-3D80-4A93-A4D7-8FD5446FF650}.Release|x64.ActiveCfg = Release|Any CPU
+		{D08D09CD-3D80-4A93-A4D7-8FD5446FF650}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

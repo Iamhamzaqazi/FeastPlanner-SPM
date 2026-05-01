@@ -1,0 +1,380 @@
+﻿@page "/About"
+@using AppDBContext.General
+<PageTitle>About | Feast Planner</PageTitle>
+
+<MudContainer Class="mt-4 px-8 container" MaxWidth="MaxWidth.ExtraExtraLarge">
+
+    @* Hero Section with Metro Design *@
+    <MudPaper Class="p-5 rounded-3" Elevation="2" Style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div class="animated-bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+
+        <MudGrid>
+            <MudItem xs="12" sm="12" md="6" lg="6" Class="d-flex align-items-center">
+                <div class="metro-hero-content" data-aos="fade-right">
+                    <div class="metro-accent-line"></div>
+                    <MudText Typo="Typo.h2" Class="text-white fw-bold mb-3 metro-title animated-text">
+                        About Us
+                    </MudText>
+                    <MudText Typo="Typo.h6" Class="text-white-50 mb-4 animated-subtitle">
+                        Within the last 1 years, we have completed over 100 events
+                    </MudText>
+                    <MudText Typo="Typo.body1" Class="text-white-50 animated-description">
+                        Successfully deployed by small businesses across Pakistan
+                    </MudText>
+
+                    <div class="mt-5 animated-buttons">
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" Class="metro-btn me-3 glow-btn">
+                            Learn More
+                        </MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Default" Class="metro-btn-outline text-white" @onclick="GotoContactUs">
+                            Contact Us
+                        </MudButton>
+                    </div>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="6" lg="6" Class="text-center">
+                <div class="metro-image-container" data-aos="fade-left" data-aos-delay="200">
+                    <MudImage Src="../images/Team.jpg" Class="metro-hero-image" Elevation="5" />
+                    <div class="metro-image-overlay"></div>
+                    <div class="image-glow"></div>
+                </div>
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+
+    @* Metro Stats Tiles - Modern & Clean *@
+    <MudGrid Class="mt-6">
+        <MudItem xs="12" sm="6" md="3" lg="3" data-aos="zoom-in" data-aos-delay="100">
+            <div class="metro-stat-tile">
+                <div class="metro-stat-icon">
+                    <MudIcon Icon="@Icons.Material.Filled.Storefront" Size="Size.Large" Color="Color.Primary" />
+                </div>
+                <div class="metro-stat-content">
+                    <h3 class="metro-stat-number" data-count="7000">0</h3>
+                    <p class="metro-stat-label">Active Businesses</p>
+                    <div class="metro-stat-progress"></div>
+                </div>
+            </div>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3" lg="3" data-aos="zoom-in" data-aos-delay="200">
+            <div class="metro-stat-tile">
+                <div class="metro-stat-icon">
+                    <MudIcon Icon="@Icons.Material.Filled.Analytics" Size="Size.Large" Color="Color.Success" />
+                </div>
+                <div class="metro-stat-content">
+                    <h3 class="metro-stat-number" data-count="80000">0</h3>
+                    <p class="metro-stat-label">Quick Reports</p>
+                    <div class="metro-stat-progress bg-success"></div>
+                </div>
+            </div>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3" lg="3" data-aos="zoom-in" data-aos-delay="300">
+            <div class="metro-stat-tile">
+                <div class="metro-stat-icon">
+                    <MudIcon Icon="@Icons.Material.Filled.Payments" Size="Size.Large" Color="Color.Warning" />
+                </div>
+                <div class="metro-stat-content">
+                    <h3 class="metro-stat-number" data-count="35000000">0</h3>
+                    <p class="metro-stat-label">Total Payments</p>
+                    <div class="metro-stat-progress bg-warning"></div>
+                </div>
+            </div>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="3" lg="3" data-aos="zoom-in" data-aos-delay="400">
+            <div class="metro-stat-tile">
+                <div class="metro-stat-icon">
+                    <MudIcon Icon="@Icons.Material.Filled.EmojiEvents" Size="Size.Large" Color="Color.Error" />
+                </div>
+                <div class="metro-stat-content">
+                    <h3 class="metro-stat-number" data-count="999">0</h3>
+                    <p class="metro-stat-label">Satisfaction Rate</p>
+                    <div class="metro-stat-progress bg-error"></div>
+                </div>
+            </div>
+        </MudItem>
+    </MudGrid>
+
+    @* Business Background & Motivation - Metro Cards *@
+    <MudGrid Class="mt-4">
+        <MudItem xs="12" md="6" data-aos="fade-up" data-aos-delay="100">
+            <div class="metro-card-hover">
+                <MudPaper Elevation="0" Class="pa-6 metro-card">
+                    <div class="metro-card-header">
+                        <div class="metro-icon-circle pulse-icon">
+                            <MudIcon Icon="@Icons.Material.Filled.BusinessCenter" Color="Color.Primary" />
+                        </div>
+                        <MudText Typo="Typo.h5" Class="fw-bold metro-card-title">Business Background</MudText>
+                    </div>
+                    <MudText Typo="Typo.body2" Class="text-muted metro-card-text">
+                        The Aim of our web service is to embark a social platform which supports every career enthusiast
+                        to raise their startup, skills and talent. In the world of excessive internet use, things have been
+                        compressed and made themselves reachable.
+
+                        <br /><br />
+                        This service will facilitate the users to showcase their skills in the form of portfolios and
+                        will also have an advantage of getting their gigs promoted. We've designed a corresponding managing
+                        software interconnected with the web for data management.
+                    </MudText>
+                </MudPaper>
+            </div>
+        </MudItem>
+
+        <MudItem xs="12" md="6" data-aos="fade-up" data-aos-delay="200">
+            <div class="metro-card-hover">
+                <MudPaper Elevation="0" Class="pa-6 metro-card">
+                    <div class="metro-card-header">
+                        <div class="metro-icon-circle pulse-icon">
+                            <MudIcon Icon="@Icons.Material.Filled.RocketLaunch" Color="Color.Success" />
+                        </div>
+                        <MudText Typo="Typo.h5" Class="fw-bold metro-card-title">Motivation</MudText>
+                    </div>
+                    <MudText Typo="Typo.body2" Class="text-muted metro-card-text">
+                        By reviewing today's technology, many platforms have proposed promoting entrepreneurship and
+                        work-from-home methodology, encouraging every individual to exhibit their creativity readily.
+
+                        <br /><br />
+                        To achieve this goal, our targeted end-users are divided into two terms: those who look for
+                        planners in event planning, and those who seek a platform to reveal their vision of creativity.
+                    </MudText>
+                </MudPaper>
+            </div>
+        </MudItem>
+    </MudGrid>
+
+    @* Metro Quote Section *@
+    <div class="metro-quote-section mt-6" data-aos="flip-up">
+        <div class="metro-quote-container">
+            <MudIcon Icon="@Icons.Material.Filled.FormatQuote" Class="metro-quote-icon animated-quote" />
+            <MudText Typo="Typo.h5" Class="metro-quote-text animated-quote-text">
+                "Put Idea into your Code and you'll succeed'"
+            </MudText>
+            <div class="metro-quote-author animated-author">
+                <strong>Developers</strong>
+                <span class="text-muted">— Anonymous</span>
+            </div>
+        </div>
+    </div>
+
+    @* Team Section - Metro Grid Design *@
+    <div class="mt-6">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <div class="metro-section-badge">OUR PEOPLE</div>
+            <MudText Typo="Typo.h3" Class="fw-bold metro-section-title">Meet Our Great Team</MudText>
+            <div class="metro-divider mx-auto"></div>
+            <MudText Typo="Typo.body1" Class="text-muted mt-3">
+                It's no doubt that when development takes longer, additional costs to integrate and test
+                each extra feature creeps up and haunts most of us.
+            </MudText>
+        </div>
+
+        <MudGrid>
+            <MudItem xs="12" sm="6" md="3" data-aos="flip-left" data-aos-delay="100">
+                <div class="metro-team-card">
+                    <div class="metro-team-image-wrapper">
+                        <MudImage Src="../images/Avatar1.png" Class="metro-team-image" />
+                        <div class="metro-team-overlay">
+                            <div class="metro-team-social">
+                                <MudIcon Icon="@Icons.Custom.Brands.LinkedIn" Size="Size.Small" Class="social-icon" />
+                                <MudIcon Icon="@Icons.Custom.Brands.Twitter" Size="Size.Small" Class="social-icon" />
+                                <MudIcon Icon="@Icons.Custom.Brands.GitHub" Size="Size.Small" Class="social-icon" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metro-team-info">
+                        <MudText Typo="Typo.h6" Class="fw-bold mb-1">Hamza Qazi</MudText>
+                        <MudText Typo="Typo.body2" Class="text-muted">Lead Developer</MudText>
+                        <div class="metro-team-divider"></div>
+                        <MudText Typo="Typo.caption" Class="text-muted">Full Stack Architect</MudText>
+                    </div>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3" data-aos="flip-left" data-aos-delay="200">
+                <div class="metro-team-card">
+                    <div class="metro-team-image-wrapper">
+                        <MudImage Src="../images/Avatar2.png" Class="metro-team-image" />
+                        <div class="metro-team-overlay">
+                            <div class="metro-team-social">
+                                <MudIcon Icon="@Icons.Custom.Brands.LinkedIn" Size="Size.Small" Class="social-icon" />
+                                <MudIcon Icon="@Icons.Custom.Brands.Twitter" Size="Size.Small" Class="social-icon" />
+                                <MudIcon Icon="@Icons.Custom.Brands.GitHub" Size="Size.Small" Class="social-icon" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metro-team-info">
+                        <MudText Typo="Typo.h6" Class="fw-bold mb-1">Yumna Sahar</MudText>
+                        <MudText Typo="Typo.body2" Class="text-muted">UI/UX Developer</MudText>
+                        <div class="metro-team-divider"></div>
+                        <MudText Typo="Typo.caption" Class="text-muted">Frontend Expert</MudText>
+                    </div>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3" data-aos="flip-left" data-aos-delay="300">
+                <div class="metro-team-card">
+                    <div class="metro-team-image-wrapper">
+                        <MudImage Src="../images/Avatar1.png" Class="metro-team-image" />
+                        <div class="metro-team-overlay">
+                            <div class="metro-team-social">
+                                <MudIcon Icon="@Icons.Custom.Brands.LinkedIn" Size="Size.Small" Class="social-icon" />
+                                <MudIcon Icon="@Icons.Custom.Brands.Twitter" Size="Size.Small" Class="social-icon" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metro-team-info">
+                        <MudText Typo="Typo.h6" Class="fw-bold mb-1">Huzaifa Akbar</MudText>
+                        <MudText Typo="Typo.body2" Class="text-muted">SQA Engineer</MudText>
+                        <div class="metro-team-divider"></div>
+                        <MudText Typo="Typo.caption" Class="text-muted">Quality Assurance</MudText>
+                    </div>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3" data-aos="flip-left" data-aos-delay="400">
+                <div class="metro-team-card">
+                    <div class="metro-team-image-wrapper">
+                        <MudImage Src="../images/Avatar2.png" Class="metro-team-image" />
+                        <div class="metro-team-overlay">
+                            <div class="metro-team-social">
+                                <MudIcon Icon="@Icons.Custom.Brands.LinkedIn" Size="Size.Small" Class="social-icon" />
+                                <MudIcon Icon="@Icons.Custom.Brands.Twitter" Size="Size.Small" Class="social-icon" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metro-team-info">
+                        <MudText Typo="Typo.h6" Class="fw-bold mb-1">Reeza Aftab</MudText>
+                        <MudText Typo="Typo.body2" Class="text-muted">Business Analyst</MudText>
+                        <div class="metro-team-divider"></div>
+                        <MudText Typo="Typo.caption" Class="text-muted">Strategy & Planning</MudText>
+                    </div>
+                </div>
+            </MudItem>
+        </MudGrid>
+    </div>
+
+    @* CTA Section *@
+    <div class="metro-cta-section mt-6 mb-4" data-aos="zoom-in-up">
+        <div class="metro-cta-content">
+            <div class="pulse-container">
+                <MudText Typo="Typo.h4" Class="text-white fw-bold mb-3">Ready to Get Started?</MudText>
+            </div>
+            <MudText Typo="Typo.body1" Class="text-white-50 mb-4">
+                Join thousands of businesses already using Feast Planner
+            </MudText>
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" Class="metro-cta-btn pulse-btn" Size="Size.Large" @onclick="GotoLogin">
+                Join Us Today
+                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Class="ms-2 arrow-icon" />
+            </MudButton>
+        </div>
+    </div>
+</MudContainer>
+
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InitializeAOS();
+            await AnimateNumbers();
+        }
+    }
+
+    private async Task GotoLogin()
+    {
+        try
+        {
+            await Task.Delay(1);
+            Navigation.NavigateTo("https://localhost:7092/", true);
+        }
+        catch (Exception ex)
+        {
+            LogsUI.GenerateLogs(ex);
+        }
+    }
+     private async Task GotoContactUs()
+    {
+        try
+        {
+            await Task.Delay(1);
+            Navigation.NavigateTo("https://localhost:7086/contact", true);
+        }
+        catch (Exception ex)
+        {
+            LogsUI.GenerateLogs(ex);
+        }
+    }
+
+    private async Task InitializeAOS()
+    {
+        await JS.InvokeVoidAsync("eval", @"
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('aos-animate');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('[data-aos]').forEach(el => {
+                observer.observe(el);
+            });
+        ");
+    }
+
+    private async Task AnimateNumbers()
+    {
+        await JS.InvokeVoidAsync("eval", @"
+            const animateNumber = (element) => {
+                const target = parseInt(element.getAttribute('data-count'));
+                let current = 0;
+                const increment = target / 60;
+                const updateNumber = () => {
+                    current += increment;
+                    if (current < target) {
+                        if (target >= 1000) {
+                            element.textContent = Math.floor(current).toLocaleString();
+                        } else {
+                            element.textContent = Math.floor(current);
+                        }
+                        requestAnimationFrame(updateNumber);
+                    } else {
+                        if (target >= 1000) {
+                            element.textContent = target.toLocaleString() + (target === 999 ? '%' : '');
+                        } else {
+                            element.textContent = target + (target === 999 ? '%' : '');
+                        }
+                    }
+                };
+                updateNumber();
+            };
+
+            const numberObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateNumber(entry.target);
+                        numberObserver.unobserve(entry.target);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.metro-stat-number').forEach(el => {
+                numberObserver.observe(el);
+            });
+        ");
+    }
+}

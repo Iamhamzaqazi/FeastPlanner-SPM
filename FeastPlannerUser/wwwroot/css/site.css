@@ -1,0 +1,3373 @@
+﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1:focus {
+    outline: none;
+}
+
+a, .btn-link {
+    color: #0071c1;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.content {
+    padding-top: 1.1rem;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+.blazor-error-boundary {
+    background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNDkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxyZWN0IHg9IjIzNSIgeT0iNTEiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0OSIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMzUgLTUxKSI+PHBhdGggZD0iTTI2My41MDYgNTFDMjY0LjcxNyA1MSAyNjUuODEzIDUxLjQ4MzcgMjY2LjYwNiA1Mi4yNjU4TDI2Ny4wNTIgNTIuNzk4NyAyNjcuNTM5IDUzLjYyODMgMjkwLjE4NSA5Mi4xODMxIDI5MC41NDUgOTIuNzk1IDI5MC42NTYgOTIuOTk2QzI5MC44NzcgOTMuNTEzIDI5MSA5NC4wODE1IDI5MSA5NC42NzgyIDI5MSA5Ny4wNjUxIDI4OS4wMzggOTkgMjg2LjYxNyA5OUwyNDAuMzgzIDk5QzIzNy45NjMgOTkgMjM2IDk3LjA2NTEgMjM2IDk0LjY3ODIgMjM2IDk0LjM3OTkgMjM2LjAzMSA5NC4wODg2IDIzNi4wODkgOTMuODA3MkwyMzYuMzM4IDkzLjAxNjIgMjM2Ljg1OCA5Mi4xMzE0IDI1OS40NzMgNTMuNjI5NCAyNTkuOTYxIDUyLjc5ODUgMjYwLjQwNyA1Mi4yNjU4QzI2MS4yIDUxLjQ4MzcgMjYyLjI5NiA1MSAyNjMuNTA2IDUxWk0yNjMuNTg2IDY2LjAxODNDMjYwLjczNyA2Ni4wMTgzIDI1OS4zMTMgNjcuMTI0NSAyNTkuMzEzIDY5LjMzNyAyNTkuMzEzIDY5LjYxMDIgMjU5LjMzMiA2OS44NjA4IDI1OS4zNzEgNzAuMDg4N0wyNjEuNzk1IDg0LjAxNjEgMjY1LjM4IDg0LjAxNjEgMjY3LjgyMSA2OS43NDc1QzI2Ny44NiA2OS43MzA5IDI2Ny44NzkgNjkuNTg3NyAyNjcuODc5IDY5LjMxNzkgMjY3Ljg3OSA2Ny4xMTgyIDI2Ni40NDggNjYuMDE4MyAyNjMuNTg2IDY2LjAxODNaTTI2My41NzYgODYuMDU0N0MyNjEuMDQ5IDg2LjA1NDcgMjU5Ljc4NiA4Ny4zMDA1IDI1OS43ODYgODkuNzkyMSAyNTkuNzg2IDkyLjI4MzcgMjYxLjA0OSA5My41Mjk1IDI2My41NzYgOTMuNTI5NSAyNjYuMTE2IDkzLjUyOTUgMjY3LjM4NyA5Mi4yODM3IDI2Ny4zODcgODkuNzkyMSAyNjcuMzg3IDg3LjMwMDUgMjY2LjExNiA4Ni4wNTQ3IDI2My41NzYgODYuMDU0N1oiIGZpbGw9IiNGRkU1MDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvZz48L3N2Zz4=) no-repeat 1rem/1.8rem, #b32121;
+    padding: 1rem 1rem 1rem 3.7rem;
+    color: white;
+}
+
+    .blazor-error-boundary::after {
+        content: "An error has occurred."
+    }
+
+.banner {
+    background-image: url('../images/Banner.jpg');
+    width: 100%;
+    height: 100vh;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    color: white;
+}
+
+    .banner::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        color: white;
+        background: rgba(000, 000, 000, 0.7);
+    }
+
+    .banner h3 {
+        font-size: 2em;
+        font-weight: 500;
+        color: white;
+        line-height: 1;
+        margin-bottom: 10px;
+    }
+
+    .banner span {
+        font-size: 1.6em;
+        font-weight: bold;
+    }
+
+.hover-effect-About {
+    transition: transform .4s !important; /* Animation */
+    border-radius: 20px;
+}
+
+    .hover-effect-About:hover {
+        transform: scale(1.05); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    }
+
+.hover-effect {
+    width: 320px;
+    height: 290px;
+    transition: transform .4s !important; /* Animation */
+}
+
+    .hover-effect:hover {
+        transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    }
+
+.banner1 {
+    background-image: url('../images/Banner3.jpg');
+    width: 100%;
+    height: 80vh;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    color: white;
+}
+
+    .banner1::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        color: white !important;
+        background: rgba(000, 000, 000, 0.3);
+    }
+
+.banner2 {
+    background-image: url('../images/Banner2.jpeg');
+    width: 100%;
+    height: 80vh;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: relative;
+    color: white;
+}
+
+    .banner2::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        color: white !important;
+        background: rgba(000, 000, 000, 0.3);
+    }
+
+
+
+
+/* Metro Design System - Layout Styles */
+
+/* App Bar Styles */
+.metro-menu-icon {
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+    .metro-menu-icon:hover {
+        background: rgba(255,255,255,0.1) !important;
+        transform: scale(1.05);
+    }
+
+.metro-logo-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+    .metro-logo-container:hover {
+        background: rgba(255,255,255,0.1);
+    }
+
+.metro-logo-text {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.5px;
+}
+
+.metro-nav-links {
+    gap: 2rem;
+    margin-right: 1rem;
+}
+
+.metro-nav-link {
+    color: white !important;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+    .metro-nav-link:hover {
+        background: rgba(255,255,255,0.1);
+        text-decoration: none !important;
+    }
+
+    .metro-nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: #FFD700;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+    }
+
+    .metro-nav-link:hover::after {
+        width: 80%;
+    }
+
+.metro-theme-toggle {
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+    .metro-theme-toggle:hover {
+        transform: rotate(15deg);
+        background: rgba(255,255,255,0.1);
+    }
+
+/* Drawer Styles */
+.metro-drawer-header {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.metro-drawer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+}
+
+.metro-drawer-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+/* Footer Styles - Metro Modern */
+.metro-footer {
+    background: white;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    margin-top: 4rem;
+}
+
+.dark-mode .metro-footer {
+    background: #1e1e2e;
+    border-top-color: rgba(255,255,255,0.08);
+}
+
+.metro-footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 2rem 1.5rem;
+}
+
+.metro-footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.metro-footer-section {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.metro-footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.metro-footer-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.metro-footer-text {
+    font-size: 0.85rem;
+    color: #718096;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.metro-footer-social {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.metro-social-icon {
+    color: #667eea !important;
+    transition: all 0.3s ease;
+    background: rgba(102,126,234,0.1);
+}
+
+    .metro-social-icon:hover {
+        transform: translateY(-3px);
+        background: rgba(102,126,234,0.2) !important;
+        color: #764ba2 !important;
+    }
+
+.metro-footer-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    color: #2d3748;
+    position: relative;
+    display: inline-block;
+}
+
+.dark-mode .metro-footer-heading {
+    color: #e2e8f0;
+}
+
+.metro-footer-heading::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+}
+
+.metro-footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .metro-footer-links li {
+        margin-bottom: 0.75rem;
+    }
+
+.metro-footer-link {
+    color: #718096 !important;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+    .metro-footer-link:hover {
+        color: #667eea !important;
+        transform: translateX(5px);
+        text-decoration: none !important;
+    }
+
+.metro-footer-bottom {
+    border-top: 1px solid rgba(0,0,0,0.08);
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.dark-mode .metro-footer-bottom {
+    border-top-color: rgba(255,255,255,0.08);
+}
+
+.metro-footer-copyright {
+    font-size: 0.8rem;
+    color: #a0aec0;
+}
+
+.metro-footer-bottom-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.metro-bottom-link {
+    font-size: 0.8rem;
+    color: #718096 !important;
+    transition: color 0.3s ease;
+}
+
+    .metro-bottom-link:hover {
+        color: #667eea !important;
+        text-decoration: none !important;
+    }
+
+/* Scroll to Top Button */
+.metro-scroll-top {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+    .metro-scroll-top:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(102,126,234,0.4);
+    }
+
+/* Responsive Footer */
+@@media (max-width: 768px) {
+    .metro-footer-content {
+        padding: 2rem 1rem 1rem;
+    }
+
+    .metro-footer-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .metro-footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .metro-footer-bottom-links {
+        justify-content: center;
+    }
+
+    .metro-nav-links {
+        display: none;
+    }
+}
+
+/* Smooth Transitions */
+.mud-layout {
+    transition: background-color 0.3s ease;
+}
+
+/* Hover Effects for Footer Sections */
+.metro-footer-section {
+    transition: transform 0.3s ease;
+}
+
+    .metro-footer-section:hover {
+        transform: translateY(-2px);
+    }
+
+/* Animation for Drawer */
+.mud-drawer-temporary {
+    animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Custom Scrollbar for Dark Mode */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 4px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #764ba2;
+    }
+
+/* Dark Mode Scrollbar */
+.dark-mode ::-webkit-scrollbar-track {
+    background: #2d3748;
+}
+
+
+/* Metro Design System - Clean & Modern */
+
+/* Hero Section */
+.metro-hero-content {
+    padding: 2rem 0;
+}
+
+.metro-accent-line {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #FFD700, #FF9800);
+    margin-bottom: 1.5rem;
+    border-radius: 2px;
+}
+
+.metro-title {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.metro-image-container {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.metro-hero-image {
+    border-radius: 20px !important;
+    transition: transform 0.5s ease;
+}
+
+    .metro-hero-image:hover {
+        transform: scale(1.05);
+    }
+
+.metro-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(102,126,234,0.3), rgba(118,75,162,0.3));
+    pointer-events: none;
+}
+
+/* Metro Stat Tiles */
+.metro-stat-tile {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+    .metro-stat-tile:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    }
+
+.metro-stat-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+}
+
+.metro-stat-content {
+    flex: 1;
+}
+
+.metro-stat-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    color: #2d3748;
+    letter-spacing: -0.5px;
+}
+
+.metro-stat-label {
+    font-size: 0.85rem;
+    color: #718096;
+    margin: 0.25rem 0 0 0;
+    font-weight: 500;
+}
+
+.metro-stat-progress {
+    height: 3px;
+    width: 40px;
+    background: #4A90E2;
+    margin-top: 0.5rem;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.metro-stat-tile:hover .metro-stat-progress {
+    width: 60px;
+}
+
+/* Metro Cards */
+.metro-card-hover {
+    transition: all 0.3s ease;
+}
+
+    .metro-card-hover:hover {
+        transform: translateY(-4px);
+    }
+
+.metro-card {
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    background: white;
+    height: 100%;
+}
+
+    .metro-card:hover {
+        box-shadow: 0 20px 35px -10px rgba(0,0,0,0.15);
+    }
+
+.metro-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.metro-icon-circle {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.metro-card-title {
+    margin: 0;
+    color: #2d3748;
+}
+
+.metro-card-text {
+    line-height: 1.7;
+}
+
+/* Quote Section */
+.metro-quote-section {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+    border-radius: 24px;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.metro-quote-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+}
+
+.metro-quote-icon {
+    font-size: 3rem;
+    color: #4A90E2;
+    opacity: 0.3;
+    margin-bottom: 1rem;
+}
+
+.metro-quote-text {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: #2d3748;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.metro-quote-author {
+    font-size: 1rem;
+}
+
+/* Team Section */
+.metro-section-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.25rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.metro-section-title {
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+}
+
+.metro-divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+}
+
+.metro-team-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+    cursor: pointer;
+}
+
+    .metro-team-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 30px -12px rgba(0,0,0,0.15);
+    }
+
+.metro-team-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    padding-top: 100%;
+}
+
+.metro-team-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.metro-team-card:hover .metro-team-image {
+    transform: scale(1.1);
+}
+
+.metro-team-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.metro-team-card:hover .metro-team-overlay {
+    opacity: 1;
+}
+
+.metro-team-social {
+    display: flex;
+    gap: 1rem;
+}
+
+    .metro-team-social .mud-icon-root {
+        color: white;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+        .metro-team-social .mud-icon-root:hover {
+            transform: scale(1.2);
+            color: #FFD700;
+        }
+
+.metro-team-info {
+    padding: 1.25rem;
+    text-align: center;
+}
+
+.metro-team-divider {
+    width: 30px;
+    height: 2px;
+    background: #e2e8f0;
+    margin: 0.5rem auto;
+    border-radius: 1px;
+}
+
+/* CTA Section */
+.metro-cta-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+}
+
+    .metro-cta-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.05)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+        background-size: cover;
+        opacity: 0.1;
+    }
+
+.metro-cta-content {
+    padding: 3rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.metro-cta-btn {
+    padding: 0.75rem 2rem !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+}
+
+/* Metro Buttons */
+.metro-btn {
+    text-transform: none !important;
+    font-weight: 600 !important;
+    padding: 0.5rem 1.5rem !important;
+    border-radius: 8px !important;
+}
+
+.metro-btn-outline {
+    border: 2px solid white !important;
+    text-transform: none !important;
+    font-weight: 600 !important;
+    padding: 0.5rem 1.5rem !important;
+    border-radius: 8px !important;
+}
+
+    .metro-btn-outline:hover {
+        background: rgba(255,255,255,0.1) !important;
+    }
+
+/* Responsive Adjustments */
+@@media (max-width: 960px) {
+    .metro-stat-tile {
+        margin-bottom: 1rem;
+    }
+
+    .metro-hero-content {
+        text-align: center;
+    }
+
+    .metro-accent-line {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .metro-quote-text {
+        font-size: 1.1rem;
+    }
+
+    .metro-cta-content {
+        padding: 2rem;
+    }
+}
+
+/* Smooth Scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Glass Morphism Effect */
+.metro-card, .metro-stat-tile, .metro-team-card {
+    backdrop-filter: blur(0px);
+    transition: all 0.3s ease;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+
+/* Metro Design System - Contact Page */
+
+/* Hero Section */
+.metro-contact-hero {
+    text-align: center;
+    padding: 2rem 1rem;
+    position: relative;
+}
+
+.metro-contact-hero-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.metro-accent-line {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+    margin: 0 auto 1rem auto;
+}
+
+.metro-hero-title {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Contact Card */
+.metro-contact-card {
+    background: white;
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.dark-mode .metro-contact-card {
+    background: #1e1e2e;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.metro-contact-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+}
+
+.metro-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(102,126,234,0.1);
+}
+
+.metro-icon-circle {
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+/* Input Styling */
+.metro-input {
+    --mud-input-hover-color: #667eea;
+}
+
+/* Contact Info Cards */
+.metro-contact-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.metro-info-card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+    cursor: pointer;
+}
+
+.dark-mode .metro-info-card {
+    background: #1e1e2e;
+    border-color: rgba(255,255,255,0.05);
+}
+
+.metro-info-card:hover {
+    transform: translateX(8px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    border-color: rgba(102,126,234,0.3);
+}
+
+.metro-info-icon-wrapper {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1));
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.metro-info-card:hover .metro-info-icon-wrapper {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.2));
+}
+
+.metro-info-content {
+    flex: 1;
+}
+
+/* Map Container */
+.metro-map-container {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 1rem;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.dark-mode .metro-map-container {
+    background: #1e1e2e;
+    border-color: rgba(255,255,255,0.05);
+}
+
+.metro-map-container:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.metro-map-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: rgba(102,126,234,0.05);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.metro-map-wrapper {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+}
+
+.metro-map-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* FAQ Section */
+.metro-faq-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 24px;
+    padding: 3rem;
+}
+
+.dark-mode .metro-faq-section {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.metro-section-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.25rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.metro-section-title {
+    margin-bottom: 0.5rem;
+}
+
+.metro-divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+}
+
+.metro-faq-item {
+    background: white;
+    padding: 1.25rem;
+    border-radius: 16px;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.dark-mode .metro-faq-item {
+    background: #1e1e2e;
+}
+
+.metro-faq-item:hover {
+    transform: translateX(8px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.metro-faq-question {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Submit Button */
+.metro-submit-btn {
+    padding: 0.75rem 2rem !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    border-radius: 12px !important;
+    transition: all 0.3s ease;
+}
+
+    .metro-submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102,126,234,0.3);
+    }
+
+/* CTA Section */
+.metro-cta-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+}
+
+    .metro-cta-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.05)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+        background-size: cover;
+        opacity: 0.1;
+    }
+
+.metro-cta-content {
+    padding: 3rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.metro-cta-btn {
+    text-transform: none !important;
+    font-weight: 600 !important;
+    padding: 0.75rem 2rem !important;
+    border-radius: 12px !important;
+}
+
+/* Responsive */
+@@media (max-width: 960px) {
+    .metro-contact-card {
+        margin-bottom: 1.5rem;
+    }
+
+    .metro-faq-section {
+        padding: 1.5rem;
+    }
+
+    .metro-cta-content {
+        padding: 2rem;
+    }
+
+    .metro-info-card:hover {
+        transform: translateX(4px);
+    }
+}
+
+/* Animations */
+@@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.metro-contact-card,
+.metro-info-card,
+.metro-faq-item {
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+    .metro-info-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .metro-info-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .metro-info-card:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+.metro-map-container {
+    animation-delay: 0.4s;
+}
+
+/* Metro Design System - Home Page with Enhanced Animations */
+
+/* Hero Section */
+.metro-hero-section {
+    position: relative;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Animated Background Shapes */
+.animated-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.animated-bg-shape {
+    position: absolute;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    animation: float 20s infinite ease-in-out;
+}
+
+.shape-1 {
+    width: 300px;
+    height: 300px;
+    top: -100px;
+    right: -100px;
+    animation-delay: 0s;
+}
+
+.shape-2 {
+    width: 200px;
+    height: 200px;
+    bottom: -50px;
+    left: -50px;
+    animation-delay: 5s;
+    animation-duration: 15s;
+}
+
+.shape-3 {
+    width: 150px;
+    height: 150px;
+    bottom: 30%;
+    right: 10%;
+    animation-delay: 10s;
+    animation-duration: 18s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-30px) rotate(10deg);
+    }
+}
+
+.metro-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.05)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+    background-size: cover;
+    opacity: 0.1;
+}
+
+.metro-hero-container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Hero Animations */
+.metro-hero-content {
+    animation: fadeInUp 1s ease-out;
+}
+
+.animated-badge {
+    animation: slideInDown 0.8s ease-out;
+}
+
+.animated-title {
+    animation: zoomIn 0.5s ease-out 0.3s both;
+}
+
+.animated-subtitle {
+    animation: fadeIn 1s ease-out 0.5s both;
+}
+
+.animated-buttons {
+    animation: bounceIn 0.8s ease-out 0.7s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    70% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.metro-hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    padding: 0.5rem 1.25rem;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+    .metro-hero-badge:hover {
+        background: rgba(255,255,255,0.3);
+        transform: scale(1.05);
+    }
+
+.metro-hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 1rem;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+.metro-highlight {
+    background: linear-gradient(135deg, #FFD700, #FF9800);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shine 2s infinite;
+}
+
+@keyframes shine {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+.metro-hero-subtitle {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 300;
+}
+
+.metro-hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.metro-primary-btn {
+    text-transform: none !important;
+    font-weight: 600 !important;
+    padding: 0.75rem 2rem !important;
+    border-radius: 12px !important;
+    background: white !important;
+    color: #667eea !important;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.glow-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+    .glow-effect::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255,255,255,0.5);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .glow-effect:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+.metro-primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.metro-outline-btn {
+    text-transform: none !important;
+    font-weight: 600 !important;
+    padding: 0.75rem 2rem !important;
+    border-radius: 12px !important;
+    border: 2px solid white !important;
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+    .metro-outline-btn:hover {
+        background: rgba(255,255,255,0.1) !important;
+        transform: translateY(-2px);
+        border-color: #FFD700 !important;
+    }
+
+/* Scroll Indicator */
+.metro-scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.7;
+    animation: bounce 2s infinite;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.metro-scroll-mouse {
+    width: 26px;
+    height: 40px;
+    border: 2px solid white;
+    border-radius: 20px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+    .metro-scroll-mouse:hover {
+        border-color: #FFD700;
+    }
+
+    .metro-scroll-mouse::before {
+        content: '';
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 3px;
+        height: 8px;
+        background: white;
+        border-radius: 2px;
+        animation: scroll 1.5s infinite;
+    }
+
+.metro-scroll-text {
+    font-size: 0.7rem;
+    color: white;
+    letter-spacing: 2px;
+    transition: color 0.3s ease;
+}
+
+    .metro-scroll-text:hover {
+        color: #FFD700;
+    }
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(-50%) translateX(-50%);
+    }
+
+    50% {
+        transform: translateY(-40%) translateX(-50%);
+    }
+}
+
+@keyframes scroll {
+    0% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+}
+
+/* Section Styles */
+.metro-section {
+    padding: 2rem 0;
+}
+
+.metro-section-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.25rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+    .metro-section-badge:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+    }
+
+.metro-section-title {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.metro-divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+    .metro-divider:hover {
+        width: 100px;
+    }
+
+/* Service Cards */
+.metro-service-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0,0,0,0.05);
+    height: 100%;
+    position: relative;
+}
+
+.dark-mode .metro-service-card {
+    background: #1e1e2e;
+    border-color: rgba(255,255,255,0.05);
+}
+
+.metro-service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102,126,234,0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.metro-service-card:hover::before {
+    left: 100%;
+}
+
+.metro-service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.metro-service-icon-wrapper {
+    padding: 2rem;
+    text-align: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+    overflow: hidden;
+}
+
+.metro-service-icon {
+    width: 120px;
+    height: auto;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.metro-service-card:hover .metro-service-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.metro-service-content {
+    padding: 1.5rem;
+}
+
+.metro-link-btn {
+    text-transform: none !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease;
+}
+
+.link-icon {
+    transition: transform 0.3s ease;
+}
+
+.metro-link-btn:hover .link-icon {
+    transform: translateX(5px);
+}
+
+/* Event Tiles */
+.metro-event-tile {
+    position: relative;
+    height: 300px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    .metro-event-tile.corporate {
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+    }
+
+    .metro-event-tile.wedding {
+        background: linear-gradient(135deg, #c31432, #240b36);
+    }
+
+    .metro-event-tile.engagement {
+        background: linear-gradient(135deg, #f12711, #f5af19);
+    }
+
+    .metro-event-tile.party {
+        background: linear-gradient(135deg, #00b4db, #0083b0);
+    }
+
+    .metro-event-tile:hover {
+        transform: scale(1.02);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+
+.metro-event-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    transition: background 0.3s ease;
+}
+
+.metro-event-tile:hover .metro-event-overlay {
+    background: rgba(0,0,0,0.3);
+}
+
+.metro-event-content {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+    .metro-event-content .mud-icon-root {
+        animation: pulse 2s infinite;
+    }
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.metro-event-hover {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.metro-event-tile:hover .metro-event-hover {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Feature Cards */
+.metro-feature-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+    border: 1px solid rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.dark-mode .metro-feature-card {
+    background: #1e1e2e;
+    border-color: rgba(255,255,255,0.05);
+}
+
+.metro-feature-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: width 0.4s ease;
+}
+
+.metro-feature-card:hover::after {
+    width: 100%;
+}
+
+.metro-feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.metro-feature-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1));
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.metro-feature-card:hover .metro-feature-icon {
+    transform: scale(1.1) rotate(5deg);
+    background: linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.2));
+}
+
+/* Partners Section */
+.metro-partners-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 24px;
+    padding: 3rem;
+    transition: all 0.3s ease;
+}
+
+.dark-mode .metro-partners-section {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.metro-partners-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.metro-partners-grid {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.metro-partner-item {
+    text-align: center;
+    padding: 1rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+    .metro-partner-item:hover {
+        transform: translateY(-8px) scale(1.05);
+    }
+
+.metro-partner-logo {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.metro-partner-item:hover .metro-partner-logo {
+    transform: scale(1.1);
+    animation: bounce 0.5s ease;
+}
+
+/* CTA Section */
+.metro-cta-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+    .metro-cta-section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(102,126,234,0.3);
+    }
+
+.pulse-animation {
+    animation: subtlePulse 2s infinite;
+}
+
+@keyframes subtlePulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+.pulse-btn {
+    animation: btnPulse 2s infinite;
+}
+
+@keyframes btnPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255,255,255,0.7);
+    }
+
+    50% {
+        box-shadow: 0 0 0 10px rgba(255,255,255,0);
+    }
+}
+
+.metro-cta-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.05)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+    background-size: cover;
+    opacity: 0.1;
+}
+
+.metro-cta-content {
+    padding: 3rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.metro-cta-btn {
+    text-transform: none !important;
+    font-weight: 600 !important;
+    padding: 0.75rem 2rem !important;
+    border-radius: 12px !important;
+    background: white !important;
+    color: #667eea !important;
+    transition: all 0.3s ease;
+}
+
+    .metro-cta-btn:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+/* AOS Animation Styles */
+[data-aos] {
+    opacity: 0;
+    transition-property: opacity, transform;
+    transition-duration: 0.8s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    [data-aos].aos-animate {
+        opacity: 1;
+    }
+
+[data-aos="fade-up"] {
+    transform: translateY(30px);
+}
+
+    [data-aos="fade-up"].aos-animate {
+        transform: translateY(0);
+    }
+
+[data-aos="zoom-in"] {
+    transform: scale(0.9);
+}
+
+    [data-aos="zoom-in"].aos-animate {
+        transform: scale(1);
+    }
+
+[data-aos="flip-left"] {
+    transform: rotateY(-90deg);
+}
+
+    [data-aos="flip-left"].aos-animate {
+        transform: rotateY(0);
+    }
+
+[data-aos="flip-right"] {
+    transform: rotateY(90deg);
+}
+
+    [data-aos="flip-right"].aos-animate {
+        transform: rotateY(0);
+    }
+
+[data-aos="slide-up"] {
+    transform: translateY(50px);
+}
+
+    [data-aos="slide-up"].aos-animate {
+        transform: translateY(0);
+    }
+
+/* Responsive */
+@@media (max-width: 960px) {
+    .metro-hero-title {
+        font-size: 2.5rem;
+    }
+
+    .metro-service-card {
+        margin-bottom: 1rem;
+    }
+
+    .metro-partners-section {
+        padding: 1.5rem;
+    }
+
+    .metro-partners-grid {
+        gap: 1.5rem;
+    }
+
+    .metro-cta-content {
+        padding: 2rem;
+    }
+}
+
+/* Page Loading Animation */
+@@keyframes pageLoad {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.mud-container {
+    animation: pageLoad 0.8s ease-out;
+}
+
+
+/* Metro Design System - Sitemap Page */
+
+/* Hero Section */
+.metro-sitemap-hero {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.dark-mode .metro-sitemap-hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.metro-sitemap-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(102,126,234,0.1) 0%, transparent 70%);
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.metro-sitemap-hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.metro-accent-line {
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+    background-size: 200% 100%;
+    margin: 0 auto 1rem auto;
+    border-radius: 2px;
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.metro-hero-title {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* Paper */
+.metro-sitemap-paper {
+    background: white;
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.dark-mode .metro-sitemap-paper {
+    background: #1e1e2e;
+}
+
+.metro-sitemap-paper:hover {
+    box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+}
+
+/* Introduction Section */
+.metro-intro-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05));
+    border-radius: 16px;
+    border-left: 4px solid #667eea;
+    animation: slideInLeft 0.6s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Sitemap Grid */
+.metro-sitemap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* Category Cards */
+.metro-sitemap-category {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.dark-mode .metro-sitemap-category {
+    background: #16213e;
+    border-color: rgba(255,255,255,0.05);
+}
+
+.metro-sitemap-category::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: top 0.4s ease;
+}
+
+.metro-sitemap-category:hover::before {
+    top: 0;
+}
+
+.metro-sitemap-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.metro-category-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid rgba(102,126,234,0.2);
+}
+
+.metro-category-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.metro-sitemap-category:hover .metro-category-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.metro-category-title {
+    margin: 0;
+    color: #2d3748;
+}
+
+.dark-mode .metro-category-title {
+    color: #e2e8f0;
+}
+
+/* Category Links */
+.metro-category-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.metro-sitemap-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 12px;
+    color: #4a5568;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.dark-mode .metro-sitemap-link {
+    color: #a0aec0;
+}
+
+.metro-sitemap-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102,126,234,0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.metro-sitemap-link:hover::before {
+    left: 100%;
+}
+
+.metro-sitemap-link:hover {
+    background: rgba(102,126,234,0.05);
+    transform: translateX(8px);
+    color: #667eea;
+}
+
+.metro-sitemap-link .link-arrow {
+    margin-left: auto;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+}
+
+.metro-sitemap-link:hover .link-arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Statistics Section */
+.metro-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+.metro-stat-card {
+    text-align: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.dark-mode .metro-stat-card {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+}
+
+.metro-stat-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: height 0.3s ease;
+}
+
+.metro-stat-card:hover::after {
+    height: 4px;
+}
+
+.metro-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.metro-stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    animation: countUp 2s ease-out;
+}
+
+@keyframes countUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.metro-stat-label {
+    font-size: 0.85rem;
+    color: #718096;
+    font-weight: 500;
+}
+
+.dark-mode .metro-stat-label {
+    color: #a0aec0;
+}
+
+.metro-stat-progress-bar {
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    margin-top: 1rem;
+    border-radius: 2px;
+    transition: width 1s ease;
+}
+
+.metro-stat-card:hover .metro-stat-progress-bar {
+    width: 100%;
+}
+
+/* Quick Navigation */
+.metro-quick-nav {
+    background: linear-gradient(135deg, rgba(102,126,234,0.05), rgba(118,75,162,0.05));
+    border-radius: 20px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+    .metro-quick-nav:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+.metro-quick-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.metro-quick-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: white;
+    border-radius: 10px;
+    color: #4a5568;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.dark-mode .metro-quick-link {
+    background: #1e1e2e;
+    color: #a0aec0;
+}
+
+.metro-quick-link:hover {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+}
+
+/* XML Info */
+.metro-xml-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: rgba(102,126,234,0.05);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.metro-xml-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+    .metro-xml-link::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        transition: width 0.3s ease;
+    }
+
+    .metro-xml-link:hover::after {
+        width: 100%;
+    }
+
+/* AOS Animations */
+[data-aos] {
+    opacity: 0;
+    transition-property: opacity, transform;
+    transition-duration: 0.8s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    [data-aos].aos-animate {
+        opacity: 1;
+    }
+
+[data-aos="fade-up"] {
+    transform: translateY(30px);
+}
+
+    [data-aos="fade-up"].aos-animate {
+        transform: translateY(0);
+    }
+
+/* Responsive */
+@@media (max-width: 768px) {
+    .metro-sitemap-paper {
+        padding: 1rem;
+    }
+
+    .metro-sitemap-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .metro-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .metro-intro-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .metro-quick-links {
+        justify-content: center;
+    }
+}
+
+/* Page Load Animation */
+@@keyframes pageFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.mud-container {
+    animation: pageFadeIn 0.5s ease-out;
+}
+
+
+/* Metro Design System - About Page with Enhanced Animations */
+
+/* Animated Background Shapes */
+.animated-bg-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.shape {
+    position: absolute;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+    animation: float 20s infinite ease-in-out;
+}
+
+.shape-1 {
+    width: 250px;
+    height: 250px;
+    top: -100px;
+    right: -50px;
+    animation-delay: 0s;
+}
+
+.shape-2 {
+    width: 180px;
+    height: 180px;
+    bottom: -80px;
+    left: -80px;
+    animation-delay: 5s;
+    animation-duration: 15s;
+}
+
+.shape-3 {
+    width: 120px;
+    height: 120px;
+    bottom: 20%;
+    right: 15%;
+    animation-delay: 10s;
+    animation-duration: 18s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(10deg);
+    }
+}
+
+/* Hero Section Animations */
+.metro-hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.metro-accent-line {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #FFD700, #FF9800);
+    margin-bottom: 1.5rem;
+    border-radius: 2px;
+    animation: expandWidth 1s ease-out;
+}
+
+@keyframes expandWidth {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 60px;
+    }
+}
+
+.animated-text {
+    animation: slideInRight 0.8s ease-out;
+}
+
+.animated-subtitle {
+    animation: slideInRight 0.8s ease-out 0.2s both;
+}
+
+.animated-description {
+    animation: slideInRight 0.8s ease-out 0.4s both;
+}
+
+.animated-buttons {
+    animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Image Container */
+.metro-image-container {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    animation: fadeInLeft 0.8s ease-out;
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.metro-hero-image {
+    border-radius: 20px !important;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.metro-image-container:hover .metro-hero-image {
+    transform: scale(1.05);
+}
+
+.metro-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(102,126,234,0.3), rgba(118,75,162,0.3));
+    pointer-events: none;
+    transition: background 0.3s ease;
+}
+
+.image-glow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s ease;
+    pointer-events: none;
+}
+
+.metro-image-container:hover .image-glow {
+    left: 100%;
+}
+
+/* Metro Stat Tiles */
+.metro-stat-tile {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    position: relative;
+    overflow: hidden;
+}
+
+.dark-mode .metro-stat-tile {
+    background: #1e1e2e;
+    border-color: rgba(255,255,255,0.05);
+}
+
+.metro-stat-tile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102,126,234,0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.metro-stat-tile:hover::before {
+    left: 100%;
+}
+
+.metro-stat-tile:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+}
+
+.metro-stat-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.metro-stat-tile:hover .metro-stat-icon {
+    transform: scale(1.05) rotate(5deg);
+}
+
+.metro-stat-content {
+    flex: 1;
+}
+
+.metro-stat-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    color: #2d3748;
+    letter-spacing: -0.5px;
+    transition: all 0.3s ease;
+}
+
+.dark-mode .metro-stat-number {
+    color: #e2e8f0;
+}
+
+.metro-stat-label {
+    font-size: 0.85rem;
+    color: #718096;
+    margin: 0.25rem 0 0 0;
+    font-weight: 500;
+}
+
+.metro-stat-progress {
+    height: 3px;
+    width: 40px;
+    background: #4A90E2;
+    margin-top: 0.5rem;
+    border-radius: 2px;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.metro-stat-tile:hover .metro-stat-progress {
+    width: 80px;
+}
+
+/* Metro Cards */
+.metro-card-hover {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    .metro-card-hover:hover {
+        transform: translateY(-6px);
+    }
+
+.metro-card {
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background: white;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.dark-mode .metro-card {
+    background: #1e1e2e;
+    border-color: rgba(255,255,255,0.05);
+}
+
+.metro-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    transition: width 0.4s ease;
+}
+
+.metro-card:hover::after {
+    width: 100%;
+}
+
+.metro-card:hover {
+    box-shadow: 0 20px 35px -10px rgba(0,0,0,0.15);
+}
+
+.metro-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.metro-icon-circle {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.pulse-icon {
+    animation: pulseIcon 2s infinite;
+}
+
+@keyframes pulseIcon {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.metro-card:hover .metro-icon-circle {
+    transform: rotate(15deg);
+}
+
+.metro-card-title {
+    margin: 0;
+    color: #2d3748;
+}
+
+.metro-card-text {
+    line-height: 1.7;
+    transition: all 0.3s ease;
+}
+
+/* Quote Section */
+.metro-quote-section {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+    border-radius: 24px;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+.dark-mode .metro-quote-section {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.metro-quote-section:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.metro-quote-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+}
+
+.metro-quote-icon {
+    font-size: 3rem;
+    color: #4A90E2;
+    opacity: 0.3;
+    margin-bottom: 1rem;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.metro-quote-text {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: #2d3748;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.dark-mode .metro-quote-text {
+    color: #e2e8f0;
+}
+
+.metro-quote-author {
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.metro-quote-section:hover .metro-quote-author {
+    transform: translateX(5px);
+}
+
+/* Team Section */
+.metro-section-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.25rem 1rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+    .metro-section-badge:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+    }
+
+.metro-section-title {
+    margin-bottom: 0.5rem;
+}
+
+.metro-divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+    .metro-divider:hover {
+        width: 100px;
+    }
+
+/* Team Cards */
+.metro-team-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0,0,0,0.05);
+    cursor: pointer;
+}
+
+.dark-mode .metro-team-card {
+    background: #1e1e2e;
+    border-color: rgba(255,255,255,0.05);
+}
+
+.metro-team-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 30px -12px rgba(0,0,0,0.15);
+}
+
+.metro-team-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    padding-top: 100%;
+}
+
+.metro-team-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.metro-team-card:hover .metro-team-image {
+    transform: scale(1.1);
+}
+
+.metro-team-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.metro-team-card:hover .metro-team-overlay {
+    opacity: 1;
+}
+
+.metro-team-social {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-icon {
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    .social-icon:hover {
+        transform: scale(1.2) translateY(-3px);
+        color: #FFD700;
+    }
+
+.metro-team-info {
+    padding: 1.25rem;
+    text-align: center;
+}
+
+.metro-team-divider {
+    width: 30px;
+    height: 2px;
+    background: #e2e8f0;
+    margin: 0.5rem auto;
+    border-radius: 1px;
+    transition: width 0.3s ease;
+}
+
+.metro-team-card:hover .metro-team-divider {
+    width: 50px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+/* CTA Section */
+.metro-cta-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.4s ease;
+}
+
+    .metro-cta-section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(102,126,234,0.3);
+    }
+
+    .metro-cta-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.05)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+        background-size: cover;
+        opacity: 0.1;
+    }
+
+.metro-cta-content {
+    padding: 3rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.pulse-container {
+    animation: subtlePulse 2s infinite;
+}
+
+@keyframes subtlePulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+.metro-cta-btn {
+    text-transform: none !important;
+    font-weight: 600 !important;
+    padding: 0.75rem 2rem !important;
+    border-radius: 12px !important;
+    background: white !important;
+    color: #667eea !important;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.pulse-btn {
+    animation: btnPulse 2s infinite;
+}
+
+@keyframes btnPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(255,255,255,0.7);
+    }
+
+    50% {
+        box-shadow: 0 0 0 10px rgba(255,255,255,0);
+    }
+}
+
+.metro-cta-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.arrow-icon {
+    transition: transform 0.3s ease;
+}
+
+.metro-cta-btn:hover .arrow-icon {
+    transform: translateX(5px);
+}
+
+/* AOS Animations */
+[data-aos] {
+    opacity: 0;
+    transition-property: opacity, transform;
+    transition-duration: 0.8s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    [data-aos].aos-animate {
+        opacity: 1;
+    }
+
+[data-aos="fade-right"] {
+    transform: translateX(-30px);
+}
+
+    [data-aos="fade-right"].aos-animate {
+        transform: translateX(0);
+    }
+
+[data-aos="fade-left"] {
+    transform: translateX(30px);
+}
+
+    [data-aos="fade-left"].aos-animate {
+        transform: translateX(0);
+    }
+
+[data-aos="fade-up"] {
+    transform: translateY(30px);
+}
+
+    [data-aos="fade-up"].aos-animate {
+        transform: translateY(0);
+    }
+
+[data-aos="zoom-in"] {
+    transform: scale(0.9);
+}
+
+    [data-aos="zoom-in"].aos-animate {
+        transform: scale(1);
+    }
+
+[data-aos="flip-up"] {
+    transform: rotateX(-90deg);
+}
+
+    [data-aos="flip-up"].aos-animate {
+        transform: rotateX(0);
+    }
+
+[data-aos="flip-left"] {
+    transform: rotateY(-90deg);
+}
+
+    [data-aos="flip-left"].aos-animate {
+        transform: rotateY(0);
+    }
+
+[data-aos="zoom-in-up"] {
+    transform: translateY(30px) scale(0.9);
+}
+
+    [data-aos="zoom-in-up"].aos-animate {
+        transform: translateY(0) scale(1);
+    }
+
+/* Metro Buttons */
+.metro-btn {
+    text-transform: none !important;
+    font-weight: 600 !important;
+    padding: 0.5rem 1.5rem !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease;
+}
+
+.glow-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+    .glow-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        background: rgba(255,255,255,0.5);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .glow-btn:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+.metro-btn-outline {
+    border: 2px solid white !important;
+    text-transform: none !important;
+    font-weight: 600 !important;
+    padding: 0.5rem 1.5rem !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease;
+}
+
+    .metro-btn-outline:hover {
+        background: rgba(255,255,255,0.1) !important;
+        transform: translateY(-2px);
+    }
+
+/* Page Load Animation */
+@@keyframes pageFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.mud-container {
+    animation: pageFadeIn 0.5s ease-out;
+}
+
+/* Responsive */
+@@media (max-width: 960px) {
+    .metro-stat-tile {
+        margin-bottom: 1rem;
+    }
+
+    .metro-hero-content {
+        text-align: center;
+    }
+
+    .metro-accent-line {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .metro-quote-text {
+        font-size: 1rem;
+    }
+
+    .metro-cta-content {
+        padding: 2rem;
+    }
+
+    .metro-title {
+        font-size: 2rem;
+    }
+}

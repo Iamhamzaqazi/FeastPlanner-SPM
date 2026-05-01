@@ -1,0 +1,355 @@
+﻿@page "/Sitemap"
+<PageTitle>Sitemap | Feast Planner</PageTitle>
+
+<MudContainer Class="mt-4 px-8 container" MaxWidth="MaxWidth.False">
+
+    @* Hero Section *@
+    <div class="metro-sitemap-hero mb-6" data-aos="fade-up">
+        <div class="metro-sitemap-hero-content">
+            <div class="metro-accent-line"></div>
+            <MudText Typo="Typo.h1" Class="fw-bold metro-hero-title">Sitemap</MudText>
+            <MudText Typo="Typo.body1" Class="text-muted mt-3">
+                Navigate through all pages and resources available on Feast Planner
+            </MudText>
+        </div>
+    </div>
+
+    <MudPaper Class="metro-sitemap-paper" Elevation="0">
+        <MudGrid>
+
+            @* Introduction *@
+            <MudItem xs="12" sm="12" md="12" lg="12" data-aos="fade-up">
+                <div class="metro-intro-section">
+                    <MudIcon Icon="@Icons.Material.Filled.Info" Color="Color.Primary" Size="Size.Medium" />
+                    <MudText Typo="Typo.body1" Class="text-muted">
+                        First, a disclaimer – the entire process of writing a blog post often takes more than a couple of hours,
+                        even if you can type eighty words per minute and your writing skills are sharp.
+                    </MudText>
+                </div>
+            </MudItem>
+
+            @* Sitemap Grid *@
+            <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-4">
+                <div class="metro-sitemap-grid">
+
+                    @* Feast Planner Section *@
+                    <div class="metro-sitemap-category" data-aos="fade-up" data-aos-delay="100">
+                        <div class="metro-category-header">
+                            <div class="metro-category-icon">
+                                <MudIcon Icon="@Icons.Material.Filled.Cake" Color="Color.Primary" />
+                            </div>
+                            <MudText Typo="Typo.h5" Class="fw-bold metro-category-title">Feast Planner</MudText>
+                        </div>
+                        <div class="metro-category-links">
+                            <a href="/" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.Home" Size="Size.Small" />
+                                <span>Home</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                            <a href="/booking" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.BookOnline" Size="Size.Small" />
+                                <span>Booking</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                            <a href="/feed" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.RssFeed" Size="Size.Small" />
+                                <span>Feed</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                            <a href="/portfolio" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.Podcasts" Size="Size.Small" />
+                                <span>Portfolio</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                        </div>
+                    </div>
+
+                    @* Resources Section *@
+                    <div class="metro-sitemap-category" data-aos="fade-up" data-aos-delay="150">
+                        <div class="metro-category-header">
+                            <div class="metro-category-icon">
+                                <MudIcon Icon="@Icons.Material.Filled.Folder" Color="Color.Success" />
+                            </div>
+                            <MudText Typo="Typo.h5" Class="fw-bold metro-category-title">Resources</MudText>
+                        </div>
+                        <div class="metro-category-links">
+                            <a href="/blogs" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.Block" Size="Size.Small" />
+                                <span>Blogs</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                            <a href="/announcements" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.Campaign" Size="Size.Small" />
+                                <span>Announcements</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                            <a href="/news" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.Newspaper" Size="Size.Small" />
+                                <span>News</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                            <a href="/events" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.Event" Size="Size.Small" />
+                                <span>Upcoming Events</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                        </div>
+                    </div>
+
+                    @* Legal Matters Section *@
+                    <div class="metro-sitemap-category" data-aos="fade-up" data-aos-delay="200">
+                        <div class="metro-category-header">
+                            <div class="metro-category-icon">
+                                <MudIcon Icon="@Icons.Material.Filled.Gavel" Color="Color.Warning" />
+                            </div>
+                            <MudText Typo="Typo.h5" Class="fw-bold metro-category-title">Legal Matters</MudText>
+                        </div>
+                        <div class="metro-category-links">
+                            <a href="/terms" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.Description" Size="Size.Small" />
+                                <span>Terms of Service</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                            <a href="/support-policy" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.SupportAgent" Size="Size.Small" />
+                                <span>Support Policy</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                            <a href="/refund-policy" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.Receipt" Size="Size.Small" />
+                                <span>Refund Policy</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                            <a href="/privacy" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.PrivacyTip" Size="Size.Small" />
+                                <span>Privacy Policy</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                        </div>
+                    </div>
+
+                    @* About Section *@
+                    <div class="metro-sitemap-category" data-aos="fade-up" data-aos-delay="250">
+                        <div class="metro-category-header">
+                            <div class="metro-category-icon">
+                                <MudIcon Icon="@Icons.Material.Filled.Info" Color="Color.Error" />
+                            </div>
+                            <MudText Typo="Typo.h5" Class="fw-bold metro-category-title">About</MudText>
+                        </div>
+                        <div class="metro-category-links">
+                            <a href="/about" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Small" />
+                                <span>About Us</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                            <a href="/team" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.Group" Size="Size.Small" />
+                                <span>Our Team</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                            <a href="/contact" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.ContactMail" Size="Size.Small" />
+                                <span>Contact Us</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                        </div>
+                    </div>
+
+                    @* Offers Section *@
+                    <div class="metro-sitemap-category" data-aos="fade-up" data-aos-delay="300">
+                        <div class="metro-category-header">
+                            <div class="metro-category-icon">
+                                <MudIcon Icon="@Icons.Material.Filled.LocalOffer" Color="Color.Secondary" />
+                            </div>
+                            <MudText Typo="Typo.h5" Class="fw-bold metro-category-title">Offers</MudText>
+                        </div>
+                        <div class="metro-category-links">
+                            <a href="/packages" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.CardGiftcard" Size="Size.Small" />
+                                <span>Packages</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                            <a href="/membership" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.CardMembership" Size="Size.Small" />
+                                <span>Membership Plan</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                            <a href="/pricing" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.AttachMoney" Size="Size.Small" />
+                                <span>Pricing</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                        </div>
+                    </div>
+
+                    @* Others Section *@
+                    <div class="metro-sitemap-category" data-aos="fade-up" data-aos-delay="350">
+                        <div class="metro-category-header">
+                            <div class="metro-category-icon">
+                                <MudIcon Icon="@Icons.Material.Filled.MoreHoriz" Color="Color.Info" />
+                            </div>
+                            <MudText Typo="Typo.h5" Class="fw-bold metro-category-title">Others</MudText>
+                        </div>
+                        <div class="metro-category-links">
+                            <a href="/faqs" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.Help" Size="Size.Small" />
+                                <span>FAQs</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                            <a href="/careers" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.Work" Size="Size.Small" />
+                                <span>Careers</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                            <a href="/work-with-us" class="metro-sitemap-link">
+                                <MudIcon Icon="@Icons.Material.Filled.Handshake" Size="Size.Small" />
+                                <span>Work With Us</span>
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" class="link-arrow" />
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </MudItem>
+
+            @* Statistics Section *@
+            <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-6" data-aos="fade-up">
+                <div class="metro-stats-grid">
+                    <div class="metro-stat-card">
+                        <div class="metro-stat-number" data-count="50">0</div>
+                        <div class="metro-stat-label">Total Pages</div>
+                        <div class="metro-stat-progress-bar"></div>
+                    </div>
+                    <div class="metro-stat-card">
+                        <div class="metro-stat-number" data-count="15">0</div>
+                        <div class="metro-stat-label">Categories</div>
+                        <div class="metro-stat-progress-bar"></div>
+                    </div>
+                    <div class="metro-stat-card">
+                        <div class="metro-stat-number" data-count="200">0</div>
+                        <div class="metro-stat-label">Blog Posts</div>
+                        <div class="metro-stat-progress-bar"></div>
+                    </div>
+                    <div class="metro-stat-card">
+                        <div class="metro-stat-number" data-count="5000">0</div>
+                        <div class="metro-stat-label">Happy Clients</div>
+                        <div class="metro-stat-progress-bar"></div>
+                    </div>
+                </div>
+            </MudItem>
+
+            @* Quick Navigation *@
+            <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-6" data-aos="fade-up">
+                <div class="metro-quick-nav">
+                    <MudText Typo="Typo.h6" Class="fw-bold mb-3">Quick Navigation</MudText>
+                    <div class="metro-quick-links">
+                        <a href="/" class="metro-quick-link">
+                            <MudIcon Icon="@Icons.Material.Filled.Home" Size="Size.Small" />
+                            <span>Home</span>
+                        </a>
+                        <a href="/about" class="metro-quick-link">
+                            <MudIcon Icon="@Icons.Material.Filled.Info" Size="Size.Small" />
+                            <span>About</span>
+                        </a>
+                        <a href="/contact" class="metro-quick-link">
+                            <MudIcon Icon="@Icons.Material.Filled.ContactMail" Size="Size.Small" />
+                            <span>Contact</span>
+                        </a>
+                        <a href="/booking" class="metro-quick-link">
+                            <MudIcon Icon="@Icons.Material.Filled.BookOnline" Size="Size.Small" />
+                            <span>Booking</span>
+                        </a>
+                        <a href="/pricing" class="metro-quick-link">
+                            <MudIcon Icon="@Icons.Material.Filled.AttachMoney" Size="Size.Small" />
+                            <span>Pricing</span>
+                        </a>
+                        <a href="/faqs" class="metro-quick-link">
+                            <MudIcon Icon="@Icons.Material.Filled.Help" Size="Size.Small" />
+                            <span>FAQs</span>
+                        </a>
+                    </div>
+                </div>
+            </MudItem>
+
+            @* XML Sitemap Info *@
+            <MudItem xs="12" sm="12" md="12" lg="12" Class="mt-4" data-aos="fade-up">
+                <div class="metro-xml-info">
+                    <MudIcon Icon="@Icons.Material.Filled.Code" Color="Color.Primary" />
+                    <MudText Typo="Typo.body2" Class="text-muted">
+                        XML Sitemap available for search engines:
+                        <a href="/sitemap.xml" class="metro-xml-link">sitemap.xml</a>
+                    </MudText>
+                </div>
+            </MudItem>
+
+        </MudGrid>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InitializeAnimations();
+            await AnimateNumbers();
+        }
+    }
+
+    private async Task InitializeAnimations()
+    {
+        await JS.InvokeVoidAsync("eval", @"
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('aos-animate');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('[data-aos]').forEach(el => {
+                observer.observe(el);
+            });
+        ");
+    }
+
+    private async Task AnimateNumbers()
+    {
+        await JS.InvokeVoidAsync("eval", @"
+            const animateNumber = (element) => {
+                const target = parseInt(element.getAttribute('data-count'));
+                let current = 0;
+                const increment = target / 50;
+                const updateNumber = () => {
+                    current += increment;
+                    if (current < target) {
+                        element.textContent = Math.floor(current);
+                        requestAnimationFrame(updateNumber);
+                    } else {
+                        element.textContent = target;
+                    }
+                };
+                updateNumber();
+            };
+
+            const numberObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateNumber(entry.target);
+                        numberObserver.unobserve(entry.target);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.metro-stat-number').forEach(el => {
+                numberObserver.observe(el);
+            });
+        ");
+    }
+}

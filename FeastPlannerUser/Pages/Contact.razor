@@ -1,0 +1,393 @@
+﻿@page "/Contact"
+<PageTitle>Contact | Feast Planner</PageTitle>
+
+<MudContainer Class="mt-4 px-8 container" MaxWidth="MaxWidth.False">
+
+    @* Hero Section *@
+    <div class="metro-sitemap-hero mb-6" data-aos="fade-up">
+        <div class="metro-sitemap-hero-content">
+            <div class="metro-accent-line"></div>
+            <MudText Typo="Typo.h1" Class="fw-bold metro-hero-title">Get In Touch</MudText>
+            <MudText Typo="Typo.body1" Class="text-muted mt-3">
+                Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+            </MudText>
+        </div>
+    </div>
+    <MudPaper Class="metro-sitemap-paper" Elevation="0">
+        <MudGrid>
+            @* Contact Form Section *@
+            <MudItem xs="12" lg="7">
+                <div class="metro-contact-card">
+                    <div class="metro-card-header">
+                        <div class="metro-icon-circle">
+                            <MudIcon Icon="@Icons.Material.Filled.Email" Color="Color.Inherit" />
+                        </div>
+                        <div>
+                            <MudText Typo="Typo.h5" Class="fw-bold">Send Us Email</MudText>
+                            <MudText Typo="Typo.body2" Class="text-muted">We'll get back to you within 24 hours</MudText>
+                        </div>
+                    </div>
+
+                    <MudForm @ref="_form">
+                        <MudGrid Spacing="3">
+                            <MudItem xs="12" md="6">
+                                <MudTextField T="string"
+                                              @bind-Value="_contactModel.Name"
+                                              AutoFocus="true"
+                                              MaxLength="100"
+                                              Counter="100"
+                                              Label="Full Name"
+                                              Placeholder="Enter your full name"
+                                              Immediate="true"
+                                              Clearable="true"
+                                              Variant="Variant.Outlined"
+                                              Required="true"
+                                              RequiredError="Name is required"
+                                              Adornment="Adornment.Start"
+                                              AdornmentColor="Color.Primary"
+                                              AdornmentIcon="@Icons.Material.Filled.Person"
+                                              Class="metro-input" />
+                            </MudItem>
+
+                            <MudItem xs="12" md="6">
+                                <MudTextField T="string"
+                                              @bind-Value="_contactModel.Email"
+                                              MaxLength="100"
+                                              Counter="100"
+                                              Label="Email Address"
+                                              Placeholder="you@example.com"
+                                              Immediate="true"
+                                              Clearable="true"
+                                              Variant="Variant.Outlined"
+                                              InputType="InputType.Email"
+                                              Adornment="Adornment.Start"
+                                              AdornmentColor="Color.Primary"
+                                              AdornmentIcon="@Icons.Material.Filled.Email"
+                                              RequiredError="Email is required!"
+                                              Required="true"
+                                              Class="metro-input" />
+                            </MudItem>
+
+                            <MudItem xs="12" md="6">
+                                <MudTextField T="string"
+                                              @bind-Value="_contactModel.Phone"
+                                              MaxLength="20"
+                                              Counter="20"
+                                              Label="Phone Number (Optional)"
+                                              Placeholder="+92 333 1234567"
+                                              Immediate="true"
+                                              Clearable="true"
+                                              Variant="Variant.Outlined"
+                                              Adornment="Adornment.Start"
+                                              AdornmentColor="Color.Primary"
+                                              AdornmentIcon="@Icons.Material.Filled.Phone"
+                                              Class="metro-input" />
+                            </MudItem>
+
+                            <MudItem xs="12">
+                                <MudTextField T="string"
+                                              @bind-Value="_contactModel.Message"
+                                              MaxLength="500"
+                                              Counter="500"
+                                              Label="Message"
+                                              Placeholder="Tell us how we can help..."
+                                              Lines="5"
+                                              Clearable="true"
+                                              Variant="Variant.Outlined"
+                                              Required="true"
+                                              RequiredError="Message is required"
+                                              Adornment="Adornment.Start"
+                                              AdornmentColor="Color.Primary"
+                                              AdornmentIcon="@Icons.Material.Filled.Message"
+                                              Class="metro-input" />
+                            </MudItem>
+
+                            <MudItem xs="12">
+                                <div class="d-flex gap-3 align-items-center">
+                                    <MudButton Variant="Variant.Filled"
+                                               Color="Color.Primary"
+                                               Size="Size.Large"
+                                               Disabled="@_isSubmitting"
+                                               OnClick="@SubmitForm"
+                                               StartIcon="@Icons.Material.Filled.Send"
+                                               Class="metro-submit-btn">
+                                        @if (_isSubmitting)
+                                        {
+                                            <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="me-2" />
+                                            <span>Sending...</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Send Message</span>
+                                        }
+                                    </MudButton>
+
+                                    <MudButton Variant="Variant.Text"
+                                               Color="Color.Default"
+                                               OnClick="@ResetForm">
+                                        Clear Form
+                                    </MudButton>
+                                </div>
+                            </MudItem>
+                        </MudGrid>
+                    </MudForm>
+                </div>
+            </MudItem>
+
+            @* Contact Info & Map Section *@
+            <MudItem xs="12" lg="5">
+                <div class="metro-contact-info-grid">
+                    @* Contact Information Cards *@
+                    <div class="metro-info-card">
+                        <div class="metro-info-icon-wrapper">
+                            <MudIcon Icon="@Icons.Material.Filled.Call" Color="Color.Primary" Size="Size.Large" />
+                        </div>
+                        <div class="metro-info-content">
+                            <MudText Typo="Typo.h6" Class="fw-bold">Phone</MudText>
+                            <MudText Typo="Typo.body1" Class="text-muted">+92 333 138515</MudText>
+                            <MudText Typo="Typo.caption" Class="text-muted">Mon-Fri, 9am-6pm</MudText>
+                        </div>
+                    </div>
+
+                    <div class="metro-info-card">
+                        <div class="metro-info-icon-wrapper">
+                            <MudIcon Icon="@Icons.Material.Filled.Email" Color="Color.Primary" Size="Size.Large" />
+                        </div>
+                        <div class="metro-info-content">
+                            <MudText Typo="Typo.h6" Class="fw-bold">Email Us</MudText>
+                            <MudText Typo="Typo.body1" Class="text-muted">hello@feastplanner.com</MudText>
+                            <MudText Typo="Typo.body1" Class="text-muted">support@feastplanner.com</MudText>
+                        </div>
+                    </div>
+
+                    <div class="metro-info-card">
+                        <div class="metro-info-icon-wrapper">
+                            <MudIcon Icon="@Icons.Material.Filled.MyLocation" Color="Color.Primary" Size="Size.Large" />
+                        </div>
+                        <div class="metro-info-content">
+                            <MudText Typo="Typo.h6" Class="fw-bold">Head Office</MudText>
+                            <MudText Typo="Typo.body1" Class="text-muted">
+                                Shahrah-e-Faisal, Karachi<br />
+                                Sindh, Pakistan
+                            </MudText>
+                        </div>
+                    </div>
+
+                    @* Map Container *@
+                    <div class="metro-map-container">
+                        <div class="metro-map-header">
+                            <MudIcon Icon="@Icons.Material.Filled.Map" Color="Color.Primary" Size="Size.Small" />
+                            <MudText Typo="Typo.body2" Class="fw-bold">Find Us Here</MudText>
+                        </div>
+                        <div class="metro-map-wrapper">
+                            <iframe src="https://maps.google.com/maps?q=Shahrah%20e%20faisal%20karachi&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
+                                    frameborder="0"
+                                    scrolling="no"
+                                    class="metro-map-iframe"
+                                    title="Office Location">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </MudItem>
+        </MudGrid>
+
+        @* FAQ Section *@
+        <div class="metro-faq-section mt-6">
+            <div class="text-center mb-5">
+                <div class="metro-section-badge">FAQ</div>
+                <MudText Typo="Typo.h3" Class="fw-bold metro-section-title">Frequently Asked Questions</MudText>
+                <div class="metro-divider mx-auto"></div>
+                <MudText Typo="Typo.body1" Class="text-muted mt-3">
+                    Find quick answers to common questions
+                </MudText>
+            </div>
+
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <div class="metro-faq-item">
+                        <div class="metro-faq-question">
+                            <MudIcon Icon="@Icons.Material.Filled.Help" Color="Color.Primary" Size="Size.Small" />
+                            <MudText Typo="Typo.body1" Class="fw-bold">How quickly do you respond to inquiries?</MudText>
+                        </div>
+                        <MudText Typo="Typo.body2" Class="text-muted ms-4">
+                            We typically respond within 24 hours during business days. For urgent matters, please call us directly.
+                        </MudText>
+                    </div>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <div class="metro-faq-item">
+                        <div class="metro-faq-question">
+                            <MudIcon Icon="@Icons.Material.Filled.Help" Color="Color.Primary" Size="Size.Small" />
+                            <MudText Typo="Typo.body1" Class="fw-bold">Do you offer support for existing customers?</MudText>
+                        </div>
+                        <MudText Typo="Typo.body2" Class="text-muted ms-4">
+                            Yes! All our customers get priority support. You can reach us through the support portal or email.
+                        </MudText>
+                    </div>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <div class="metro-faq-item">
+                        <div class="metro-faq-question">
+                            <MudIcon Icon="@Icons.Material.Filled.Help" Color="Color.Primary" Size="Size.Small" />
+                            <MudText Typo="Typo.body1" Class="fw-bold">Can I schedule a demo?</MudText>
+                        </div>
+                        <MudText Typo="Typo.body2" Class="text-muted ms-4">
+                            Absolutely! Fill out the contact form with "Demo Request" in the subject line, and we'll schedule a personalized demo.
+                        </MudText>
+                    </div>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <div class="metro-faq-item">
+                        <div class="metro-faq-question">
+                            <MudIcon Icon="@Icons.Material.Filled.Help" Color="Color.Primary" Size="Size.Small" />
+                            <MudText Typo="Typo.body1" Class="fw-bold">What are your business hours?</MudText>
+                        </div>
+                        <MudText Typo="Typo.body2" Class="text-muted ms-4">
+                            Monday to Friday, 9:00 AM to 6:00 PM (PKT). We're closed on weekends and major holidays.
+                        </MudText>
+                    </div>
+                </MudItem>
+            </MudGrid>
+        </div>
+
+        @* CTA Section *@
+        <div class="metro-cta-section mt-6 mb-4">
+            <div class="metro-cta-content">
+                <MudText Typo="Typo.h4" Class="text-white fw-bold mb-3">Prefer to talk directly?</MudText>
+                <MudText Typo="Typo.body1" Class="text-white-50 mb-4">
+                    Call us now for immediate assistance
+                </MudText>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Secondary"
+                           Class="metro-cta-btn"
+                           Size="Size.Large"
+                           StartIcon="@Icons.Material.Filled.Call">
+                    +92 333 138515
+                </MudButton>
+            </div>
+        </div>
+    </MudPaper>
+</MudContainer>
+
+
+@code {
+    private MudForm _form;
+    private bool _isSubmitting = false;
+
+    private ContactModel _contactModel = new ContactModel();
+
+    private async Task SubmitForm()
+    {
+        await _form.Validate();
+
+        if (_form.IsValid)
+        {
+            _isSubmitting = true;
+            StateHasChanged();
+
+            // Simulate API call
+            await Task.Delay(2000);
+
+            // Show success message
+            await ShowSnackbar("Message sent successfully! We'll get back to you soon.", Severity.Success);
+
+            ResetForm();
+            _isSubmitting = false;
+            StateHasChanged();
+        }
+    }
+
+    private void ResetForm()
+    {
+        _contactModel = new ContactModel();
+        _form.ResetValidation();
+        StateHasChanged();
+    }
+
+    private async Task ShowSnackbar(string message, Severity severity)
+    {
+        // You'll need to inject ISnackbar for this
+        // Or implement your own notification system
+        Console.WriteLine(message);
+        await Task.CompletedTask;
+    }
+
+    public class ContactModel
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Subject { get; set; }
+        public string Message { get; set; }
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InitializeAnimations();
+            await AnimateNumbers();
+        }
+    }
+
+    private async Task InitializeAnimations()
+    {
+        await JS.InvokeVoidAsync("eval", @"
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('aos-animate');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('[data-aos]').forEach(el => {
+                observer.observe(el);
+            });
+        ");
+    }
+
+    private async Task AnimateNumbers()
+    {
+        await JS.InvokeVoidAsync("eval", @"
+            const animateNumber = (element) => {
+                const target = parseInt(element.getAttribute('data-count'));
+                let current = 0;
+                const increment = target / 50;
+                const updateNumber = () => {
+                    current += increment;
+                    if (current < target) {
+                        element.textContent = Math.floor(current);
+                        requestAnimationFrame(updateNumber);
+                    } else {
+                        element.textContent = target;
+                    }
+                };
+                updateNumber();
+            };
+
+            const numberObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateNumber(entry.target);
+                        numberObserver.unobserve(entry.target);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.metro-stat-number').forEach(el => {
+                numberObserver.observe(el);
+            });
+        ");
+    }
+
+}

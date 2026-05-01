@@ -1,0 +1,328 @@
+﻿@page "/"
+@page "/Index"
+@using BlazorTypewriter
+
+<PageTitle>Home | Feast Planner</PageTitle>
+
+@* Hero Section with Metro Design *@
+<div class="metro-hero-section">
+    <div class="metro-hero-overlay"></div>
+    <div class="animated-bg">
+        <div class="animated-bg-shape shape-1"></div>
+        <div class="animated-bg-shape shape-2"></div>
+        <div class="animated-bg-shape shape-3"></div>
+        <div class="animated-bg-shape shape-1"></div>
+        <div class="animated-bg-shape shape-2"></div>
+        <div class="animated-bg-shape shape-3"></div>
+    </div>
+    <MudContainer Class="metro-hero-container" MaxWidth="MaxWidth.ExtraExtraLarge">
+        <MudGrid Justify="Justify.Center" AlignItems="AlignItems.Center">
+            <MudItem xs="12" sm="12" md="8" lg="8" Class="text-center">
+                <div class="metro-hero-content">
+                    <div class="metro-hero-badge animated-badge">Welcome</div>
+                    <h1 class="metro-hero-title animated-title">
+                        <span class="metro-highlight">
+                            <Typewriter CustomClass="font" Builder="@typewriterName" />
+                        </span>
+                    </h1>
+                    <div class="metro-hero-subtitle animated-subtitle">
+                        <Typewriter Builder="@typewriter" />
+                    </div>
+                    <div class="metro-hero-buttons animated-buttons">
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   Size="Size.Large" @onclick="GotoLogin"
+                                   StartIcon="@Icons.Material.Filled.Work"
+                                   Class="metro-primary-btn glow-effect">
+                            Work with Us
+                        </MudButton>
+                        <MudButton Variant="Variant.Outlined"
+                                   Color="Color.Default"
+                                   Size="Size.Large"
+                                   StartIcon="@Icons.Material.Filled.Visibility"
+                                   Class="metro-outline-btn">
+                            Explore Services
+                        </MudButton>
+                    </div>
+                </div>
+            </MudItem>
+        </MudGrid>
+    </MudContainer>
+
+    @* Scroll Indicator *@
+    <div class="metro-scroll-indicator">
+        <div class="metro-scroll-mouse"></div>
+        <div class="metro-scroll-text">Scroll Down</div>
+    </div>
+</div>
+
+<MudContainer Class="mt-6" MaxWidth="MaxWidth.ExtraExtraLarge">
+
+    @* Services Section *@
+    <div class="metro-section" data-aos="fade-up">
+        <div class="text-center mb-5">
+            <div class="metro-section-badge">What We Offer</div>
+            <MudText Typo="Typo.h2" Class="fw-bold metro-section-title">ALL FOR YOUR CEREMONY</MudText>
+            <div class="metro-divider mx-auto"></div>
+            <MudText Typo="Typo.body1" Class="text-muted mt-3">
+                Complete event solutions tailored to your needs
+            </MudText>
+        </div>
+
+        <MudGrid>
+            <MudItem xs="12" sm="6" md="4" data-aos="fade-up" data-aos-delay="100">
+                <div class="metro-service-card">
+                    <div class="metro-service-icon-wrapper">
+                        <MudImage Src="../images/Service1.png" Class="metro-service-icon" />
+                    </div>
+                    <div class="metro-service-content">
+                        <MudText Typo="Typo.h5" Class="fw-bold mb-2">Banquets</MudText>
+                        <MudText Typo="Typo.body2" Class="text-muted">
+                            Feast Planner provides their customers a plenty of beautiful and traditional places within their budget.
+                            Search them and book them now!
+                        </MudText>
+                        <MudButton Variant="Variant.Text" Color="Color.Primary" Class="mt-3 metro-link-btn">
+                            Learn More
+                            <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" Class="ms-1 link-icon" />
+                        </MudButton>
+                    </div>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="4" data-aos="fade-up" data-aos-delay="200">
+                <div class="metro-service-card">
+                    <div class="metro-service-icon-wrapper">
+                        <MudImage Src="../images/Service2.png" Class="metro-service-icon" />
+                    </div>
+                    <div class="metro-service-content">
+                        <MudText Typo="Typo.h5" Class="fw-bold mb-2">Catering</MudText>
+                        <MudText Typo="Typo.body2" Class="text-muted">
+                            Feast Caterers strives their best to deliver quality food to their customers anytime.
+                            Make your selection wise always when it comes to choose caterers!
+                        </MudText>
+                        <MudButton Variant="Variant.Text" Color="Color.Primary" Class="mt-3 metro-link-btn">
+                            Learn More
+                            <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" Class="ms-1 link-icon" />
+                        </MudButton>
+                    </div>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="4" data-aos="fade-up" data-aos-delay="300">
+                <div class="metro-service-card">
+                    <div class="metro-service-icon-wrapper">
+                        <MudImage Src="../images/Service3.png" Class="metro-service-icon" />
+                    </div>
+                    <div class="metro-service-content">
+                        <MudText Typo="Typo.h5" Class="fw-bold mb-2">Photographs</MudText>
+                        <MudText Typo="Typo.body2" Class="text-muted">
+                            Book your favorite photographers within the budget easily from feast planner.
+                            Pick anyone you want to and mark your desired dates now!
+                        </MudText>
+                        <MudButton Variant="Variant.Text" Color="Color.Primary" Class="mt-3 metro-link-btn">
+                            Learn More
+                            <MudIcon Icon="@Icons.Material.Filled.ArrowForward" Size="Size.Small" Class="ms-1 link-icon" />
+                        </MudButton>
+                    </div>
+                </div>
+            </MudItem>
+        </MudGrid>
+    </div>
+
+    @* Events Section - Metro Tiles *@
+    <div class="metro-section mt-6" data-aos="fade-up">
+        <div class="text-center mb-5">
+            <div class="metro-section-badge">Events Gallery</div>
+            <MudText Typo="Typo.h2" Class="fw-bold metro-section-title">EVENTS WE CATER</MudText>
+            <div class="metro-divider mx-auto"></div>
+        </div>
+
+        <MudGrid>
+            <MudItem xs="12" sm="6" md="6" Class="p-2" data-aos="zoom-in" data-aos-delay="100">
+                <div class="metro-event-tile corporate">
+                    <div class="metro-event-overlay"></div>
+                    <div class="metro-event-content">
+                        <MudIcon Icon="@Icons.Material.Filled.Business" Size="Size.Large" Color="Color.Inherit" />
+                        <MudText Typo="Typo.h2" Class="fw-bold text-white">Corporate</MudText>
+                        <div class="metro-event-hover">
+                            <MudButton Variant="Variant.Outlined" Color="Color.Default" Class="text-white">Learn More</MudButton>
+                        </div>
+                    </div>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="6" Class="p-2" data-aos="zoom-in" data-aos-delay="200">
+                <div class="metro-event-tile wedding">
+                    <div class="metro-event-overlay"></div>
+                    <div class="metro-event-content">
+                        <MudIcon Icon="@Icons.Material.Filled.Favorite" Size="Size.Large" Color="Color.Inherit" />
+                        <MudText Typo="Typo.h2" Class="fw-bold text-white">Weddings</MudText>
+                        <div class="metro-event-hover">
+                            <MudButton Variant="Variant.Outlined" Color="Color.Default" Class="text-white">Learn More</MudButton>
+                        </div>
+                    </div>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="6" Class="p-2" data-aos="zoom-in" data-aos-delay="300">
+                <div class="metro-event-tile engagement">
+                    <div class="metro-event-overlay"></div>
+                    <div class="metro-event-content">
+                        <MudIcon Icon="@Icons.Material.Filled.RingVolume" Size="Size.Large" Color="Color.Inherit" />
+                        <MudText Typo="Typo.h2" Class="fw-bold text-white">Engagements</MudText>
+                        <div class="metro-event-hover">
+                            <MudButton Variant="Variant.Outlined" Color="Color.Default" Class="text-white">Learn More</MudButton>
+                        </div>
+                    </div>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="6" Class="p-2" data-aos="zoom-in" data-aos-delay="400">
+                <div class="metro-event-tile party">
+                    <div class="metro-event-overlay"></div>
+                    <div class="metro-event-content">
+                        <MudIcon Icon="@Icons.Material.Filled.Celebration" Size="Size.Large" Color="Color.Inherit" />
+                        <MudText Typo="Typo.h2" Class="fw-bold text-white">Parties</MudText>
+                        <div class="metro-event-hover">
+                            <MudButton Variant="Variant.Outlined" Color="Color.Default" Class="text-white">Learn More</MudButton>
+                        </div>
+                    </div>
+                </div>
+            </MudItem>
+        </MudGrid>
+    </div>
+
+    @* Features Section *@
+    <div class="metro-section mt-6">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <div class="metro-section-badge">Why Choose Us</div>
+            <MudText Typo="Typo.h2" Class="fw-bold metro-section-title">SATISFACTION GUARANTEED</MudText>
+            <div class="metro-divider mx-auto"></div>
+            <MudText Typo="Typo.body1" Class="text-muted mt-3">
+                We deliver excellence with every event
+            </MudText>
+        </div>
+
+        <MudGrid>
+            <MudItem xs="12" sm="6" md="4" data-aos="flip-left" data-aos-delay="100">
+                <div class="metro-feature-card">
+                    <div class="metro-feature-icon">
+                        <MudIcon Icon="@Icons.Material.Filled.Star" Color="Color.Warning" Size="Size.Large" />
+                    </div>
+                    <MudText Typo="Typo.h6" Class="fw-bold mb-2">Reachable</MudText>
+                    <MudText Typo="Typo.body2" Class="text-muted">
+                        Any Startup enthusiast may able to create their profile without any cost.
+                        This motivates every individual to start their business by giving them all the needed resources.
+                    </MudText>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="4" data-aos="flip-left" data-aos-delay="200">
+                <div class="metro-feature-card">
+                    <div class="metro-feature-icon">
+                        <MudIcon Icon="@Icons.Material.Filled.Search" Color="Color.Warning" Size="Size.Large" />
+                    </div>
+                    <MudText Typo="Typo.h6" Class="fw-bold mb-2">Easy Searching</MudText>
+                    <MudText Typo="Typo.body2" Class="text-muted">
+                        By Feast Planner's User-Friendly UI you may able to search and choose any of their specified service easily.
+                        Making retrieving more convenient and lot understandable.
+                    </MudText>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="4" data-aos="flip-left" data-aos-delay="300">
+                <div class="metro-feature-card">
+                    <div class="metro-feature-icon">
+                        <MudIcon Icon="@Icons.Material.Filled.Accessible" Color="Color.Warning" Size="Size.Large" />
+                    </div>
+                    <MudText Typo="Typo.h6" Class="fw-bold mb-2">Convenience</MudText>
+                    <MudText Typo="Typo.body2" Class="text-muted">
+                        Feast Planner provides searching according to given price range and selected date.
+                        User may able to get their respective service easily by following some easy steps.
+                    </MudText>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="4" data-aos="flip-right" data-aos-delay="100">
+                <div class="metro-feature-card">
+                    <div class="metro-feature-icon">
+                        <MudIcon Icon="@Icons.Material.Filled.PriceCheck" Color="Color.Warning" Size="Size.Large" />
+                    </div>
+                    <MudText Typo="Typo.h6" Class="fw-bold mb-2">Affordable Prices</MudText>
+                    <MudText Typo="Typo.body2" Class="text-muted">
+                        User with any price range might be able to seek their desirable service easily which enhance our platform's affordable aspect.
+                    </MudText>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="4" data-aos="flip-right" data-aos-delay="200">
+                <div class="metro-feature-card">
+                    <div class="metro-feature-icon">
+                        <MudIcon Icon="@Icons.Material.Filled.Person" Color="Color.Warning" Size="Size.Large" />
+                    </div>
+                    <MudText Typo="Typo.h6" Class="fw-bold mb-2">Develop Profile</MudText>
+                    <MudText Typo="Typo.body2" Class="text-muted">
+                        Feast planner enables you to develop effective portfolios about your business easily.
+                        Gather all the needed information which helps you make an effective portfolio.
+                    </MudText>
+                </div>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="4" data-aos="flip-right" data-aos-delay="300">
+                <div class="metro-feature-card">
+                    <div class="metro-feature-icon">
+                        <MudIcon Icon="@Icons.Material.Filled.HighQuality" Color="Color.Warning" Size="Size.Large" />
+                    </div>
+                    <MudText Typo="Typo.h6" Class="fw-bold mb-2">Quality</MudText>
+                    <MudText Typo="Typo.body2" Class="text-muted">
+                        Feast Planner with their trusted associates makes sure to deliver the best they can in order to satisfy their customers needs.
+                    </MudText>
+                </div>
+            </MudItem>
+        </MudGrid>
+    </div>
+
+    @* Partners Section *@
+    <div class="metro-partners-section mt-6" data-aos="slide-up">
+        <div class="text-center mb-5">
+            <div class="metro-section-badge">Trusted Partners</div>
+            <MudText Typo="Typo.h2" Class="fw-bold metro-section-title">PARTNERS WE SERVE</MudText>
+            <div class="metro-divider mx-auto"></div>
+        </div>
+
+        <div class="metro-partners-grid">
+            <div class="metro-partner-item" data-aos="zoom-in" data-aos-delay="100">
+                <div class="metro-partner-logo">🏨</div>
+                <MudText Typo="Typo.h6" Class="fw-bold">The Dolman BANQUET</MudText>
+            </div>
+            <div class="metro-partner-item" data-aos="zoom-in" data-aos-delay="200">
+                <div class="metro-partner-logo">🏰</div>
+                <MudText Typo="Typo.h6" Class="fw-bold">Master PAKWAN</MudText>
+            </div>
+            <div class="metro-partner-item" data-aos="zoom-in" data-aos-delay="300">
+                <div class="metro-partner-logo">📸</div>
+                <MudText Typo="Typo.h6" Class="fw-bold">Hamzi PHOTOGRAPHY</MudText>
+            </div>
+        </div>
+    </div>
+
+    @* CTA Section *@
+    <div class="metro-cta-section mt-6 mb-4" data-aos="fade-up" data-aos-offset="200">
+        <div class="metro-cta-content">
+            <div class="pulse-animation">
+                <MudText Typo="Typo.h3" Class="text-white fw-bold mb-3">Ready to Plan Your Event?</MudText>
+            </div>
+            <MudText Typo="Typo.body1" Class="text-white-50 mb-4">
+                Let us help you create unforgettable memories
+            </MudText>
+            <MudButton Variant="Variant.Filled" @onclick="GotoBooking"
+                       Color="Color.Secondary"
+                       Class="metro-cta-btn pulse-btn"
+                       Size="Size.Large"
+                       StartIcon="@Icons.Material.Filled.CalendarToday">
+                Book Your Event Now
+            </MudButton>
+        </div>
+    </div>
+</MudContainer>
+
